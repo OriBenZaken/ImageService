@@ -19,6 +19,7 @@ namespace ImageService
             ServicesToRun = new ServiceBase[]
             {
                 new Service1()
+                //liz
 
             };
             ServiceBase.Run(ServicesToRun);
