@@ -8,12 +8,18 @@ using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
+using ImageService.Logging;
+using ImageService.Logging.Modal;
 
 namespace ImageService
 {
     public partial class ImageService : ServiceBase
     {
         private int eventId = 1;
+       // private ImageServer m_imageServer;          // The Image Server
+       // private IImageServiceModal modal;
+        //private IImageController controller;
+        private ILoggingService logging;
         public enum ServiceState
         {
             SERVICE_STOPPED = 0x00000001,
@@ -41,6 +47,8 @@ namespace ImageService
         public ImageService(string[] args)
         {
             InitializeComponent();
+            this.logging = new LoggingService();
+            this.logging.MessageRecieved += new EventHandler<MessageRecievedEventArgs>(WriteMessage);
             string eventSourceName = "MySource";
             string logName = "MyNewLog";
             if (args.Count() > 0)
@@ -92,6 +100,25 @@ namespace ImageService
             // TODO: Insert monitoring activities here.  
             eventLog1.WriteEntry("Monitoring the System", EventLogEntryType.Information, eventId++);
         }
+
+        public void WriteMessage(Object sender, MessageRecievedEventArgs e)
+        {
+            eventLog1.WriteEntry(e.Message, GetType(e.Status));
+        }
+         private EventLogEntryType GetType(MessageTypeEnum status) 
+        {
+            switch (status)
+            {
+                case MessageTypeEnum.FAIL:
+                    return EventLogEntryType.Error;
+                case MessageTypeEnum.WARNING:
+                    return EventLogEntryType.Warning;
+                case MessageTypeEnum.INFO:
+                default:
+                    return EventLogEntryType.Information;
+            }
+        }
+
 
     }
 }
