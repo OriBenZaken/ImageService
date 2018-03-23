@@ -15,7 +15,33 @@ namespace ImageService.Modal
     public class ImageServiceModal : IImageServiceModal
     {
         #region Members
-        private string m_OutputFolder;            // The Output Folder
+        public string OutputFolder
+        {
+            // The Output Folder
+            get
+            {
+                return this.m_OutputFolder;
+            }
+            set
+            {
+                this.m_OutputFolder = value;
+            }
+        }
+        
+        // The Size Of The Thumbnail Size
+        public int thumbnailSize
+        {
+            get
+            {
+                return this.m_thumbnailSize;
+            }
+            set
+            {
+                this.m_thumbnailSize = value;
+            }
+        }
+
+    private string m_OutputFolder;            // The Output Folder
         private int m_thumbnailSize;              // The Size Of The Thumbnail Size
 
         public string AddFile(string path, out bool result)
@@ -37,7 +63,8 @@ namespace ImageService.Modal
                     {
                         Directory.CreateDirectory(m_OutputFolder + "\\" + year + "\\" + j.ToString());
                     }
-                    File.Copy(path, m_OutputFolder + "\\" + year + "\\" + month);
+                    string pathTargetFolder = m_OutputFolder + "\\" + year + "\\" + month + "\\";
+                    File.Copy(path, pathTargetFolder+Path.GetFileName(path));
                     result = true;
                     return string.Empty;
                 }
