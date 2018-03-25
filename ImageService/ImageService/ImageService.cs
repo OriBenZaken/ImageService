@@ -10,15 +10,18 @@ using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 using ImageService.Logging;
 using ImageService.Logging.Modal;
+using ImageService.Server;
+using ImageService.Controller;
+using ImageService.Modal;
 
 namespace ImageService
 {
     public partial class ImageService : ServiceBase
     {
         private int eventId = 1;
-       // private ImageServer m_imageServer;          // The Image Server
-       // private IImageServiceModal modal;
-        //private IImageController controller;
+       private ImageServer m_imageServer;          // The Image Server
+        private IImageServiceModal modal;
+        private IImageController controller;
         private ILoggingService logging;
         public enum ServiceState
         {
@@ -47,6 +50,16 @@ namespace ImageService
         public ImageService(string[] args)
         {
             InitializeComponent();
+            this.modal = new ImageServiceModal()
+            {
+                OutputFolder = "toDo",
+                ThumbnailSize = 1
+
+            };
+            this.controller = new ImageController(this.modal);
+            this.m_imageServer = new ImageServer();
+
+            this.m_imageServer.CommandRecieved += M_imageServer_CommandRecieved;
             this.logging = new LoggingService();
             this.logging.MessageRecieved += new EventHandler<MessageRecievedEventArgs>(WriteMessage);
             string eventSourceName = "MySource";
@@ -66,6 +79,16 @@ namespace ImageService
             }
             eventLog1.Source = eventSourceName;
             eventLog1.Log = logName;
+        }
+
+        private void M_imageServer_CommandRecieved(object sender, CommandRecievedEventArgs e)
+        {
+            bool result;
+            string msg = this.controller.ExecuteCommand(e.CommandID, e.Args, out result);
+            if (!result)
+            {
+                this.eventLog1.WriteEntry("ImageService.M_imageServer_CommandRecieved: " + msg);
+            }
         }
 
         protected override void OnStart(string[] args)

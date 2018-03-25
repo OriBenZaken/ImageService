@@ -14,7 +14,7 @@ namespace Tester
             ImageServiceModal imageServiceModal = new ImageServiceModal()
             {
                 OutputFolder = @"C:\Users\lizah\Desktop\OutputFiles",
-                thumbnailSize = 1
+                ThumbnailSize = 1
             };
             bool result;
             string error = imageServiceModal.AddFile(@"C:\Users\lizah\Desktop\sourceFiles\liz.jpeg", out result);

@@ -29,7 +29,7 @@ namespace ImageService.Modal
         }
         
         // The Size Of The Thumbnail Size
-        public int thumbnailSize
+        public int ThumbnailSize
         {
             get
             {
@@ -66,7 +66,7 @@ namespace ImageService.Modal
                     string pathTargetFolder = m_OutputFolder + "\\" + year + "\\" + month + "\\";
                     File.Copy(path, pathTargetFolder+Path.GetFileName(path));
                     result = true;
-                    return string.Empty;
+                    return pathTargetFolder + Path.GetFileName(path);
                 }
                 else
                 {
