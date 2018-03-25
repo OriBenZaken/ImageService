@@ -59,7 +59,7 @@ namespace ImageService
             this.controller = new ImageController(this.modal);
             this.m_imageServer = new ImageServer();
 
-            this.m_imageServer.CommandRecieved += M_imageServer_CommandRecieved;
+            //this.m_imageServer.CommandRecieved += M_imageServer_CommandRecieved;
             this.logging = new LoggingService();
             this.logging.MessageRecieved += new EventHandler<MessageRecievedEventArgs>(WriteMessage);
             string eventSourceName = "MySource";
@@ -81,15 +81,7 @@ namespace ImageService
             eventLog1.Log = logName;
         }
 
-        private void M_imageServer_CommandRecieved(object sender, CommandRecievedEventArgs e)
-        {
-            bool result;
-            string msg = this.controller.ExecuteCommand(e.CommandID, e.Args, out result);
-            if (!result)
-            {
-                this.eventLog1.WriteEntry("ImageService.M_imageServer_CommandRecieved: " + msg);
-            }
-        }
+       
 
         protected override void OnStart(string[] args)
         {

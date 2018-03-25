@@ -20,18 +20,45 @@ namespace ImageService.Controller.Handlers
         private ILoggingService m_logging;
         private FileSystemWatcher m_dirWatcher;             // The Watcher of the Dir
         private string m_path;                              // The Path of directory
+        private readonly string[] validExtensions = { "jpg", "png", "gif", "bmp" };
         #endregion
+
+
+
+
+        public DirectoyHandler(ILoggingService m_logging, IImageController m_controller, string path)
+        {
+            this.m_logging = m_logging;
+            this.m_controller = m_controller;
+            this.m_path = path;
+            this.m_dirWatcher = new FileSystemWatcher(this.m_path);
+        }
 
         public event EventHandler<DirectoryCloseEventArgs> DirectoryClose;              // The Event That Notifies that the Directory is being closed
 
         public void OnCommandRecieved(object sender, CommandRecievedEventArgs e)
         {
-            throw new NotImplementedException();
+            bool result;
+            this.m_controller.ExecuteCommand(e.CommandID, e.Args, out result);
+           
         }
 
         public void StartHandleDirectory(string dirPath)
         {
-            throw new NotImplementedException();
+            this.m_logging.Log("Start handle directory: " + dirPath, MessageTypeEnum.INFO);
+            this.m_dirWatcher.Created += M_dirWatcher_Created;
+        }
+
+        private void M_dirWatcher_Created(object sender, FileSystemEventArgs e)
+        {
+            string extension = Path.GetExtension(e.FullPath);
+            if (this.validExtensions.Contains(extension))
+            {
+                string[] args = { e.FullPath };
+                CommandRecievedEventArgs commandRecievedEventArgs = new CommandRecievedEventArgs(1,args , this.m_path);
+                this.OnCommandRecieved(this, commandRecievedEventArgs);
+            }
+            
         }
 
         // Implement Here!
