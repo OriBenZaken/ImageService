@@ -64,7 +64,7 @@ namespace ImageService.Modal
                     File.Copy(path, pathTargetFolder+Path.GetFileName(path));
                     Image thumb = Image.FromFile(path);
                     thumb = (Image)(new Bitmap(thumb, new Size(this.m_thumbnailSize, this.m_thumbnailSize)));
-                    thumb.Save(m_OutputFolder + "\\" + "Thumbnails"+"\\"+year  +"\\"+month);
+                    thumb.Save(m_OutputFolder + "\\" + "Thumbnails"+"\\"+year  +"\\"+month+"\\"+Path.GetFileName(path));
                     result = true;
                     return pathTargetFolder + Path.GetFileName(path);
                 }
