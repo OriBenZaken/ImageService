@@ -55,11 +55,13 @@ namespace ImageService.Controller.Handlers
             if (this.validExtensions.Contains(extension))
             {
                 string[] args = { e.FullPath };
-                CommandRecievedEventArgs commandRecievedEventArgs = new CommandRecievedEventArgs(1,args , this.m_path);
+                //todo: check which path to pass
+                CommandRecievedEventArgs commandRecievedEventArgs = new CommandRecievedEventArgs(1,args , "");
                 this.OnCommandRecieved(this, commandRecievedEventArgs);
             }
-            
-        }
+
+
+    }
 
         // Implement Here!
     }

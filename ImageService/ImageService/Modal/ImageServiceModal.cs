@@ -43,7 +43,7 @@ namespace ImageService.Modal
 
     private string m_OutputFolder;            // The Output Folder
         private int m_thumbnailSize;              // The Size Of The Thumbnail Size
-
+        //todo: Hidden directories
         public string AddFile(string path, out bool result)
         {
             try
@@ -57,14 +57,14 @@ namespace ImageService.Modal
                     year = date.Year.ToString();
                     month = date.Month.ToString();
                     Directory.CreateDirectory(m_OutputFolder);
-                    Directory.CreateDirectory(m_OutputFolder + "\\" + year);
-                    //create folders for months
-                    for (int j = 1; j <= 12; j++)
-                    {
-                        Directory.CreateDirectory(m_OutputFolder + "\\" + year + "\\" + j.ToString());
-                    }
+                    Directory.CreateDirectory(m_OutputFolder+"\\"+"Thumbnails");
+                    this.CreateYearFolder(m_OutputFolder, year);
+                    this.CreateYearFolder(m_OutputFolder + "\\" + "Thumbnails", year);
                     string pathTargetFolder = m_OutputFolder + "\\" + year + "\\" + month + "\\";
                     File.Copy(path, pathTargetFolder+Path.GetFileName(path));
+                    Image thumb = Image.FromFile(path);
+                    thumb = (Image)(new Bitmap(thumb, new Size(this.m_thumbnailSize, this.m_thumbnailSize)));
+                    thumb.Save(m_OutputFolder + "\\" + "Thumbnails"+"\\"+year  +"\\"+month);
                     result = true;
                     return pathTargetFolder + Path.GetFileName(path);
                 }
@@ -81,7 +81,18 @@ namespace ImageService.Modal
             }
         }
 
-        #endregion
+        private void CreateYearFolder(string dirPath, string year)
+        {
+            Directory.CreateDirectory(dirPath + "\\" + year);
+            //create folders for months
+            for (int j = 1; j <= 12; j++)
+            {
+                Directory.CreateDirectory(dirPath + "\\" + year + "\\" + j.ToString());
+            }
+        }
 
+        #endregion
     }
+
+
 }
