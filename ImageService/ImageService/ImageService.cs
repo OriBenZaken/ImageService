@@ -13,6 +13,7 @@ using ImageService.Logging.Modal;
 using ImageService.Server;
 using ImageService.Controller;
 using ImageService.Modal;
+using System.Configuration;
 
 namespace ImageService
 {
@@ -52,8 +53,8 @@ namespace ImageService
             InitializeComponent();
             this.modal = new ImageServiceModal()
             {
-                OutputFolder = "toDo",
-                ThumbnailSize = 1
+                OutputFolder = ConfigurationSettings.AppSettings.Get("OutputDir"),
+                ThumbnailSize = Int32.Parse(ConfigurationSettings.AppSettings.Get("ThumbnailSize"))
 
             };
             this.controller = new ImageController(this.modal);
@@ -62,8 +63,8 @@ namespace ImageService
             //this.m_imageServer.CommandRecieved += M_imageServer_CommandRecieved;
             this.logging = new LoggingService();
             this.logging.MessageRecieved += new EventHandler<MessageRecievedEventArgs>(WriteMessage);
-            string eventSourceName = "MySource";
-            string logName = "MyNewLog";
+            string eventSourceName = ConfigurationSettings.AppSettings.Get("SourceName");
+            string logName = ConfigurationSettings.AppSettings.Get("LogName");
             if (args.Count() > 0)
             {
                 eventSourceName = args[0];
@@ -134,6 +135,6 @@ namespace ImageService
             }
         }
 
-
+        
     }
 }

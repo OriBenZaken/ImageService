@@ -5,6 +5,7 @@ using ImageService.Logging;
 using ImageService.Modal;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,6 +22,14 @@ namespace ImageService.Server
         #region Properties
         public event EventHandler<CommandRecievedEventArgs> CommandRecieved;          // The event that notifies about a new Command being recieved
         #endregion
+        public ImageServer()
+        {
+            string[] directories = (ConfigurationSettings.AppSettings.Get("Handler").Split(';'));
+            foreach (string path in directories)
+            {
+                this.CreateHandler(path);
+            }
+        }
 
         private void CreateHandler(string path)
         {
