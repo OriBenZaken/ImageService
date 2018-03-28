@@ -39,14 +39,22 @@ namespace ImageService.Controller.Handlers
         public void OnCommandRecieved(object sender, CommandRecievedEventArgs e)
         {
             bool result;
-            this.m_controller.ExecuteCommand(e.CommandID, e.Args, out result);
-           
+            string msg  = this.m_controller.ExecuteCommand(e.CommandID, e.Args, out result);
+            // write result msg to the event long.
+           if (result)
+            {
+                this.m_logging.Log(msg, MessageTypeEnum.INFO);
+            } else
+            {
+                this.m_logging.Log(msg, MessageTypeEnum.FAIL);
+            }
         }
 
         public void StartHandleDirectory(string dirPath)
         {
             this.m_logging.Log("Start handle directory: " + dirPath, MessageTypeEnum.INFO);
             this.m_dirWatcher.Created += new FileSystemEventHandler(M_dirWatcher_Created);
+            // start listen to directory
             this.m_dirWatcher.EnableRaisingEvents = true;
         }
 
@@ -64,6 +72,5 @@ namespace ImageService.Controller.Handlers
 
     }
 
-        // Implement Here!
     }
 }
