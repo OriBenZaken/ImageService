@@ -39,15 +39,20 @@ namespace ImageService.Controller.Handlers
         public void OnCommandRecieved(object sender, CommandRecievedEventArgs e)
         {
             bool result;
-            string msg  = this.m_controller.ExecuteCommand(e.CommandID, e.Args, out result);
-            // write result msg to the event long.
-           if (result)
+            if (e.Args != null && e.Args.Length > 0 && this.m_path.StartsWith(e.Args[0]))
             {
-                this.m_logging.Log(msg, MessageTypeEnum.INFO);
-            } else
-            {
-                this.m_logging.Log(msg, MessageTypeEnum.FAIL);
+                string msg = this.m_controller.ExecuteCommand(e.CommandID, e.Args, out result);
+                // write result msg to the event long.
+                if (result)
+                {
+                    this.m_logging.Log(msg, MessageTypeEnum.INFO);
+                }
+                else
+                {
+                    this.m_logging.Log(msg, MessageTypeEnum.FAIL);
+                }
             }
+          
         }
 
         public void StartHandleDirectory(string dirPath)
@@ -65,7 +70,7 @@ namespace ImageService.Controller.Handlers
             {
                 string[] args = { e.FullPath };
                 //todo: check which path to pass
-                CommandRecievedEventArgs commandRecievedEventArgs = new CommandRecievedEventArgs(1,args , "");
+                CommandRecievedEventArgs commandRecievedEventArgs = new CommandRecievedEventArgs((int)CommandEnum.NewFileCommand, args, "");
                 this.OnCommandRecieved(this, commandRecievedEventArgs);
             }
 
