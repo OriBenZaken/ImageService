@@ -33,23 +33,29 @@ namespace ImageService.Controller.Handlers
             this.m_path = path;
             this.m_dirWatcher = new FileSystemWatcher(this.m_path);
         }
-         
+
         public event EventHandler<DirectoryCloseEventArgs> DirectoryClose;              // The Event That Notifies that the Directory is being closed
 
         public void OnCommandRecieved(object sender, CommandRecievedEventArgs e)
         {
             bool result;
-            if (e.Args != null && e.Args.Length>0 &&this.m_path.StartsWith(e.Args[0]))
+            string msg  = this.m_controller.ExecuteCommand(e.CommandID, e.Args, out result);
+            // write result msg to the event long.
+           if (result)
             {
-                this.m_controller.ExecuteCommand(e.CommandID, e.Args, out result);
+                this.m_logging.Log(msg, MessageTypeEnum.INFO);
+            } else
+            {
+                this.m_logging.Log(msg, MessageTypeEnum.FAIL);
             }
-           
         }
 
         public void StartHandleDirectory(string dirPath)
         {
             this.m_logging.Log("Start handle directory: " + dirPath, MessageTypeEnum.INFO);
-            this.m_dirWatcher.Created += M_dirWatcher_Created;
+            this.m_dirWatcher.Created += new FileSystemEventHandler(M_dirWatcher_Created);
+             //start listen to directory
+            this.m_dirWatcher.EnableRaisingEvents = true;
         }
 
         private void M_dirWatcher_Created(object sender, FileSystemEventArgs e)
@@ -59,13 +65,12 @@ namespace ImageService.Controller.Handlers
             {
                 string[] args = { e.FullPath };
                 //todo: check which path to pass
-                CommandRecievedEventArgs commandRecievedEventArgs = new CommandRecievedEventArgs((int)CommandEnum.NewFileCommand,args , "");
+                CommandRecievedEventArgs commandRecievedEventArgs = new CommandRecievedEventArgs(1,args , "");
                 this.OnCommandRecieved(this, commandRecievedEventArgs);
             }
 
 
     }
 
-        // Implement Here!
     }
 }

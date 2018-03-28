@@ -50,36 +50,44 @@ namespace ImageService
         private static extern bool SetServiceStatus(IntPtr handle, ref ServiceStatus serviceStatus);
         public ImageService(string[] args)
         {
-            InitializeComponent();
-            this.modal = new ImageServiceModal()
+            try
             {
-                OutputFolder = ConfigurationSettings.AppSettings.Get("OutputDir"),
-                ThumbnailSize = Int32.Parse(ConfigurationSettings.AppSettings.Get("ThumbnailSize"))
+                InitializeComponent();
+                this.modal = new ImageServiceModal()
+                {
+                    OutputFolder = ConfigurationManager.AppSettings.Get("OutputDir"),
+                    ThumbnailSize = Int32.Parse(ConfigurationManager.AppSettings.Get("ThumbnailSize"))
 
-            };
-            this.controller = new ImageController(this.modal);
-            this.m_imageServer = new ImageServer();
+                };
+                this.controller = new ImageController(this.modal);
 
-            //this.m_imageServer.CommandRecieved += M_imageServer_CommandRecieved;
-            this.logging = new LoggingService();
-            this.logging.MessageRecieved += new EventHandler<MessageRecievedEventArgs>(WriteMessage);
-            string eventSourceName = ConfigurationSettings.AppSettings.Get("SourceName");
-            string logName = ConfigurationSettings.AppSettings.Get("LogName");
-            if (args.Count() > 0)
-            {
-                eventSourceName = args[0];
+                this.logging = new LoggingService();
+                this.logging.MessageRecieved += WriteMessage;
+                string eventSourceName = ConfigurationManager.AppSettings.Get("SourceName");
+                string logName = ConfigurationManager.AppSettings.Get("LogName");
+
+
+                //this.m_imageServer.CommandRecieved += M_imageServer_CommandRecieved;
+                if (args.Count() > 0)
+                {
+                    eventSourceName = args[0];
+                }
+                if (args.Count() > 1)
+                {
+                    logName = args[1];
+                }
+                eventLog1 = new System.Diagnostics.EventLog();
+                if (!System.Diagnostics.EventLog.SourceExists(eventSourceName))
+                {
+                    System.Diagnostics.EventLog.CreateEventSource(eventSourceName, logName);
+                }
+                eventLog1.Source = eventSourceName;
+                eventLog1.Log = logName;
             }
-            if (args.Count() > 1)
+            catch (Exception e)
             {
-                logName = args[1];
+                this.eventLog1.WriteEntry(e.ToString());
             }
-            eventLog1 = new System.Diagnostics.EventLog();
-            if (!System.Diagnostics.EventLog.SourceExists(eventSourceName))
-            {
-                System.Diagnostics.EventLog.CreateEventSource(eventSourceName, logName);
-            }
-            eventLog1.Source = eventSourceName;
-            eventLog1.Log = logName;
         }
 
        
@@ -101,6 +109,8 @@ namespace ImageService
             serviceStatus.dwCurrentState = ServiceState.SERVICE_RUNNING;
             SetServiceStatus(this.ServiceHandle, ref serviceStatus);
 
+            this.m_imageServer = new ImageServer(this.controller, this.logging);
+
         }
 
         protected override void OnStop()
@@ -119,7 +129,7 @@ namespace ImageService
 
         public void WriteMessage(Object sender, MessageRecievedEventArgs e)
         {
-            eventLog1.WriteEntry(e.Message, GetType(e.Status));
+            eventLog1.WriteEntry(e.Message);
         }
          private EventLogEntryType GetType(MessageTypeEnum status) 
         {

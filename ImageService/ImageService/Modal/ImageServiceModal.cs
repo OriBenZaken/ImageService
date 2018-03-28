@@ -66,7 +66,7 @@ namespace ImageService.Modal
                     thumb = (Image)(new Bitmap(thumb, new Size(this.m_thumbnailSize, this.m_thumbnailSize)));
                     thumb.Save(m_OutputFolder + "\\" + "Thumbnails"+"\\"+year  +"\\"+month+"\\"+Path.GetFileName(path));
                     result = true;
-                    return pathTargetFolder + Path.GetFileName(path);
+                    return "Added " + Path.GetFileName(path) + " to " + pathTargetFolder;
                 }
                 else
                 {
