@@ -58,7 +58,7 @@ namespace ImageService
 
             };
             this.controller = new ImageController(this.modal);
-            this.m_imageServer = new ImageServer();
+            this.m_imageServer = new ImageServer(this.controller, this.logging);
 
             //this.m_imageServer.CommandRecieved += M_imageServer_CommandRecieved;
             this.logging = new LoggingService();

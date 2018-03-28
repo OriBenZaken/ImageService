@@ -22,8 +22,10 @@ namespace ImageService.Server
         #region Properties
         public event EventHandler<CommandRecievedEventArgs> CommandRecieved;          // The event that notifies about a new Command being recieved
         #endregion
-        public ImageServer()
+        public ImageServer(IImageController m_controller, ILoggingService m_logging)
         {
+            this.m_controller = m_controller;
+            this.m_logging = m_logging;
             string[] directories = (ConfigurationSettings.AppSettings.Get("Handler").Split(';'));
             foreach (string path in directories)
             {
@@ -36,6 +38,8 @@ namespace ImageService.Server
             IDirectoryHandler handler = new DirectoyHandler(m_logging, m_controller,path );
             CommandRecieved += handler.OnCommandRecieved;
             handler.DirectoryClose += onCloseHandler;
+            handler.StartHandleDirectory(path);
+            this.m_logging.Log("Handler was created for directory: " + path);
         }
 
 
