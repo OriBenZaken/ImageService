@@ -13,7 +13,7 @@ namespace Tester
         {
             ImageServiceModal imageServiceModal = new ImageServiceModal()
             {
-                OutputFolder = @"C:\Users\lizah\Desktop\OutputFiles",
+                OutputFolder = @"C:\Users\אורי\Desktop\",
                 ThumbnailSize = 120
             };
             bool result;

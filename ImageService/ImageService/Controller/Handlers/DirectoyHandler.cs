@@ -47,6 +47,7 @@ namespace ImageService.Controller.Handlers
         {
             this.m_logging.Log("Start handle directory: " + dirPath, MessageTypeEnum.INFO);
             this.m_dirWatcher.Created += M_dirWatcher_Created;
+            this.m_dirWatcher.EnableRaisingEvents = true;
         }
 
         private void M_dirWatcher_Created(object sender, FileSystemEventArgs e)
