@@ -26,10 +26,17 @@ namespace ImageService.Server
         {
             this.m_controller = m_controller;
             this.m_logging = m_logging;
-            string[] directories = (ConfigurationSettings.AppSettings.Get("Handler").Split(';'));
+            string[] directories = (ConfigurationManager.AppSettings.Get("Handler").Split(';'));
             foreach (string path in directories)
             {
-                this.CreateHandler(path);
+                try
+                {
+                    this.CreateHandler(path);
+                } catch (Exception ex)
+                {
+                    this.m_logging.Log("Error while creating handler for directory: " + path, Logging.Modal.MessageTypeEnum.FAIL);
+                }
+
             }
         }
 
@@ -39,7 +46,7 @@ namespace ImageService.Server
             CommandRecieved += handler.OnCommandRecieved;
             handler.DirectoryClose += onCloseHandler;
             handler.StartHandleDirectory(path);
-            this.m_logging.Log("Handler was created for directory: " + path);
+            this.m_logging.Log("Handler was created for directory: " + path, Logging.Modal.MessageTypeEnum.INFO);
         }
 
 
@@ -51,8 +58,7 @@ namespace ImageService.Server
         public void onCloseHandler(object sender, DirectoryCloseEventArgs args)
         {
             m_logging.Log(args.Message, Logging.Modal.MessageTypeEnum.INFO);
-            IDirectoryHandler handler = (IDirectoryHandler)sender;
-            CommandRecieved -= handler.OnCommandRecieved;
+            CommandRecieved -= ((IDirectoryHandler)sender).OnCommandRecieved;
         }
 
     }
