@@ -33,13 +33,16 @@ namespace ImageService.Controller.Handlers
             this.m_path = path;
             this.m_dirWatcher = new FileSystemWatcher(this.m_path);
         }
-
+         
         public event EventHandler<DirectoryCloseEventArgs> DirectoryClose;              // The Event That Notifies that the Directory is being closed
 
         public void OnCommandRecieved(object sender, CommandRecievedEventArgs e)
         {
             bool result;
-            this.m_controller.ExecuteCommand(e.CommandID, e.Args, out result);
+            if (e.Args != null && e.Args.Length>0 &&this.m_path.StartsWith(e.Args[0]))
+            {
+                this.m_controller.ExecuteCommand(e.CommandID, e.Args, out result);
+            }
            
         }
 
@@ -56,7 +59,7 @@ namespace ImageService.Controller.Handlers
             {
                 string[] args = { e.FullPath };
                 //todo: check which path to pass
-                CommandRecievedEventArgs commandRecievedEventArgs = new CommandRecievedEventArgs(1,args , "");
+                CommandRecievedEventArgs commandRecievedEventArgs = new CommandRecievedEventArgs((int)CommandEnum.NewFileCommand,args , "");
                 this.OnCommandRecieved(this, commandRecievedEventArgs);
             }
 
