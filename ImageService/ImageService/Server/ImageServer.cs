@@ -26,15 +26,17 @@ namespace ImageService.Server
         {
             this.m_controller = controller;
             this.m_logging = logging;
+            m_logging.Log("cusemek", Logging.Modal.MessageTypeEnum.FAIL);
             string[] directories = (ConfigurationManager.AppSettings.Get("Handler").Split(';'));
             foreach (string path in directories)
             {
                 try
                 {
                     this.CreateHandler(path);
-                } catch (Exception ex)
+                }
+                catch (Exception ex)
                 {
-                    this.m_logging.Log("Error while creating handler for directory: " + path, Logging.Modal.MessageTypeEnum.FAIL);
+                    this.m_logging.Log("Error while creating handler for directory: " + path + " because:" + ex.ToString(), Logging.Modal.MessageTypeEnum.FAIL);
                 }
 
             }
@@ -42,18 +44,13 @@ namespace ImageService.Server
 
         private void CreateHandler(string path)
         {
-            IDirectoryHandler handler = new DirectoyHandler(m_logging, m_controller,path );
+            IDirectoryHandler handler = new DirectoyHandler(m_logging, m_controller, path);
             CommandRecieved += handler.OnCommandRecieved;
             handler.DirectoryClose += onCloseHandler;
             handler.StartHandleDirectory(path);
             this.m_logging.Log("Handler was created for directory: " + path, Logging.Modal.MessageTypeEnum.INFO);
         }
 
-
-        public void sendCommand(CommandRecievedEventArgs args)
-        {
-            CommandRecieved?.Invoke(this, args);
-        }
 
         public void onCloseHandler(object sender, DirectoryCloseEventArgs args)
         {

@@ -27,7 +27,7 @@ namespace ImageService.Modal
                 this.m_OutputFolder = value;
             }
         }
-        
+
         // The Size Of The Thumbnail Size
         public int ThumbnailSize
         {
@@ -41,7 +41,7 @@ namespace ImageService.Modal
             }
         }
 
-    private string m_OutputFolder;            // The Output Folder
+        private string m_OutputFolder;            // The Output Folder
         private int m_thumbnailSize;              // The Size Of The Thumbnail Size
         //todo: Hidden directories
         public string AddFile(string path, out bool result)
@@ -57,14 +57,14 @@ namespace ImageService.Modal
                     year = date.Year.ToString();
                     month = date.Month.ToString();
                     Directory.CreateDirectory(m_OutputFolder);
-                    Directory.CreateDirectory(m_OutputFolder+"\\"+"Thumbnails");
+                    Directory.CreateDirectory(m_OutputFolder + "\\" + "Thumbnails");
                     this.CreateYearFolder(m_OutputFolder, year);
                     this.CreateYearFolder(m_OutputFolder + "\\" + "Thumbnails", year);
                     string pathTargetFolder = m_OutputFolder + "\\" + year + "\\" + month + "\\";
-                    File.Copy(path, pathTargetFolder+Path.GetFileName(path));
+                    File.Copy(path, pathTargetFolder + Path.GetFileName(path));
                     Image thumb = Image.FromFile(path);
                     thumb = (Image)(new Bitmap(thumb, new Size(this.m_thumbnailSize, this.m_thumbnailSize)));
-                    thumb.Save(m_OutputFolder + "\\" + "Thumbnails"+"\\"+year  +"\\"+month+"\\"+Path.GetFileName(path));
+                    thumb.Save(m_OutputFolder + "\\" + "Thumbnails" + "\\" + year + "\\" + month + "\\" + Path.GetFileName(path));
                     result = true;
                     return "Added " + Path.GetFileName(path) + " to " + pathTargetFolder;
                 }
@@ -72,7 +72,7 @@ namespace ImageService.Modal
                 {
                     throw new Exception("File doesn't exists");
                 }
-               
+
             }
             catch (Exception ex)
             {

@@ -20,7 +20,7 @@ namespace ImageService.Controller.Handlers
         private ILoggingService m_logging;
         private FileSystemWatcher m_dirWatcher;             // The Watcher of the Dir
         private string m_path;                              // The Path of directory
-        private readonly string[] validExtensions = { "jpg", "png", "gif", "bmp" };
+        private readonly string[] validExtensions = { ".jpg", ".png", ".gif", ".bmp" };
         #endregion
 
 
@@ -39,27 +39,30 @@ namespace ImageService.Controller.Handlers
         public void OnCommandRecieved(object sender, CommandRecievedEventArgs e)
         {
             bool result;
-            if (e.Args != null && e.Args.Length > 0 && this.m_path.StartsWith(e.Args[0]))
+            // if (e.Args != null && e.Args.Length > 0 && this.m_path.StartsWith(e.Args[0]))
+            //  {
+            this.m_logging.Log("entered OnCommandRecieved: commandID:" + e.CommandID.ToString() + " path:" + e.Args[0], MessageTypeEnum.FAIL);
+            string msg = this.m_controller.ExecuteCommand(e.CommandID, e.Args, out result);
+            // write result msg to the event long.
+            if (result)
             {
-                string msg = this.m_controller.ExecuteCommand(e.CommandID, e.Args, out result);
-                // write result msg to the event long.
-                if (result)
-                {
-                    this.m_logging.Log(msg, MessageTypeEnum.INFO);
-                }
-                else
-                {
-                    this.m_logging.Log(msg, MessageTypeEnum.FAIL);
-                }
+                this.m_logging.Log(msg, MessageTypeEnum.INFO);
             }
-          
+            else
+            {
+                this.m_logging.Log(msg, MessageTypeEnum.FAIL);
+            }
+            //  }
+
         }
 
         public void StartHandleDirectory(string dirPath)
         {
+            m_logging.Log("enter StartHandleDirectory" + " " + dirPath, MessageTypeEnum.FAIL);
             string[] filesInDirectory = Directory.GetFiles(m_path);
             foreach (string filepath in filesInDirectory)
             {
+                m_logging.Log("StartHandleDirectory" + " " + filepath, MessageTypeEnum.FAIL);
                 string extension = Path.GetExtension(filepath);
                 if (this.validExtensions.Contains(extension))
                 {
@@ -77,17 +80,20 @@ namespace ImageService.Controller.Handlers
 
         private void M_dirWatcher_Created(object sender, FileSystemEventArgs e)
         {
+            this.m_logging.Log("Enterd M_durWatcher_Created with: " + e.FullPath, MessageTypeEnum.INFO);
             string extension = Path.GetExtension(e.FullPath);
             if (this.validExtensions.Contains(extension))
             {
+                this.m_logging.Log("Enterd  if (this.validExtensions.Contains(extension)) with: " + e.FullPath, MessageTypeEnum.FAIL);
                 string[] args = { e.FullPath };
+
                 //todo: check which path to pass
                 CommandRecievedEventArgs commandRecievedEventArgs = new CommandRecievedEventArgs((int)CommandEnum.NewFileCommand, args, "");
                 this.OnCommandRecieved(this, commandRecievedEventArgs);
             }
 
 
-    }
+        }
 
     }
 }

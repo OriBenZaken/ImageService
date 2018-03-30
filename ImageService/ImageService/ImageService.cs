@@ -17,36 +17,37 @@ using System.Configuration;
 
 namespace ImageService
 {
-    public enum ServiceState
-    {
-        SERVICE_STOPPED = 0x00000001,
-        SERVICE_START_PENDING = 0x00000002,
-        SERVICE_STOP_PENDING = 0x00000003,
-        SERVICE_RUNNING = 0x00000004,
-        SERVICE_CONTINUE_PENDING = 0x00000005,
-        SERVICE_PAUSE_PENDING = 0x00000006,
-        SERVICE_PAUSED = 0x00000007,
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    public struct ServiceStatus
-    {
-        public int dwServiceType;
-        public ServiceState dwCurrentState;
-        public int dwControlsAccepted;
-        public int dwWin32ExitCode;
-        public int dwServiceSpecificExitCode;
-        public int dwCheckPoint;
-        public int dwWaitHint;
-    };
     public partial class ImageService : ServiceBase
     {
         private int eventId = 1;
-       private ImageServer m_imageServer;          // The Image Server
+        private ImageServer m_imageServer;          // The Image Server
         private IImageServiceModal modal;
         private IImageController controller;
         private ILoggingService logging;
-        
+        public enum ServiceState
+        {
+            SERVICE_STOPPED = 0x00000001,
+            SERVICE_START_PENDING = 0x00000002,
+            SERVICE_STOP_PENDING = 0x00000003,
+            SERVICE_RUNNING = 0x00000004,
+            SERVICE_CONTINUE_PENDING = 0x00000005,
+            SERVICE_PAUSE_PENDING = 0x00000006,
+            SERVICE_PAUSED = 0x00000007,
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct ServiceStatus
+        {
+            public int dwServiceType;
+            public ServiceState dwCurrentState;
+            public int dwControlsAccepted;
+            public int dwWin32ExitCode;
+            public int dwServiceSpecificExitCode;
+            public int dwCheckPoint;
+            public int dwWaitHint;
+        };
+
+
         [DllImport("advapi32.dll", SetLastError = true)]
         private static extern bool SetServiceStatus(IntPtr handle, ref ServiceStatus serviceStatus);
         public ImageService(string[] args)
@@ -54,17 +55,17 @@ namespace ImageService
             try
             {
                 InitializeComponent();
-               
+
                 string eventSourceName = ConfigurationManager.AppSettings.Get("SourceName");
                 string logName = ConfigurationManager.AppSettings.Get("LogName");
-                if (args.Count() > 0)
-                {
-                    eventSourceName = args[0];
-                }
-                if (args.Count() > 1)
-                {
-                    logName = args[1];
-                }
+                //if (args.Count() > 0)
+                //{
+                //    eventSourceName = args[0];
+                //}
+                //if (args.Count() > 1)
+                //{
+                //    logName = args[1];
+                //}
                 eventLog1 = new System.Diagnostics.EventLog();
                 if (!System.Diagnostics.EventLog.SourceExists(eventSourceName))
                 {
@@ -74,7 +75,9 @@ namespace ImageService
                 eventLog1.Log = logName;
                 //initialize members
                 this.logging = new LoggingService();
+
                 this.logging.MessageRecieved += WriteMessage;
+                this.logging.Log("1", MessageTypeEnum.FAIL);
                 this.modal = new ImageServiceModal()
                 {
                     OutputFolder = ConfigurationManager.AppSettings.Get("OutputDir"),
@@ -82,7 +85,9 @@ namespace ImageService
 
                 };
                 this.controller = new ImageController(this.modal);
-               
+                this.m_imageServer = new ImageServer(this.controller, this.logging);
+                this.logging.Log("1", MessageTypeEnum.FAIL);
+
             }
             catch (Exception e)
             {
@@ -90,11 +95,12 @@ namespace ImageService
             }
         }
 
-       
+
 
         protected override void OnStart(string[] args)
         {
             eventLog1.WriteEntry("In OnStart");
+            eventLog1.WriteEntry("liz1");
             // Update the service state to Start Pending.  
             ServiceStatus serviceStatus = new ServiceStatus();
             serviceStatus.dwCurrentState = ServiceState.SERVICE_START_PENDING;
@@ -108,8 +114,7 @@ namespace ImageService
             // Update the service state to Running.  
             serviceStatus.dwCurrentState = ServiceState.SERVICE_RUNNING;
             SetServiceStatus(this.ServiceHandle, ref serviceStatus);
-
-            this.m_imageServer = new ImageServer(this.controller, this.logging);
+            eventLog1.WriteEntry("leave OnStart");
 
         }
 
@@ -130,8 +135,9 @@ namespace ImageService
         public void WriteMessage(Object sender, MessageRecievedEventArgs e)
         {
             eventLog1.WriteEntry(e.Message, GetType(e.Status));
+            //eventLog1.WriteEntry(e.Message);
         }
-         private EventLogEntryType GetType(MessageTypeEnum status) 
+        private EventLogEntryType GetType(MessageTypeEnum status)
         {
             switch (status)
             {
@@ -145,6 +151,6 @@ namespace ImageService
             }
         }
 
-        
+
     }
 }
