@@ -22,10 +22,10 @@ namespace ImageService.Server
         #region Properties
         public event EventHandler<CommandRecievedEventArgs> CommandRecieved;          // The event that notifies about a new Command being recieved
         #endregion
-        public ImageServer(IImageController m_controller, ILoggingService m_logging)
+        public ImageServer(IImageController controller, ILoggingService logging)
         {
-            this.m_controller = m_controller;
-            this.m_logging = m_logging;
+            this.m_controller = controller;
+            this.m_logging = logging;
             string[] directories = (ConfigurationManager.AppSettings.Get("Handler").Split(';'));
             foreach (string path in directories)
             {

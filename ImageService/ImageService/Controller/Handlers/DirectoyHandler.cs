@@ -26,10 +26,10 @@ namespace ImageService.Controller.Handlers
 
 
 
-        public DirectoyHandler(ILoggingService m_logging, IImageController m_controller, string path)
+        public DirectoyHandler(ILoggingService logging, IImageController controller, string path)
         {
-            this.m_logging = m_logging;
-            this.m_controller = m_controller;
+            this.m_logging = logging;
+            this.m_controller = controller;
             this.m_path = path;
             this.m_dirWatcher = new FileSystemWatcher(this.m_path);
         }
@@ -57,10 +57,22 @@ namespace ImageService.Controller.Handlers
 
         public void StartHandleDirectory(string dirPath)
         {
-            this.m_logging.Log("Start handle directory: " + dirPath, MessageTypeEnum.INFO);
+            string[] filesInDirectory = Directory.GetFiles(m_path);
+            foreach (string filepath in filesInDirectory)
+            {
+                string extension = Path.GetExtension(filepath);
+                if (this.validExtensions.Contains(extension))
+                {
+                    string[] args = { filepath };
+                    OnCommandRecieved(this, new CommandRecievedEventArgs(1, args, filepath));
+                }
+            }
             this.m_dirWatcher.Created += new FileSystemEventHandler(M_dirWatcher_Created);
-             //start listen to directory
+            this.m_dirWatcher.Changed += new FileSystemEventHandler(M_dirWatcher_Created);
+            //start listen to directory
             this.m_dirWatcher.EnableRaisingEvents = true;
+            this.m_logging.Log("Start handle directory: " + dirPath, MessageTypeEnum.INFO);
+
         }
 
         private void M_dirWatcher_Created(object sender, FileSystemEventArgs e)
