@@ -10,5 +10,6 @@ namespace ImageService.Infrastructure.Enums
     {
         NewFileCommand = 1,
         CloseCommand = 2
+
     }
 }
