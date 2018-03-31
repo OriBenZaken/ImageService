@@ -121,20 +121,20 @@ namespace ImageService
         protected override void OnStop()
         {
             eventLog1.WriteEntry("In onStop.");
-            ///*****************
-            ///
+            /////*****************
+            /////
 
-            // Update the service state to Stop Pending.  
-            ServiceStatus serviceStatus = new ServiceStatus();
-            serviceStatus.dwCurrentState = ServiceState.SERVICE_STOP_PENDING;
-            serviceStatus.dwWaitHint = 100000;
-            SetServiceStatus(this.ServiceHandle, ref serviceStatus);
+            //// Update the service state to Stop Pending.  
+            //ServiceStatus serviceStatus = new ServiceStatus();
+            //serviceStatus.dwCurrentState = ServiceState.SERVICE_STOP_PENDING;
+            //serviceStatus.dwWaitHint = 100000;
+            //SetServiceStatus(this.ServiceHandle, ref serviceStatus);
 
-            // Update the service state to Stopping.  
-            serviceStatus.dwCurrentState = ServiceState.SERVICE_STOP_PENDING;
-            SetServiceStatus(this.ServiceHandle, ref serviceStatus);
+            //// Update the service state to Stopping.  
+            //serviceStatus.dwCurrentState = ServiceState.SERVICE_STOP_PENDING;
+            //SetServiceStatus(this.ServiceHandle, ref serviceStatus);
 
-            //****************
+            ////****************
             this.m_imageServer.OnCloseServer();
             eventLog1.WriteEntry("Leave onStop.");
 

@@ -47,21 +47,31 @@ namespace ImageService.Server
         {
             IDirectoryHandler handler = new DirectoyHandler(m_logging, m_controller, path);
             CommandRecieved += handler.OnCommandRecieved;
-            handler.DirectoryClose += OnCloseHandler;
-            this.CloseServer += OnCloseHandler;
+           // handler.DirectoryClose += handler.OnCloseHandler;
+            this.CloseServer += handler.OnCloseHandler;
             handler.StartHandleDirectory(path);
             this.m_logging.Log("Handler was created for directory: " + path, Logging.Modal.MessageTypeEnum.INFO);
         }
 
 
-        public void OnCloseHandler(object sender, DirectoryCloseEventArgs args)
-        {
-            m_logging.Log(args.Message, Logging.Modal.MessageTypeEnum.INFO);
-            CommandRecieved -= ((IDirectoryHandler)sender).OnCommandRecieved;
-        }
+        //public void OnCloseHandler(object sender, DirectoryCloseEventArgs args)
+        //{
+        //    m_logging.Log(args.Message, Logging.Modal.MessageTypeEnum.INFO);
+        //    CommandRecieved -= ((IDirectoryHandler)sender).OnCommandRecieved;
+        //}
         public void OnCloseServer()
         {
-            CloseServer?.Invoke(this, null);
+            try
+            {
+                m_logging.Log("enter OnCloseServer", Logging.Modal.MessageTypeEnum.INFO);
+                CloseServer?.Invoke(this, null);
+                m_logging.Log("leave OnCloseServer", Logging.Modal.MessageTypeEnum.INFO);
+            } catch (Exception ex)
+            {
+                this.m_logging.Log("OnColeServer Exception: " + ex.ToString(), Logging.Modal.MessageTypeEnum.FAIL);
+            }
+
+
         }
 
     }

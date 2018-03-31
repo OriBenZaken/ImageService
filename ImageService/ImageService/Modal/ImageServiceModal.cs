@@ -50,23 +50,37 @@ namespace ImageService.Modal
             {
                 string year = String.Empty;
                 string month = String.Empty;
-
+                string returnMsg = string.Empty;
                 if (File.Exists(path))
                 {
                     DateTime date = File.GetCreationTime(path);
                     year = date.Year.ToString();
                     month = date.Month.ToString();
-                    Directory.CreateDirectory(m_OutputFolder);
+                    DirectoryInfo dirOutput = Directory.CreateDirectory(m_OutputFolder);
+                    // make the output directory hidden
+                    dirOutput.Attributes = FileAttributes.Directory | FileAttributes.Hidden;
                     Directory.CreateDirectory(m_OutputFolder + "\\" + "Thumbnails");
-                    this.CreateYearFolder(m_OutputFolder, year);
-                    this.CreateYearFolder(m_OutputFolder + "\\" + "Thumbnails", year);
+                    string createFoldersMsg = this.CreateFolders(m_OutputFolder, year, month);
+                    string createThumbsMsg = this.CreateFolders(m_OutputFolder + "\\" + "Thumbnails", year, month);
+                    if (createFoldersMsg != string.Empty || createThumbsMsg != string.Empty)
+                    {
+                        throw new Exception("Error while creating folders");
+                    }
                     string pathTargetFolder = m_OutputFolder + "\\" + year + "\\" + month + "\\";
-                    File.Copy(path, pathTargetFolder + Path.GetFileName(path));
-                    Image thumb = Image.FromFile(path);
-                    thumb = (Image)(new Bitmap(thumb, new Size(this.m_thumbnailSize, this.m_thumbnailSize)));
-                    thumb.Save(m_OutputFolder + "\\" + "Thumbnails" + "\\" + year + "\\" + month + "\\" + Path.GetFileName(path));
+                    if (!File.Exists(pathTargetFolder + Path.GetFileName(path)))
+                    {
+                        File.Copy(path, pathTargetFolder + Path.GetFileName(path));
+                        returnMsg = "Added " + Path.GetFileName(path) + " to " + pathTargetFolder;
+                    }
+                    if (!File.Exists((m_OutputFolder + "\\" + "Thumbnails" + "\\" + year + "\\" + month + "\\" + Path.GetFileName(path))))
+                    {
+                        Image thumb = Image.FromFile(path);
+                        thumb = (Image)(new Bitmap(thumb, new Size(this.m_thumbnailSize, this.m_thumbnailSize)));
+                        thumb.Save(m_OutputFolder + "\\" + "Thumbnails" + "\\" + year + "\\" + month + "\\" + Path.GetFileName(path));
+                        returnMsg += " and added thumb " + Path.GetFileName(path);
+                    }
                     result = true;
-                    return "Added " + Path.GetFileName(path) + " to " + pathTargetFolder;
+                    return returnMsg;
                 }
                 else
                 {
@@ -81,14 +95,19 @@ namespace ImageService.Modal
             }
         }
 
-        private void CreateYearFolder(string dirPath, string year)
+        private string CreateFolders(string dirPath, string year, string month)
         {
-            Directory.CreateDirectory(dirPath + "\\" + year);
-            //create folders for months
-            for (int j = 1; j <= 12; j++)
+            try
             {
-                Directory.CreateDirectory(dirPath + "\\" + year + "\\" + j.ToString());
+                Directory.CreateDirectory(dirPath + "\\" + year);
+                Directory.CreateDirectory(dirPath + "\\" + year + "\\" + month);
+                return string.Empty;
+            } catch (Exception ex)
+            {
+                return ex.ToString();
             }
+
+        
         }
 
         #endregion
