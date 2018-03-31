@@ -17,8 +17,13 @@ using System.Configuration;
 
 namespace ImageService
 {
+    /// <summary>
+    /// ImageService class.
+    /// inherits from ServiceBase
+    /// </summary>
     public partial class ImageService : ServiceBase
     {
+        #region members
         private int eventId = 1;
         private ImageServer m_imageServer;          // The Image Server
         private IImageServiceModal modal;
@@ -46,16 +51,19 @@ namespace ImageService
             public int dwCheckPoint;
             public int dwWaitHint;
         };
-
-
         [DllImport("advapi32.dll", SetLastError = true)]
         private static extern bool SetServiceStatus(IntPtr handle, ref ServiceStatus serviceStatus);
+        #endregion
+        /// <summary>
+        /// ImageService function.
+        /// </summary>
+        /// <param name="args">command line args</param>
         public ImageService(string[] args)
         {
             try
             {
                 InitializeComponent();
-
+                //read params from app config
                 string eventSourceName = ConfigurationManager.AppSettings.Get("SourceName");
                 string logName = ConfigurationManager.AppSettings.Get("LogName");
                 eventLog1 = new System.Diagnostics.EventLog();
@@ -84,7 +92,11 @@ namespace ImageService
         }
 
 
-
+        /// <summary>
+        /// OnStart function.
+        /// manages what happens when the service is started
+        /// </summary>
+        /// <param name="args">command line args</param>
         protected override void OnStart(string[] args)
         {
             eventLog1.WriteEntry("In OnStart");
@@ -104,27 +116,51 @@ namespace ImageService
             eventLog1.WriteEntry("Leave OnStart");
 
         }
-
+        /// <summary>
+        /// OnStop function.
+        /// manages what happens when the service is sttopped
+        /// </summary>
         protected override void OnStop()
         {
             eventLog1.WriteEntry("In onStop.");
             this.m_imageServer.OnCloseServer();
             eventLog1.WriteEntry("Leave onStop.");
         }
+        /// <summary>
+        /// OnContinue function.
+        /// manages what happens when the service is continue
+        /// </summary>
         protected override void OnContinue()
         {
             eventLog1.WriteEntry("In OnContinue.");
         }
+        /// <summary>
+        /// OnTimer function.
+        /// </summary>
+        /// <param name="sender">sender obj</param>
+        /// <param name="args">arguments</param>
         public void OnTimer(object sender, System.Timers.ElapsedEventArgs args)
         {
             // TODO: Insert monitoring activities here.  
             eventLog1.WriteEntry("Monitoring the System", EventLogEntryType.Information, eventId++);
         }
-
+        /// <summary>
+        /// WriteMessage function.
+        /// wrrites to log.
+        /// </summary>
+        /// <param name="sender"> sender obj</param>
+        /// <param name="e" >MessageRecievedEventArgs obj</param>
         public void WriteMessage(Object sender, MessageRecievedEventArgs e)
         {
             eventLog1.WriteEntry(e.Message, GetType(e.Status));
         }
+
+        /// <summary>
+        /// GetType function.
+        /// converts from MessageTypeEnum to EventLogEntryType.
+        /// </summary>
+        /// <param name="status">log type</param>
+        /// <returns></returns>
         private EventLogEntryType GetType(MessageTypeEnum status)
         {
             switch (status)
