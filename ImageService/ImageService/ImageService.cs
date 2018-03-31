@@ -58,14 +58,6 @@ namespace ImageService
 
                 string eventSourceName = ConfigurationManager.AppSettings.Get("SourceName");
                 string logName = ConfigurationManager.AppSettings.Get("LogName");
-                //if (args.Count() > 0)
-                //{
-                //    eventSourceName = args[0];
-                //}
-                //if (args.Count() > 1)
-                //{
-                //    logName = args[1];
-                //}
                 eventLog1 = new System.Diagnostics.EventLog();
                 if (!System.Diagnostics.EventLog.SourceExists(eventSourceName))
                 {
@@ -75,9 +67,7 @@ namespace ImageService
                 eventLog1.Log = logName;
                 //initialize members
                 this.logging = new LoggingService();
-
                 this.logging.MessageRecieved += WriteMessage;
-                this.logging.Log("1", MessageTypeEnum.FAIL);
                 this.modal = new ImageServiceModal()
                 {
                     OutputFolder = ConfigurationManager.AppSettings.Get("OutputDir"),
@@ -86,12 +76,10 @@ namespace ImageService
                 };
                 this.controller = new ImageController(this.modal);
                 this.m_imageServer = new ImageServer(this.controller, this.logging);
-                this.logging.Log("1", MessageTypeEnum.FAIL);
-
             }
             catch (Exception e)
             {
-                this.eventLog1.WriteEntry(e.ToString());
+                this.eventLog1.WriteEntry(e.ToString(), EventLogEntryType.Error);
             }
         }
 
@@ -100,7 +88,6 @@ namespace ImageService
         protected override void OnStart(string[] args)
         {
             eventLog1.WriteEntry("In OnStart");
-            eventLog1.WriteEntry("liz1");
             // Update the service state to Start Pending.  
             ServiceStatus serviceStatus = new ServiceStatus();
             serviceStatus.dwCurrentState = ServiceState.SERVICE_START_PENDING;
@@ -114,31 +101,15 @@ namespace ImageService
             // Update the service state to Running.  
             serviceStatus.dwCurrentState = ServiceState.SERVICE_RUNNING;
             SetServiceStatus(this.ServiceHandle, ref serviceStatus);
-            eventLog1.WriteEntry("leave OnStart");
+            eventLog1.WriteEntry("Leave OnStart");
 
         }
 
         protected override void OnStop()
         {
             eventLog1.WriteEntry("In onStop.");
-            /////*****************
-            /////
-
-            //// Update the service state to Stop Pending.  
-            //ServiceStatus serviceStatus = new ServiceStatus();
-            //serviceStatus.dwCurrentState = ServiceState.SERVICE_STOP_PENDING;
-            //serviceStatus.dwWaitHint = 100000;
-            //SetServiceStatus(this.ServiceHandle, ref serviceStatus);
-
-            //// Update the service state to Stopping.  
-            //serviceStatus.dwCurrentState = ServiceState.SERVICE_STOP_PENDING;
-            //SetServiceStatus(this.ServiceHandle, ref serviceStatus);
-
-            ////****************
             this.m_imageServer.OnCloseServer();
             eventLog1.WriteEntry("Leave onStop.");
-
-
         }
         protected override void OnContinue()
         {
@@ -153,7 +124,6 @@ namespace ImageService
         public void WriteMessage(Object sender, MessageRecievedEventArgs e)
         {
             eventLog1.WriteEntry(e.Message, GetType(e.Status));
-            //eventLog1.WriteEntry(e.Message);
         }
         private EventLogEntryType GetType(MessageTypeEnum status)
         {
@@ -168,7 +138,5 @@ namespace ImageService
                     return EventLogEntryType.Information;
             }
         }
-
-
     }
 }

@@ -40,30 +40,30 @@ namespace ImageService.Controller.Handlers
         public void OnCommandRecieved(object sender, CommandRecievedEventArgs e)
         {
             bool result;
-            // if (e.Args != null && e.Args.Length > 0 && this.m_path.StartsWith(e.Args[0]))
-            //  {
-            this.m_logging.Log("entered OnCommandRecieved: commandID:" + e.CommandID.ToString() + " path:" + e.Args[0], MessageTypeEnum.FAIL);
+            //if (e.Args != null && e.Args.Length > 0 && this.m_path.StartsWith(e.Args[0]))
+            //{
             string msg = this.m_controller.ExecuteCommand(e.CommandID, e.Args, out result);
             // write result msg to the event long.
             if (result)
             {
+
                 this.m_logging.Log(msg, MessageTypeEnum.INFO);
             }
             else
             {
                 this.m_logging.Log(msg, MessageTypeEnum.FAIL);
             }
-            //  }
+           // }
 
         }
 
         public void StartHandleDirectory(string dirPath)
         {
-            m_logging.Log("enter StartHandleDirectory" + " " + dirPath, MessageTypeEnum.FAIL);
+            m_logging.Log("enter StartHandleDirectory" + " " + dirPath, MessageTypeEnum.INFO);
             string[] filesInDirectory = Directory.GetFiles(m_path);
             foreach (string filepath in filesInDirectory)
             {
-                m_logging.Log("StartHandleDirectory" + " " + filepath, MessageTypeEnum.FAIL);
+                m_logging.Log("StartHandleDirectory" + " " + filepath, MessageTypeEnum.INFO);
                 string extension = Path.GetExtension(filepath);
                 if (this.validExtensions.Contains(extension))
                 {
@@ -85,10 +85,7 @@ namespace ImageService.Controller.Handlers
             string extension = Path.GetExtension(e.FullPath);
             if (this.validExtensions.Contains(extension))
             {
-                this.m_logging.Log("Enterd  if (this.validExtensions.Contains(extension)) with: " + e.FullPath, MessageTypeEnum.FAIL);
                 string[] args = { e.FullPath };
-
-                //todo: check which path to pass
                 CommandRecievedEventArgs commandRecievedEventArgs = new CommandRecievedEventArgs((int)CommandEnum.NewFileCommand, args, "");
                 this.OnCommandRecieved(this, commandRecievedEventArgs);
             }
