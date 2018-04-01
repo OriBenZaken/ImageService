@@ -6,12 +6,21 @@ using System.Threading.Tasks;
 
 namespace ImageService.Modal
 {
+    /// <summary>
+    /// Argments for the DirectoryCloseEvent.
+    /// </summary>
     public class DirectoryCloseEventArgs : EventArgs
     {
-        public string DirectoryPath { get; set; }
+        #region Members
+        public string DirectoryPath { get; set; }       // Path of the directory to be closed.
+        public string Message { get; set; }             // The Message That goes to the logger.
+        #endregion
 
-        public string Message { get; set; }             // The Message That goes to the logger
-
+        /// <summary>
+        /// DirectoryCloseEventArgs constructor.
+        /// </summary>
+        /// <param name="dirPath">Path of the directory to be closed.</param>
+        /// <param name="message">The Message That goes to the logger.</param>
         public DirectoryCloseEventArgs(string dirPath, string message)
         {
             DirectoryPath = dirPath;                    // Setting the Directory Name

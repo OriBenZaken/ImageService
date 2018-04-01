@@ -12,12 +12,20 @@ using System.Threading.Tasks;
 
 namespace ImageService.Modal
 {
+    /// <summary>
+    /// Implementation of IImageServiceModal Interface.
+    /// </summary>
     public class ImageServiceModal : IImageServiceModal
     {
         #region Members
+        private string m_OutputFolder;            // The Output Folder
+        private int m_thumbnailSize;              // The Size Of The Thumbnail Size
+        #endregion
+
+        #region Properties
+        // The Output Folder
         public string OutputFolder
         {
-            // The Output Folder
             get
             {
                 return this.m_OutputFolder;
@@ -40,9 +48,8 @@ namespace ImageService.Modal
                 this.m_thumbnailSize = value;
             }
         }
+        #endregion
 
-        private string m_OutputFolder;            // The Output Folder
-        private int m_thumbnailSize;              // The Size Of The Thumbnail Size
         public string AddFile(string path, out bool result)
         {
             try
@@ -52,12 +59,14 @@ namespace ImageService.Modal
                 string returnMsg = string.Empty;
                 if (File.Exists(path))
                 {
+                    // Get file creation time : year and month
                     DateTime date = File.GetCreationTime(path);
                     year = date.Year.ToString();
                     month = date.Month.ToString();
                     DirectoryInfo dirOutput = Directory.CreateDirectory(m_OutputFolder);
                     // make the output directory hidden
                     dirOutput.Attributes = FileAttributes.Directory | FileAttributes.Hidden;
+                    // Create the suitables folders for the file according to it's creation time
                     Directory.CreateDirectory(m_OutputFolder + "\\" + "Thumbnails");
                     string createFoldersMsg = this.CreateFolders(m_OutputFolder, year, month);
                     string createThumbsMsg = this.CreateFolders(m_OutputFolder + "\\" + "Thumbnails", year, month);
@@ -71,6 +80,7 @@ namespace ImageService.Modal
                         File.Copy(path, pathTargetFolder + Path.GetFileName(path));
                         returnMsg = "Added " + Path.GetFileName(path) + " to " + pathTargetFolder;
                     }
+                    // create thumbnail photo.
                     if (!File.Exists((m_OutputFolder + "\\" + "Thumbnails" + "\\" + year + "\\" + month + "\\" + Path.GetFileName(path))))
                     {
                         Image thumb = Image.FromFile(path);
@@ -94,6 +104,13 @@ namespace ImageService.Modal
             }
         }
 
+        /// <summary>
+        /// Creates a year folder, and inside it a month folder in dirPath directory.
+        /// </summary>
+        /// <param name="dirPath">Directory path.</param>
+        /// <param name="year">Year</param>
+        /// <param name="month">Month</param>
+        /// <returns></returns>
         private string CreateFolders(string dirPath, string year, string month)
         {
             try
@@ -104,13 +121,7 @@ namespace ImageService.Modal
             } catch (Exception ex)
             {
                 return ex.ToString();
-            }
-
-        
+            }        
         }
-
-        #endregion
     }
-
-
 }
