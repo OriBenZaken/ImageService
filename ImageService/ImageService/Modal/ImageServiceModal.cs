@@ -60,7 +60,7 @@ namespace ImageService.Modal
                 if (File.Exists(path))
                 {
                     // Get file creation time : year and month
-                    DateTime date = File.GetCreationTime(path);
+                    DateTime date = GetExplorerFileDate(path);
                     year = date.Year.ToString();
                     month = date.Month.ToString();
                     DirectoryInfo dirOutput = Directory.CreateDirectory(m_OutputFolder);
@@ -102,6 +102,13 @@ namespace ImageService.Modal
                 result = false;
                 return ex.ToString();
             }
+        }
+
+        static DateTime GetExplorerFileDate(string filename)
+        {
+            DateTime now = DateTime.Now;
+            TimeSpan localOffset = now - now.ToUniversalTime();
+            return File.GetLastWriteTimeUtc(filename) + localOffset;
         }
 
         /// <summary>
