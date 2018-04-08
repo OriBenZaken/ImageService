@@ -75,18 +75,21 @@ namespace ImageService.Modal
                         throw new Exception("Error while creating folders");
                     }
                     string pathTargetFolder = m_OutputFolder + "\\" + year + "\\" + month + "\\";
-                    if (!File.Exists(pathTargetFolder + Path.GetFileName(path)))
-                    {
-                        File.Copy(path, pathTargetFolder + Path.GetFileName(path));
-                        returnMsg = "Added " + Path.GetFileName(path) + " to " + pathTargetFolder;
-                    }
+                   
                     // create thumbnail photo.
                     if (!File.Exists((m_OutputFolder + "\\" + "Thumbnails" + "\\" + year + "\\" + month + "\\" + Path.GetFileName(path))))
                     {
-                        Image thumb = Image.FromFile(path);
-                        thumb = (Image)(new Bitmap(thumb, new Size(this.m_thumbnailSize, this.m_thumbnailSize)));
-                        thumb.Save(m_OutputFolder + "\\" + "Thumbnails" + "\\" + year + "\\" + month + "\\" + Path.GetFileName(path));
-                        returnMsg += " and added thumb " + Path.GetFileName(path);
+                        using (Image thumb = Image.FromFile(path))
+                        {
+                            Image newThumb = (Image)(new Bitmap(thumb, new Size(this.m_thumbnailSize, this.m_thumbnailSize)));
+                            newThumb.Save(m_OutputFolder + "\\" + "Thumbnails" + "\\" + year + "\\" + month + "\\" + Path.GetFileName(path));
+                            returnMsg += " Added thumb " + Path.GetFileName(path);
+                        }
+                    }
+                    if (!File.Exists(pathTargetFolder + Path.GetFileName(path)))
+                    {
+                        File.Move(path, pathTargetFolder + Path.GetFileName(path));
+                        returnMsg = "and added " + Path.GetFileName(path) + " to " + pathTargetFolder;
                     }
                     result = true;
                     return returnMsg;
