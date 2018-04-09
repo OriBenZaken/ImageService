@@ -77,17 +77,6 @@ namespace ImageService.Controller.Handlers
             m_logging.Log("enter StartHandleDirectory" + " " + dirPath, MessageTypeEnum.INFO);
             // add all images in the directory to the output directory.
             string[] filesInDirectory = Directory.GetFiles(m_path);
-            foreach (string filepath in filesInDirectory)
-            {
-                m_logging.Log("StartHandleDirectory" + " " + filepath, MessageTypeEnum.INFO);
-                string extension = Path.GetExtension(filepath);
-                if (this.validExtensions.Contains(extension))
-                {
-                    string[] args = { filepath };
-                    OnCommandRecieved(this, new CommandRecievedEventArgs((int)CommandEnum.NewFileCommand, 
-                        args, filepath));
-                }
-            }
             this.m_dirWatcher.Created += new FileSystemEventHandler(M_dirWatcher_Created);
             this.m_dirWatcher.Changed += new FileSystemEventHandler(M_dirWatcher_Created);
             //start listen to directory
