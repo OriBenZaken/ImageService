@@ -47,10 +47,10 @@ namespace ImageService.Commands
                     //calls to AddFile method to add the file in the given path to the backup directory.
                     return m_modal.AddFile(args[0], out result);
                 }
-                else
-                {
-                    throw new Exception ("NewFileCommand.Execute: path or params are not valid "+ args[0]);
-                }
+                result = true;
+                return string.Empty;
+
+
             }
             catch (Exception ex)
             {

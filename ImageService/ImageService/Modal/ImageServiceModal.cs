@@ -76,19 +76,24 @@ namespace ImageService.Modal
                     }
                     string pathTargetFolder = m_OutputFolder + "\\" + year + "\\" + month + "\\";
                     string newPath = pathTargetFolder + Path.GetFileName(path);
-                    if (!File.Exists(newPath))
+                    
+                    if (File.Exists(newPath))
                     {
-                        File.Move(path, newPath);
-                        returnMsg = "Added " + Path.GetFileName(path) + " to " + pathTargetFolder;
+                        newPath = this.GetAvailablePath(newPath, pathTargetFolder);
                     }
+                    File.Move(path, newPath);
+                    returnMsg = "Added " + Path.GetFileName(newPath) + " to " + pathTargetFolder;
                     // create thumbnail photo.
-                    if (!File.Exists((m_OutputFolder + "\\" + "Thumbnails" + "\\" + year + "\\" + month + "\\" + Path.GetFileName(path))))
+                    string thumbsNewPath = m_OutputFolder + "\\" + "Thumbnails" + "\\" + year + "\\" + month + "\\" + Path.GetFileName(path);
+                    if (File.Exists(thumbsNewPath))
                     {
-                        Image thumb = Image.FromFile(newPath);
-                        thumb = (Image)(new Bitmap(thumb, new Size(this.m_thumbnailSize, this.m_thumbnailSize)));
-                        thumb.Save(m_OutputFolder + "\\" + "Thumbnails" + "\\" + year + "\\" + month + "\\" + Path.GetFileName(path));
-                        returnMsg += " and added thumb " + Path.GetFileName(path);
+                        thumbsNewPath = this.GetAvailablePath(thumbsNewPath, m_OutputFolder + "\\" + "Thumbnails" + "\\" + year + "\\" + month + "\\");
                     }
+                    
+                    Image thumb = Image.FromFile(newPath);
+                    thumb = (Image)(new Bitmap(thumb, new Size(this.m_thumbnailSize, this.m_thumbnailSize)));
+                    thumb.Save(thumbsNewPath);
+                    returnMsg += " and added thumb " + Path.GetFileName(path);
                     result = true;
                     return returnMsg;
                 }
@@ -110,6 +115,17 @@ namespace ImageService.Modal
             DateTime now = DateTime.Now;
             TimeSpan localOffset = now - now.ToUniversalTime();
             return File.GetLastWriteTimeUtc(filename) + localOffset;
+        }
+        private string GetAvailablePath(string newPath, string pathTargetFolder)
+        {
+            int i = 1;
+            string fileName = Path.GetFileNameWithoutExtension(newPath);
+            string extension = Path.GetExtension(newPath);
+            while (File.Exists((newPath = pathTargetFolder + fileName +" ("+ i.ToString()+")" + extension)))
+            {
+                i++;
+            }
+            return newPath;
         }
 
         /// <summary>
