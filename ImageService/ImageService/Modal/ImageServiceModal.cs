@@ -75,21 +75,19 @@ namespace ImageService.Modal
                         throw new Exception("Error while creating folders");
                     }
                     string pathTargetFolder = m_OutputFolder + "\\" + year + "\\" + month + "\\";
-                   
+                    string newPath = pathTargetFolder + Path.GetFileName(path);
+                    if (!File.Exists(newPath))
+                    {
+                        File.Move(path, newPath);
+                        returnMsg = "Added " + Path.GetFileName(path) + " to " + pathTargetFolder;
+                    }
                     // create thumbnail photo.
                     if (!File.Exists((m_OutputFolder + "\\" + "Thumbnails" + "\\" + year + "\\" + month + "\\" + Path.GetFileName(path))))
                     {
-                        using (Image thumb = Image.FromFile(path))
-                        {
-                            Image newThumb = (Image)(new Bitmap(thumb, new Size(this.m_thumbnailSize, this.m_thumbnailSize)));
-                            newThumb.Save(m_OutputFolder + "\\" + "Thumbnails" + "\\" + year + "\\" + month + "\\" + Path.GetFileName(path));
-                            returnMsg += " Added thumb " + Path.GetFileName(path);
-                        }
-                    }
-                    if (!File.Exists(pathTargetFolder + Path.GetFileName(path)))
-                    {
-                        File.Move(path, pathTargetFolder + Path.GetFileName(path));
-                        returnMsg = "and added " + Path.GetFileName(path) + " to " + pathTargetFolder;
+                        Image thumb = Image.FromFile(newPath);
+                        thumb = (Image)(new Bitmap(thumb, new Size(this.m_thumbnailSize, this.m_thumbnailSize)));
+                        thumb.Save(m_OutputFolder + "\\" + "Thumbnails" + "\\" + year + "\\" + month + "\\" + Path.GetFileName(path));
+                        returnMsg += " and added thumb " + Path.GetFileName(path);
                     }
                     result = true;
                     return returnMsg;
@@ -128,10 +126,11 @@ namespace ImageService.Modal
                 Directory.CreateDirectory(dirPath + "\\" + year);
                 Directory.CreateDirectory(dirPath + "\\" + year + "\\" + month);
                 return string.Empty;
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 return ex.ToString();
-            }        
+            }
         }
     }
 }
