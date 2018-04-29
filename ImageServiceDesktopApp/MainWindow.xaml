@@ -1,0 +1,25 @@
+﻿<Window x:Class="ImageServiceDesktopApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ImageServiceDesktopApp"
+        mc:Ignorable="d"
+        Title="Image Service Desktop Application" Height="350" Width="525" Icon="./Resources/Logo.png">
+    <Grid>
+
+        <TabControl TabStripPlacement="Top" Grid.ColumnSpan="5" Height="169" VerticalAlignment="Top">
+            <TabItem Header="Settings">
+                <UserControl>
+                    
+                </UserControl>
+            </TabItem>
+            <TabItem Header="Logs">
+                <UserControl>
+
+                </UserControl>
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+</Window>
