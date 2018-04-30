@@ -1,6 +1,6 @@
 ﻿using System.Net.Sockets;
 
-namespace ImageService.ImageServiceSrv
+namespace ImageService
 {
     internal interface IClientHandler
     {

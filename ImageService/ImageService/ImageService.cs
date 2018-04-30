@@ -29,6 +29,8 @@ namespace ImageService
         private IImageServiceModal modal;
         private IImageController controller;
         private ILoggingService logging;
+        private IImageServiceSrv imageServiceSrv;
+
         public enum ServiceState
         {
             SERVICE_STOPPED = 0x00000001,
@@ -84,7 +86,10 @@ namespace ImageService
                 };
                 this.controller = new ImageController(this.modal);
                 this.m_imageServer = new ImageServer(this.controller, this.logging);
-            }
+                IClientHandler ch = new ClientHandler(controller);
+                imageServiceSrv = new ImageServiceSrv(8000,logging,ch);
+
+    }
             catch (Exception e)
             {
                 this.eventLog1.WriteEntry(e.ToString(), EventLogEntryType.Error);

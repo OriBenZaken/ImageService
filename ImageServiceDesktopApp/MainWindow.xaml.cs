@@ -20,9 +20,18 @@ namespace ImageServiceDesktopApp
     /// </summary>
     public partial class MainWindow : Window
     {
+        #region Members
+        private IImageServiceClient imageServiceClient;
+        private IVM_ImageService vm_logger;
+        private IVM_ImageService vm_settings;
+        #endregion
+
         public MainWindow()
         {
             InitializeComponent();
+            this.DataContext = this;
+            imageServiceClient = new ImageServiceClient();
+
         }
     }
 }

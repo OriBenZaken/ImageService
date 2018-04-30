@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ImageServiceDesktopApp
 {
-    class VM_Service : IVM_ImageService
+    class VM_Settings : IVM_ImageService
     {
         public IImageServiceClient ImageServiceClient { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 

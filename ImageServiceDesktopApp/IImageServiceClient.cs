@@ -8,5 +8,8 @@ namespace ImageServiceDesktopApp
 {
     interface IImageServiceClient
     {
+        void Start();
+        void SendCommand();
+        void CloseClient();
     }
 }

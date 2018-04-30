@@ -10,9 +10,9 @@ using System.IO;
 using ImageService.Logging.Modal;
 using ImageService.Controller;
 
-namespace ImageService.ImageServiceSrv
+namespace ImageService
 {
-    class ImageServiceSrv
+    class ImageServiceSrv : IImageServiceSrv
     {
         ILoggingService Logging { get; set; }
         int Port { get; set; }

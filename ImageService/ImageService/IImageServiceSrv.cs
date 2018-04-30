@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ImageService.ImageServiceSrv
+namespace ImageService
 {
     interface IImageServiceSrv
     {
+        void Start();
+        void Stop();
+
     }
 }
