@@ -44,7 +44,6 @@ namespace ImageService.ImageServiceSrv
                         {
                             TcpClient client = Listener.AcceptTcpClient();
                             Logging.Log("Got new connection", MessageTypeEnum.INFO);
-                            //todo: add task
                             Ch.HandleClient(client);
                         }
                         catch (SocketException)
