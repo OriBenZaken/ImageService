@@ -21,6 +21,7 @@ namespace ImageServiceDesktopApp
     public partial class MainWindow : Window
     {
         #region Members
+        // todo: change location of initializg VM !!!!!!!!!!!!!!!!!!!
         private IImageServiceClient imageServiceClient;
         private IVM_ImageService vm_logger;
         private IVM_ImageService vm_settings;
@@ -31,7 +32,8 @@ namespace ImageServiceDesktopApp
             InitializeComponent();
             this.DataContext = this;
             imageServiceClient = new ImageServiceClient();
-
+            vm_logger = new VM_Logger();
+            vm_settings = new VM_Settings();
         }
     }
 }
