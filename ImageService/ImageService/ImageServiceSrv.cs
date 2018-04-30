@@ -8,20 +8,22 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using ImageService.Logging.Modal;
+using ImageService.Controller;
 
 namespace ImageService.ImageServiceSrv
 {
     class ImageServiceSrv
     {
         ILoggingService Logging { get; set; }
-        private int port;
-        private TcpListener listener;
-        private IClientHandler ch;
+        int Port { get; set; }
+        TcpListener Listener { get; set; }
+        IClientHandler Ch { get; set; }
+
         public ImageServiceSrv(int port, ILoggingService logging, IClientHandler ch)
         {
-            this.port = port;
+            this.Port = port;
             this.Logging = logging;
-            this.ch = ch;
+            this.Ch = ch;
 
         }
         public void Start()
@@ -29,10 +31,10 @@ namespace ImageService.ImageServiceSrv
             try
             {
                 IPEndPoint ep = new
-                IPEndPoint(IPAddress.Parse("127.0.0.1"), port);
-                listener = new TcpListener(ep);
+                IPEndPoint(IPAddress.Parse("127.0.0.1"), Port);
+                Listener = new TcpListener(ep);
 
-                listener.Start();
+                Listener.Start();
                 Logging.Log("Waiting for client connections...", MessageTypeEnum.INFO);
                 Task task = new Task(() =>
                 {
@@ -40,10 +42,10 @@ namespace ImageService.ImageServiceSrv
                     {
                         try
                         {
-                            TcpClient client = listener.AcceptTcpClient();
+                            TcpClient client = Listener.AcceptTcpClient();
                             Logging.Log("Got new connection", MessageTypeEnum.INFO);
                             //todo: add task
-                            ch.HandleClient(client);
+                            Ch.HandleClient(client);
                         }
                         catch (SocketException)
                         {
@@ -61,7 +63,7 @@ namespace ImageService.ImageServiceSrv
         }
         public void Stop()
         {
-            listener.Stop();
+            Listener.Stop();
         }
     }
 
