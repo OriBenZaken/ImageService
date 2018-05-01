@@ -55,25 +55,25 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="View\LogUC.xaml.cs">
+    <Compile Include="LogUC.xaml.cs">
       <DependentUpon>LogUC.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\ILogModel.cs" />
     <Compile Include="Model\ISettingModel.cs" />
     <Compile Include="Model\LogModel.cs" />
     <Compile Include="Model\SettingModel.cs" />
-    <Compile Include="View\SettingsUC.xaml.cs">
+    <Compile Include="SettingsUC.xaml.cs">
       <DependentUpon>SettingsUC.xaml</DependentUpon>
     </Compile>
     <Compile Include="VM\ILogVM.cs" />
     <Compile Include="VM\ISettingsVM.cs" />
     <Compile Include="VM\LogVM.cs" />
     <Compile Include="VM\SettingsVM.cs" />
-    <Page Include="View\LogUC.xaml">
+    <Page Include="LogUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\MainWindow.xaml">
+    <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -83,11 +83,11 @@
     </Compile>
     <Compile Include="Communication\IImageServiceClient.cs" />
     <Compile Include="Communication\ImageServiceClient.cs" />
-    <Compile Include="View\MainWindow.xaml.cs">
+    <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="View\SettingsUC.xaml">
+    <Page Include="SettingsUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -127,6 +127,8 @@
       <Name>ImageService</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="View\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
