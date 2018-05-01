@@ -65,6 +65,10 @@
     <Compile Include="SettingsUC.xaml.cs">
       <DependentUpon>SettingsUC.xaml</DependentUpon>
     </Compile>
+    <Compile Include="VM\ILogVM.cs" />
+    <Compile Include="VM\ISettingsVM.cs" />
+    <Compile Include="VM\LogVM.cs" />
+    <Compile Include="VM\SettingsVM.cs" />
     <Compile Include="VM_ImageService.cs" />
     <Page Include="LogUC.xaml">
       <SubType>Designer</SubType>
@@ -124,6 +128,10 @@
       <Project>{3ba2801c-d344-4983-b2b4-df19e762c372}</Project>
       <Name>ImageService</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Communication\" />
+    <Folder Include="View\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
