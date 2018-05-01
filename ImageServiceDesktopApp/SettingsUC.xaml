@@ -6,7 +6,27 @@
              xmlns:local="clr-namespace:ImageServiceDesktopApp"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-            
-    </Grid>
+    <Grid TextBlock.FontSize="14">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Padding="3" FontWeight="Bold" Margin="3">Output Directory:</TextBlock>
+        <TextBlock Padding="3" Grid.Column="2" Margin="3">tmp</TextBlock>
+        <TextBlock Grid.Row="1" FontWeight="Bold" Padding="3" Margin="3">Source Name:</TextBlock>
+        <TextBlock Padding="3" Grid.Row="1" Grid.Column="2" Margin="3">tmp</TextBlock>
+        <TextBlock Grid.Row="2" Padding="3"  FontWeight="Bold" Margin="3">Log Name:</TextBlock>
+        <TextBlock Grid.Row="2" Padding="3" Grid.Column="2" Margin="3">tmp</TextBlock>
+        <TextBlock Grid.Row="3" Padding="3"  FontWeight="Bold" Margin="3">Thumbnail size:</TextBlock>
+        <TextBlock Grid.Row="4" Padding="3" Grid.Column="2" Margin="3">tmp</TextBlock>
+
+        <Button x:Name="btnRemove" Grid.Row="5" HorizontalContentAlignment="Stretch" Click="btnRemove_Click" Grid.ColumnSpan="2" Margin="0,34,0,-34">Remove</Button>
+        <ListBox x:Name="listBox" Grid.Row="6" Grid.ColumnSpan="2" HorizontalContentAlignment="Stretch" Margin="0,66,0,-66" />
+    </Grid>
 </UserControl>

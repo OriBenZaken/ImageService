@@ -10,9 +10,7 @@
 
         <TabControl TabStripPlacement="Top" Grid.ColumnSpan="5" Height="169" VerticalAlignment="Top">
             <TabItem Header="Settings">
-                <UserControl>
-                    
-                </UserControl>
+                <local:SettingsUC></local:SettingsUC>
             </TabItem>
             <TabItem Header="Logs">
                 <UserControl>
