@@ -8,9 +8,9 @@
         Title="Image Service Desktop Application" Height="350" Width="525" Icon="./Resources/Logo.png">
     <Grid>
 
-        <TabControl TabStripPlacement="Top" Grid.ColumnSpan="5" Height="169" VerticalAlignment="Top">
-            <TabItem Header="Settings">
-                <local:SettingsUC></local:SettingsUC>
+        <TabControl TabStripPlacement="Top" VerticalAlignment="Top">
+            <TabItem Header="Settings" Height="Auto">
+                <local:SettingsUC/>
             </TabItem>
             <TabItem Header="Logs">
                 <UserControl>
