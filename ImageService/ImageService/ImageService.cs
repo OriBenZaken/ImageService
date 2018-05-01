@@ -30,6 +30,7 @@ namespace ImageService
         private IImageController controller;
         private ILoggingService logging;
         private IImageServiceSrv imageServiceSrv;
+        private List<Tuple<string, bool>> loggsMessages;
 
         public enum ServiceState
         {
@@ -84,6 +85,7 @@ namespace ImageService
                     ThumbnailSize = Int32.Parse(ConfigurationManager.AppSettings.Get("ThumbnailSize"))
 
                 };
+                loggsMessages = new List<Tuple<string, bool>>();
                 this.controller = new ImageController(this.modal);
                 this.m_imageServer = new ImageServer(this.controller, this.logging);
                 IClientHandler ch = new ClientHandler(controller);
@@ -119,6 +121,10 @@ namespace ImageService
             serviceStatus.dwCurrentState = ServiceState.SERVICE_RUNNING;
             SetServiceStatus(this.ServiceHandle, ref serviceStatus);
             eventLog1.WriteEntry("Leave OnStart");
+            string temp = eventLog1.Entries.ToString();
+            eventLog1.WriteEntry("LIZ: "+temp, EventLogEntryType.Error);
+
+
 
         }
         /// <summary>
