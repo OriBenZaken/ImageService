@@ -11,7 +11,7 @@ namespace ImageServiceDesktopApp.Model
 {
     class LogModel : ILogModel
     {
-        public ObservableCollection<Tuple<MessageTypeEnum, string>> LogMessages { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public ObservableCollection<LogEntry> LogMessages { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public event PropertyChangedEventHandler PropertyChanged;
     }

@@ -1,5 +1,8 @@
-﻿using System;
+﻿using ImageService.Logging.Modal;
+using ImageServiceDesktopApp.Model;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -10,5 +13,11 @@ namespace ImageServiceDesktopApp.VM
     class LogVM : ILogVM
     {
         public event PropertyChangedEventHandler PropertyChanged;
+        private ILogModel logModel = new LogModel();
+        public ObservableCollection<LogEntry> VM_LogMessages
+        {
+            get { return this.logModel.LogMessages; }
+            set => throw new NotImplementedException();
+        }
     }
 }

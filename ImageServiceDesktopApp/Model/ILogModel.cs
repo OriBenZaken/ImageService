@@ -11,6 +11,6 @@ namespace ImageServiceDesktopApp.Model
 {
     interface ILogModel: INotifyPropertyChanged
     {
-        ObservableCollection<Tuple<MessageTypeEnum, string>> LogMessages { get; set; }
+        ObservableCollection<LogEntry> LogMessages { get; set; }
     }
 }

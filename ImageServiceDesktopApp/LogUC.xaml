@@ -5,8 +5,26 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ImageServiceDesktopApp"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-            
-    </Grid>
+             d:DesignHeight="456.862" d:DesignWidth="607.843">
+    <Canvas>
+        <ListBox x:Name="lbLogs" Height="333" Canvas.Left="35" Canvas.Top="90" Width="539" HorizontalContentAlignment="Stretch">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <TextBox> T</TextBox>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Label Content="Logs" FontSize="25" FontWeight="Bold" Foreground="Blue" Canvas.Left="265" Canvas.Top="37" Height="48" Width="67" RenderTransformOrigin="2.634,0.921"/>
+
+    </Canvas>
 </UserControl>

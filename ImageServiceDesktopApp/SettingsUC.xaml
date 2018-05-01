@@ -28,5 +28,6 @@
 
         <Button x:Name="btnRemove" Grid.Row="5" HorizontalContentAlignment="Stretch" Click="btnRemove_Click" Grid.ColumnSpan="2" Margin="0,34,0,-34">Remove</Button>
         <ListBox x:Name="listBox" Grid.Row="6" Grid.ColumnSpan="2" HorizontalContentAlignment="Stretch" Margin="0,66,0,-66" />
-    </Grid>
+    </Grid>
+
 </UserControl>

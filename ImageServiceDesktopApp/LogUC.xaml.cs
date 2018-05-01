@@ -23,6 +23,7 @@ namespace ImageServiceDesktopApp
         public LogUC()
         {
             InitializeComponent();
+            this.DataContext = new LogVM();
         }
     }
 }
