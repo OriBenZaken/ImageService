@@ -7,8 +7,7 @@
         mc:Ignorable="d"
         Title="Image Service Desktop Application" Height="350" Width="525" Icon="./Resources/Logo.png">
     <Grid>
-
-        <TabControl TabStripPlacement="Top" VerticalAlignment="Top">
+        <TabControl TabStripPlacement="Top" VerticalAlignment= "Stretch">
             <TabItem Header="Settings" Height="Auto">
                 <local:SettingsUC/>
             </TabItem>
