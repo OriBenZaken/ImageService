@@ -29,8 +29,7 @@ namespace ImageServiceDesktopApp
         {
             InitializeComponent();
             this.DataContext = new SettingsVM(new SettingModel());
-           // this.lsbHandlers.ItemsSource = settingsVM.VM_Handlers;
-            //settingsVM.VM_Handlers.Add("jkjk");
+            ((SettingsVM)this.DataContext).VM_Handlers.Add("jkjk");
         }
         //todo: move from here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       
