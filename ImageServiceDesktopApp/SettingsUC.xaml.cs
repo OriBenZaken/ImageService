@@ -1,5 +1,8 @@
-﻿using System;
+﻿using ImageServiceDesktopApp.Model;
+using ImageServiceDesktopApp.VM;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,9 +23,15 @@ namespace ImageServiceDesktopApp
     /// </summary>
     public partial class SettingsUC : UserControl
     {
+        public ObservableCollection<string> Handlers { get; set; }
+
         public SettingsUC()
         {
             InitializeComponent();
+            ISettingsVM settingsVM = new SettingsVM(new SettingModel());
+            this.DataContext = settingsVM;
+            this.lsbHandlers.ItemsSource = settingsVM.VM_Handlers;
+            settingsVM.VM_Handlers.Add("jkjk");
         }
         //todo: move from here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         private void btnRemove_Click(object sender, RoutedEventArgs e)

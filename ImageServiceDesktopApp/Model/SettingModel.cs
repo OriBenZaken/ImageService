@@ -58,7 +58,8 @@ namespace ImageServiceDesktopApp.Model
                 OnPropertyChanged("TumbnailSize");
             }
         }
-        public ObservableCollection<string> Handlers { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        //todo:
+        public ObservableCollection<string> Handlers { get; set; }
 
     }
 }
