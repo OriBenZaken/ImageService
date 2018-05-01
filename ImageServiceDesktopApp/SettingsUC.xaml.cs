@@ -28,15 +28,11 @@ namespace ImageServiceDesktopApp
         public SettingsUC()
         {
             InitializeComponent();
-            ISettingsVM settingsVM = new SettingsVM(new SettingModel());
-            this.DataContext = settingsVM;
-            this.lsbHandlers.ItemsSource = settingsVM.VM_Handlers;
-            settingsVM.VM_Handlers.Add("jkjk");
+            this.DataContext = new SettingsVM(new SettingModel());
+           // this.lsbHandlers.ItemsSource = settingsVM.VM_Handlers;
+            //settingsVM.VM_Handlers.Add("jkjk");
         }
         //todo: move from here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        private void btnRemove_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
+      
     }
 }

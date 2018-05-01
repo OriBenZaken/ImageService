@@ -28,7 +28,7 @@
         <TextBlock Grid.Row="2" Padding="3" Grid.Column="2" Margin="3">tmp</TextBlock>
         <TextBlock Grid.Row="3" Padding="3"  FontWeight="Bold" Margin="3">Thumbnail size:</TextBlock>
         <TextBlock Grid.Row="3" Padding="3" Grid.Column="2" Margin="3">tmp</TextBlock>
-        <Button x:Name="btnRemove" Grid.Row="4" HorizontalContentAlignment="Stretch" Click="btnRemove_Click" Grid.ColumnSpan="2">Remove</Button>
+        <Button x:Name="btnRemove" Grid.Row="4" HorizontalContentAlignment="Stretch"  Command="{Binding RemoveCommand}"  AutomationProperties.AutomationId="btnRemove" Grid.ColumnSpan="2">Remove</Button>
         <ListBox x:Name="lsbHandlers" Grid.Row="5" Grid.ColumnSpan="2" HorizontalContentAlignment="Stretch"/>
     </Grid>
 </UserControl>
