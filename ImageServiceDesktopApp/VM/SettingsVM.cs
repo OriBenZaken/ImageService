@@ -21,7 +21,8 @@ namespace ImageServiceDesktopApp.VM
  {
      NotifyPropertyChanged("VM_" + e.PropertyName);
      
- };            vm_handlers = new ObservableCollection<string>();
+ };
+            vm_handlers = new ObservableCollection<string>();
         }
 
         private void NotifyPropertyChanged(string propName)
