@@ -11,7 +11,24 @@ namespace ImageServiceDesktopApp.Model
 {
     class LogModel : ILogModel
     {
-        public ObservableCollection<LogEntry> LogMessages { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        private ObservableCollection<LogEntry> logMessages;
+        public LogModel()
+        {
+            this.logMessages = new ObservableCollection<LogEntry>();
+            this.logMessages.Add(new LogEntry { Type = "INFO", Message = "Hello! 1" });
+            this.logMessages.Add(new LogEntry { Type = "INFO", Message = "Hello! 2" });
+            this.logMessages.Add(new LogEntry { Type = "INFO", Message = "Hello! 3" });
+            this.logMessages.Add(new LogEntry { Type = "INFO", Message = "Hello! 4" });
+            this.logMessages.Add(new LogEntry { Type = "INFO", Message = "Hello! 5" });
+            this.logMessages.Add(new LogEntry { Type = "INFO", Message = "Hello! 6" });
+
+        }
+        public ObservableCollection<LogEntry> LogMessages {
+            get
+            {
+                return this.logMessages;
+            }
+            set => throw new NotImplementedException(); }
 
         public event PropertyChangedEventHandler PropertyChanged;
     }

@@ -3,28 +3,41 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:ImageServiceDesktopApp"
+             xmlns:local="clr-namespace:ImageServiceDesktopApp.VM"
              mc:Ignorable="d" 
-             d:DesignHeight="456.862" d:DesignWidth="607.843">
-    <Canvas>
-        <ListBox x:Name="lbLogs" Height="333" Canvas.Left="35" Canvas.Top="90" Width="539" HorizontalContentAlignment="Stretch">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
-                        <TextBox> T</TextBox>
-                    </Grid>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        <Label Content="Logs" FontSize="25" FontWeight="Bold" Foreground="Blue" Canvas.Left="265" Canvas.Top="37" Height="48" Width="67" RenderTransformOrigin="2.634,0.921"/>
+             d:DesignHeight="254.901" d:DesignWidth="300">
+    <StackPanel>
+        <Label Content="Logs" FontSize="25" HorizontalAlignment="Center" FontWeight="Bold" Foreground="Blue" RenderTransformOrigin="2.634,0.921"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
 
-    </Canvas>
+            <TextBox FontWeight="Bold" HorizontalContentAlignment="Center">Type</TextBox>
+            <TextBox Grid.Column="1" FontWeight="Bold">Message</TextBox>
+
+            <ListBox x:Name="lbLogs" Grid.Row="1" Grid.ColumnSpan="2" HorizontalContentAlignment="Stretch" ItemsSource="{Binding VM_LogMessages}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="40"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <TextBox Text="{Binding Type}"/>
+                            <TextBox Grid.Column="1" Text="{Binding Message}" />
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+    </StackPanel>
 </UserControl>

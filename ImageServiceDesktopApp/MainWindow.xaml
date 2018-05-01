@@ -12,9 +12,7 @@
                 <local:SettingsUC/>
             </TabItem>
             <TabItem Header="Logs">
-                <UserControl>
-
-                </UserControl>
+                <local:LogUC></local:LogUC>
             </TabItem>
         </TabControl>
 
