@@ -34,6 +34,7 @@ namespace ImageService.Commands
 
                 config.AppSettings.Settings["Handler"].Value = newHandlers;
                 config.Save(ConfigurationSaveMode.Modified);
+                //todo: stop listen to this dir!!
                 //todo: update other customers!!!!!!
                 return string.Empty;
             }
