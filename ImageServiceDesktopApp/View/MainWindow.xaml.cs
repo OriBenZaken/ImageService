@@ -22,18 +22,18 @@ namespace ImageServiceDesktopApp
     {
         #region Members
         private IImageServiceClient imageServiceClient;
-        private IVM_ImageService vm_imageService;
+       // private IVM_ImageService vm_imageService;
         #endregion
 
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = vm_imageService;
-            imageServiceClient = new ImageServiceClient();
-            vm_imageService = new VM_ImageService()
-            {
-                ImageServiceClient = imageServiceClient
-            };
+           // this.DataContext = vm_imageService;
+           // imageServiceClient = new ImageServiceClient();
+            //vm_imageService = new VM_ImageService()
+            //{
+            //    ImageServiceClient = imageServiceClient
+            //};
         }
     }
 }
