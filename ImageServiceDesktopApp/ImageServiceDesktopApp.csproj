@@ -55,10 +55,21 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="LogUC.xaml.cs">
+      <DependentUpon>LogUC.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ILogModel.cs" />
+    <Compile Include="Model\ISettingModel.cs" />
+    <Compile Include="Model\LogModel.cs" />
+    <Compile Include="Model\SettingModel.cs" />
     <Compile Include="SettingsUC.xaml.cs">
       <DependentUpon>SettingsUC.xaml</DependentUpon>
     </Compile>
     <Compile Include="VM_ImageService.cs" />
+    <Page Include="LogUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
