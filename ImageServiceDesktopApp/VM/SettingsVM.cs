@@ -78,20 +78,40 @@ namespace ImageServiceDesktopApp.VM
 
       
 
-        public ICommand RemoveCommand;
+        public ICommand RemoveCommand { get; set; }
+
         private void OnRemove(object obj)
         {
-            ListBox listBox= ((ListBox)(obj));
-            string toBeDeletedHandler = listBox.SelectedItem.ToString();
-            string[] arr = { toBeDeletedHandler };
+            //ListBox listBox= ((ListBox)(obj));
+            //string toBeDeletedHandler = listBox.SelectedItem.ToString();
+            string[] arr = { this.selectedItem };
             CommandRecievedEventArgs eventArgs = new CommandRecievedEventArgs((int)CommandEnum.CloseHandler, arr,"");
             string message = JsonConvert.SerializeObject(eventArgs);
             //todo: send the command via tcp
+
+
+
+            this.vm_handlers.Remove(selectedItem);
         }
 
         private bool CanRemove(object obj)
         {
-            return false;
+            bool result =  this.selectedItem != null ? true : false;
+            return result;
+        }
+        private string selectedItem;
+        public string SelectedItem
+        {
+            get
+            {
+                return this.selectedItem;
+            }
+            set
+            {
+                selectedItem = value;
+                var command = this.RemoveCommand as DelegateCommand<object>;
+                command.RaiseCanExecuteChanged();
+            }
         }
 
 
