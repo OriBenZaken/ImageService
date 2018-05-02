@@ -85,6 +85,7 @@
     <Compile Include="ImageService\TcpStringArgs.cs" />
     <Compile Include="Infrastructure\Enums\CommandEnum.cs" />
     <Compile Include="Logging\ILoggingService.cs" />
+    <Compile Include="Logging\LogEntry.cs" />
     <Compile Include="Logging\LoggingService.cs" />
     <Compile Include="Logging\Modal\MessageRecievedEventArgs.cs" />
     <Compile Include="Logging\Modal\MessageTypeEnum.cs" />

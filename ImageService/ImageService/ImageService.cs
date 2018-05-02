@@ -77,7 +77,7 @@ namespace ImageService
                 eventLog1.Source = eventSourceName;
                 eventLog1.Log = logName;
                 //initialize members
-                this.logging = new LoggingService();
+                this.logging = new LoggingService(this.eventLog1);
                 this.logging.MessageRecieved += WriteMessage;
                 this.modal = new ImageServiceModal()
                 {
@@ -121,10 +121,6 @@ namespace ImageService
             serviceStatus.dwCurrentState = ServiceState.SERVICE_RUNNING;
             SetServiceStatus(this.ServiceHandle, ref serviceStatus);
             eventLog1.WriteEntry("Leave OnStart");
-            string temp = eventLog1.Entries.ToString();
-            eventLog1.WriteEntry("LIZ: "+temp, EventLogEntryType.Error);
-
-
 
         }
         /// <summary>

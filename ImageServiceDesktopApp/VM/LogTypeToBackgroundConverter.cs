@@ -24,7 +24,7 @@ namespace ImageServiceDesktopApp.VM
                 case "INFO":
                     return System.Windows.Media.Brushes.LightGreen;
                 case "WARNING":
-                    return System.Windows.Media.Brushes.Khaki;
+                    return System.Windows.Media.Brushes.Yellow;
                 case "FAIL":
                     return System.Windows.Media.Brushes.Coral;
             }
@@ -35,5 +35,6 @@ namespace ImageServiceDesktopApp.VM
         {
             throw new NotImplementedException();
         }
-    }
+    }
+
 }
