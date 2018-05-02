@@ -12,6 +12,10 @@ namespace ImageServiceDesktopApp.VM
 {
     interface ISettingsVM:INotifyPropertyChanged
     {
-        ObservableCollection<string> VM_Handlers { get; set; }
+        string VM_OutputDirectory { get;}
+        string VM_SourceName { get;}
+        string VM_LogName { get;}
+        string VM_TumbnailSize { get; }
+        ObservableCollection<string> VM_Handlers { get; }
     }
 }

@@ -20,9 +20,9 @@ namespace ImageServiceDesktopApp.VM
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private ISettingModel model;
-        public SettingsVM(ISettingModel model)
+        public SettingsVM()
         {
-            this.model = model;
+            this.model = new SettingModel();
             model.PropertyChanged +=
  delegate (Object sender, PropertyChangedEventArgs e)
  {
@@ -59,20 +59,59 @@ namespace ImageServiceDesktopApp.VM
                 vm_handlers = value;
             }
         }
-        public ICommand RemoveCommand;
+        public string VM_OutputDirectory
+        {
+            get { return model.OutputDirectory; }
+        }
+        public string VM_SourceName
+        {
+            get { return model.SourceName; }
+        }
+        public string VM_LogName
+        {
+            get { return model.LogName; }
+        }
+        public string VM_TumbnailSize
+        {
+            get { return model.TumbnailSize; }
+        }
+
+      
+
+        public ICommand RemoveCommand { get; set; }
+
         private void OnRemove(object obj)
         {
-            ListBox listBox= ((ListBox)(obj));
-            string toBeDeletedHandler = listBox.SelectedItem.ToString();
-            string[] arr = { toBeDeletedHandler };
+            //ListBox listBox= ((ListBox)(obj));
+            //string toBeDeletedHandler = listBox.SelectedItem.ToString();
+            string[] arr = { this.selectedItem };
             CommandRecievedEventArgs eventArgs = new CommandRecievedEventArgs((int)CommandEnum.CloseHandler, arr,"");
             string message = JsonConvert.SerializeObject(eventArgs);
             //todo: send the command via tcp
+
+
+
+            this.vm_handlers.Remove(selectedItem);
         }
 
         private bool CanRemove(object obj)
         {
-            return false;
+            bool result =  this.selectedItem != null ? true : false;
+            return result;
+        }
+        private string selectedItem;
+        public string SelectedItem
+        {
+            get
+            {
+                return this.selectedItem;
+            }
+            set
+            {
+                selectedItem = value;
+                var command = this.RemoveCommand as DelegateCommand<object>;
+                command.RaiseCanExecuteChanged();
+            }
         }
 
 
