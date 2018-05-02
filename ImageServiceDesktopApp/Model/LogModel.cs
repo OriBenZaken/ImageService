@@ -16,10 +16,10 @@ namespace ImageServiceDesktopApp.Model
         {
             this.logMessages = new ObservableCollection<LogEntry>();
             this.logMessages.Add(new LogEntry { Type = "INFO", Message = "Hello! 1" });
-            this.logMessages.Add(new LogEntry { Type = "INFO", Message = "Hello! 2" });
-            this.logMessages.Add(new LogEntry { Type = "INFO", Message = "Hello! 3" });
-            this.logMessages.Add(new LogEntry { Type = "INFO", Message = "Hello! 4" });
-            this.logMessages.Add(new LogEntry { Type = "INFO", Message = "Hello! 5" });
+            this.logMessages.Add(new LogEntry { Type = "FAIL", Message = "Hello! 2" });
+            this.logMessages.Add(new LogEntry { Type = "WARNING", Message = "Hello! 3" });
+            this.logMessages.Add(new LogEntry { Type = "FAIL", Message = "Hello! 4" });
+            this.logMessages.Add(new LogEntry { Type = "WARNING", Message = "Hello! 5" });
             this.logMessages.Add(new LogEntry { Type = "INFO", Message = "Hello! 6" });
 
         }
