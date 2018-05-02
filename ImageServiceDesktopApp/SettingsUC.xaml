@@ -21,14 +21,14 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <TextBlock Padding="3" FontWeight="Bold" Margin="3">Output Directory:</TextBlock>
-        <TextBlock Padding="3" Grid.Column="2" Margin="3">tmp</TextBlock>
+        <TextBlock Padding="3" Grid.Column="2" Text="{Binding VM_OutputDirectory}" Margin="3"></TextBlock>
         <TextBlock Grid.Row="1" FontWeight="Bold" Padding="3" Margin="3">Source Name:</TextBlock>
-        <TextBlock Padding="3" Grid.Row="1" Grid.Column="2" Margin="3">tmp</TextBlock>
+        <TextBlock Padding="3" Grid.Row="1" Grid.Column="2" Text="{Binding VM_SourceName}" Margin="3"></TextBlock>
         <TextBlock Grid.Row="2" Padding="3"  FontWeight="Bold" Margin="3">Log Name:</TextBlock>
-        <TextBlock Grid.Row="2" Padding="3" Grid.Column="2" Margin="3">tmp</TextBlock>
+        <TextBlock Grid.Row="2" Padding="3" Grid.Column="2" Text="{Binding VM_LogName}" Margin="3"></TextBlock>
         <TextBlock Grid.Row="3" Padding="3"  FontWeight="Bold" Margin="3">Thumbnail size:</TextBlock>
-        <TextBlock Grid.Row="3" Padding="3" Grid.Column="2" Margin="3">tmp</TextBlock>
-        <Button x:Name="btnRemove" Grid.Row="4" HorizontalContentAlignment="Stretch"  Command="{Binding RemoveCommand}"  AutomationProperties.AutomationId="btnRemove" Grid.ColumnSpan="2">Remove</Button>
+        <TextBlock Grid.Row="3" Padding="3" Grid.Column="2" Text="{Binding VM_TumbnailSize}" Margin="3"></TextBlock>
+        <Button x:Name="btnRemove" Grid.Row="4"  HorizontalContentAlignment="Center"  Command="{Binding RemoveCommand}"  AutomationProperties.AutomationId="btnRemove" Grid.ColumnSpan="2">Remove</Button>
         <ListBox x:Name="lsbHandlers" Grid.Row="5" Grid.ColumnSpan="2" HorizontalContentAlignment="Stretch" ItemsSource="{Binding VM_Handlers}"/>
     </Grid>
 </UserControl>

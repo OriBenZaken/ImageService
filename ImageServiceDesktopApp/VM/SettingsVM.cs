@@ -20,9 +20,9 @@ namespace ImageServiceDesktopApp.VM
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private ISettingModel model;
-        public SettingsVM(ISettingModel model)
+        public SettingsVM()
         {
-            this.model = model;
+            this.model = new SettingModel();
             model.PropertyChanged +=
  delegate (Object sender, PropertyChangedEventArgs e)
  {
@@ -59,6 +59,25 @@ namespace ImageServiceDesktopApp.VM
                 vm_handlers = value;
             }
         }
+        public string VM_OutputDirectory
+        {
+            get { return model.OutputDirectory; }
+        }
+        public string VM_SourceName
+        {
+            get { return model.SourceName; }
+        }
+        public string VM_LogName
+        {
+            get { return model.LogName; }
+        }
+        public string VM_TumbnailSize
+        {
+            get { return model.TumbnailSize; }
+        }
+
+      
+
         public ICommand RemoveCommand;
         private void OnRemove(object obj)
         {

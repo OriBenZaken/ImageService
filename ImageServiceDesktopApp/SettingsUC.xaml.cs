@@ -28,8 +28,8 @@ namespace ImageServiceDesktopApp
         public SettingsUC()
         {
             InitializeComponent();
-            this.DataContext = new SettingsVM(new SettingModel());
-            ((SettingsVM)this.DataContext).VM_Handlers.Add("jkjk");
+            this.DataContext = new SettingsVM();
+           // ((SettingsVM)this.DataContext).VM_Handlers.Add("jkjk");
         }
         //todo: move from here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       
