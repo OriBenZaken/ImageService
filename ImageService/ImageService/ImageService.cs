@@ -85,7 +85,6 @@ namespace ImageService
                     ThumbnailSize = Int32.Parse(ConfigurationManager.AppSettings.Get("ThumbnailSize"))
 
                 };
-                loggsMessages = new List<Tuple<string, bool>>();
                 this.controller = new ImageController(this.modal);
                 this.m_imageServer = new ImageServer(this.controller, this.logging);
                 IClientHandler ch = new ClientHandler(controller, m_imageServer);

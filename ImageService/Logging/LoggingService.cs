@@ -40,11 +40,23 @@ namespace ImageService.Logging
         public void Log(string message, MessageTypeEnum type)
         {
             MessageRecieved?.Invoke(this, new MessageRecievedEventArgs(type, message));
-            
+            this.LogMessages.Add(new LogEntry { Type = Enum.GetName(typeof(MessageTypeEnum), type), Message = message });
         }
         private void GetAllLogEventMessages(EventLog eventLog)
         {
-
+            eventLog.WriteEntry("Enter GetAllLogEventMessages", EventLogEntryType.Warning);
+            EventLogEntry[] logs = new EventLogEntry[eventLog.Entries.Count];
+            eventLog.Entries.CopyTo(logs, 0);
+            foreach (EventLogEntry entry in logs)
+            {
+                this.LogMessages.Add(new LogEntry { Type = Enum.GetName(typeof(MessageTypeEnum), MessageTypeEnum.INFO), Message = entry.Message });
+                string msg = entry.Message;
+            }
+        }
+        // implement
+        private MessageTypeEnum FromLogEventTypeToMessageTypeEnum(EventLogEntryType)
+        {
+            return MessageTypeEnum.INFO;
         }
     }
 
