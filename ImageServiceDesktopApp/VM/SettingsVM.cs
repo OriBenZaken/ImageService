@@ -51,8 +51,8 @@ namespace ImageServiceDesktopApp.VM
 
         private void NotifyPropertyChanged(string propName)
         {
-
-            throw new NotImplementedException();
+            PropertyChangedEventArgs propertyChangedEventArgs = new PropertyChangedEventArgs(propName);
+            this.PropertyChanged?.Invoke(this, propertyChangedEventArgs);
         }
         private ObservableCollection<string> vm_handlers;
         public ObservableCollection<string> VM_Handlers

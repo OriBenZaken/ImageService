@@ -33,15 +33,15 @@ namespace ImageServiceDesktopApp
         public CommandRecievedEventArgs SendCommand(string jsonCommand)
         {
             using (NetworkStream stream = client.GetStream())
-            using (StreamReader reader = new StreamReader(stream))
-            using (StreamWriter writer = new StreamWriter(stream))
+            using (BinaryReader reader = new BinaryReader(stream))
+            using (BinaryWriter writer = new BinaryWriter(stream))
             {
                 // Send data to server
                 Console.WriteLine($"Send {jsonCommand} to Server");
-                writer.AutoFlush = true;
+                //writer.AutoFlush = true;
                 writer.Write(jsonCommand);
                 // Get result from server
-                string result = reader.ReadToEnd();
+                string result = reader.ReadString();
                 Console.WriteLine($"Recieve {result} from Server");
                 return JsonConvert.DeserializeObject<CommandRecievedEventArgs>(result);
             }

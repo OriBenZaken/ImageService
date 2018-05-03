@@ -30,10 +30,10 @@ namespace ImageService
             new Task(() =>
             {
                 using (NetworkStream stream = client.GetStream())
-                using (StreamReader reader = new StreamReader(stream))
-                using (StreamWriter writer = new StreamWriter(stream))
+                using (BinaryReader reader = new BinaryReader(stream))
+                using (BinaryWriter writer = new BinaryWriter(stream))
                 {
-                    string commandLine = reader.ReadLine();
+                    string commandLine = reader.ReadString();
                     CommandRecievedEventArgs commandRecievedEventArgs = JsonConvert.DeserializeObject<CommandRecievedEventArgs>(commandLine);
 
                     Console.WriteLine("Got command: {0}", commandLine);

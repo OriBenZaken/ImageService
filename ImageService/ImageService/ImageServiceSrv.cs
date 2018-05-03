@@ -38,20 +38,20 @@ namespace ImageService
                 Logging.Log("Waiting for client connections...", MessageTypeEnum.INFO);
                 Task task = new Task(() =>
                 {
-                    while (true)
+                while (true)
+                {
+                    try
                     {
-                        try
-                        {
-                            TcpClient client = Listener.AcceptTcpClient();
-                            Logging.Log("Got new connection", MessageTypeEnum.INFO);
-                            Ch.HandleClient(client);
-                        }
-                        catch (SocketException)
-                        {
-                            break;
-                        }
+                        TcpClient client = Listener.AcceptTcpClient();
+                        Logging.Log("Got new connection", MessageTypeEnum.INFO);
+                        Ch.HandleClient(client);
                     }
-                    Logging.Log("Server stopped", MessageTypeEnum.INFO);
+                    catch (SocketException)
+                    {
+                        break;
+                    }
+                }
+                Logging.Log("Server stopped", MessageTypeEnum.INFO);
                 });
                 task.Start();
             }
