@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using ImageService.Logging.Modal;
+using ImageService.Logging;
 
 namespace ImageServiceDesktopApp.Model
 {

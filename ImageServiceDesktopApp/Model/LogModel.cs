@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ImageService.Logging.Modal;
+using ImageService.Logging;
 
 namespace ImageServiceDesktopApp.Model
 {

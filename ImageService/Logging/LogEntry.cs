@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ImageService.Logging
 {
-    public class LogEntry : INotifyPropertyChanged
+    public class LogEntry 
     {
         private MessageTypeEnum type;
         public string Type
@@ -18,6 +18,5 @@ namespace ImageService.Logging
         }
         public string Message { get; set; }
 
-        public event PropertyChangedEventHandler PropertyChanged;
     }
 }
