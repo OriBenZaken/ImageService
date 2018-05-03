@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ImageService.Commands
 {
-    class CloseHandler : ICommand
+    class CloseHandlerCommand : ICommand
     {
         public string Execute(string[] args, out bool result)
         {

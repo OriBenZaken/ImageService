@@ -37,10 +37,10 @@ namespace ImageService
                     CommandRecievedEventArgs commandRecievedEventArgs = JsonConvert.DeserializeObject<CommandRecievedEventArgs>(commandLine);
 
                     Console.WriteLine("Got command: {0}", commandLine);
-                    //bool r;
-                    //string result = this.ImageController.ExecuteCommand((int)commandRecievedEventArgs.CommandID,
-                    //    commandRecievedEventArgs.Args, out r);
-                    string result = handleCommand(commandRecievedEventArgs);
+                    bool r;
+                    string result = this.ImageController.ExecuteCommand((int)commandRecievedEventArgs.CommandID,
+                        commandRecievedEventArgs.Args, out r);
+                   // string result = handleCommand(commandRecievedEventArgs);
                     writer.Write(result);
                 }
                 client.Close();

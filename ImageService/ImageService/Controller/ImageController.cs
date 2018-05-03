@@ -31,6 +31,11 @@ namespace ImageService.Controller
 
             // For Now will contain NEW_FILE_COMMAND
             this.commands[((int)CommandEnum.NewFileCommand)] = new NewFileCommand(this.m_modal);
+            this.commands[((int)CommandEnum.GetConfigCommand)] = new GetConfigCommand();
+            this.commands[((int)CommandEnum.CloseHandler)] = new CloseHandlerCommand();
+        //    this.commands[((int)CommandEnum.GetConfigCommand)] = new GetConfigCommand();
+
+
         }
 
         /// <summary>
