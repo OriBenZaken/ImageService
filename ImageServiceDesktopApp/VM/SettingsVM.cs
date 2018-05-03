@@ -20,7 +20,7 @@ namespace ImageServiceDesktopApp.VM
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private ISettingModel model;
-        public IImageServiceClient ImageServiceClient { get; set; }
+        private IImageServiceClient imageServiceClient;
 
         public SettingsVM()
         {
@@ -76,8 +76,10 @@ namespace ImageServiceDesktopApp.VM
             string[] arr = { this.selectedItem };
             CommandRecievedEventArgs eventArgs = new CommandRecievedEventArgs((int)CommandEnum.CloseHandler, arr,"");
             //todo: send the command via tcp
-            CommandRecievedEventArgs result = this.ImageServiceClient.SendCommand(eventArgs);
-            
+            this.imageServiceClient = new ImageServiceClient();
+            this.imageServiceClient.Start();
+            CommandRecievedEventArgs result = this.imageServiceClient.SendCommand(eventArgs);
+
 
             this.model.Handlers.Remove(selectedItem);
         }

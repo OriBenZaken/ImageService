@@ -18,11 +18,11 @@ namespace ImageService
     class ClientHandler : IClientHandler
     {
         IImageController ImageController { get; set; }
-        ImageServer ImageServer { get; set; }
-        public ClientHandler(IImageController imageController, ImageServer imageServer)
+       // ImageServer ImageServer { get; set; }
+        public ClientHandler(IImageController imageController)//, ImageServer imageServer)
         {
             this.ImageController = imageController;
-            this.ImageServer = imageServer;
+           // this.ImageServer = imageServer;
 
         }
         public void HandleClient(TcpClient client)
