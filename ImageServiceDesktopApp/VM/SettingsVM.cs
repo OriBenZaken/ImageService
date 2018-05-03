@@ -31,44 +31,24 @@ namespace ImageServiceDesktopApp.VM
      NotifyPropertyChanged("VM_" + e.PropertyName);
 
  };
-            vm_handlers = new ObservableCollection<string>();
             this.RemoveCommand = new DelegateCommand<object>(this.OnRemove, this.CanRemove);
-            model.PropertyChanged += PropertyChanged1;
-            this.ImageServiceClient = new ImageServiceClient();
-            this.ImageServiceClient.Start();
-            CommandRecievedEventArgs commandRecievedEventArgs = new CommandRecievedEventArgs((int)CommandEnum.GetConfigCommand,null,"");
-            CommandRecievedEventArgs result = ImageServiceClient.SendCommand(JsonConvert.SerializeObject(commandRecievedEventArgs));
-            this.model.OutputDirectory = result.Args[0];
-            this.model.SourceName = result.Args[1];
-            this.model.LogName = result.Args[2];
-            this.model.TumbnailSize = result.Args[3];
+            //model.PropertyChanged += PropertyChanged1;
+           
         }
-        private void PropertyChanged1(object sender, PropertyChangedEventArgs e)
-        {
-            var command = this.RemoveCommand as DelegateCommand<object>;
-            command.RaiseCanExecuteChanged();
-        }
+        //private void PropertyChanged1(object sender, PropertyChangedEventArgs e)
+        //{
+        //    var command = this.RemoveCommand as DelegateCommand<object>;
+        //    command.RaiseCanExecuteChanged();
+        //}
 
         private void NotifyPropertyChanged(string propName)
         {
             PropertyChangedEventArgs propertyChangedEventArgs = new PropertyChangedEventArgs(propName);
             this.PropertyChanged?.Invoke(this, propertyChangedEventArgs);
         }
-        private ObservableCollection<string> vm_handlers;
         public ObservableCollection<string> VM_Handlers
         {
-            get
-            {
-                for (int i = 0; i < 10; i++)
-                {
-                    vm_handlers.Add(i.ToString());
-                }
-                return vm_handlers;
-            }
-            set
-            {
-                vm_handlers = value;
-            }
+            get { return model.Handlers; }
         }
         public string VM_OutputDirectory
         {
@@ -93,16 +73,13 @@ namespace ImageServiceDesktopApp.VM
 
         private void OnRemove(object obj)
         {
-            //ListBox listBox= ((ListBox)(obj));
-            //string toBeDeletedHandler = listBox.SelectedItem.ToString();
             string[] arr = { this.selectedItem };
             CommandRecievedEventArgs eventArgs = new CommandRecievedEventArgs((int)CommandEnum.CloseHandler, arr,"");
-            string message = JsonConvert.SerializeObject(eventArgs);
             //todo: send the command via tcp
-            CommandRecievedEventArgs result = this.ImageServiceClient.SendCommand(message);
+            CommandRecievedEventArgs result = this.ImageServiceClient.SendCommand(eventArgs);
             
 
-            this.vm_handlers.Remove(selectedItem);
+            this.model.Handlers.Remove(selectedItem);
         }
 
         private bool CanRemove(object obj)

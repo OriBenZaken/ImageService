@@ -58,7 +58,6 @@ namespace ImageService
 
                     break;
                 case (int)CommandEnum.GetConfigCommand:
-                    Console.WriteLine("ליז המלכה");
                     string[] args = new string[5];
 
                     args[0] = ConfigurationManager.AppSettings.Get("OutputDir");

@@ -1,4 +1,7 @@
-﻿using System;
+﻿using ImageService.Infrastructure.Enums;
+using ImageService.Modal;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -18,6 +21,30 @@ namespace ImageServiceDesktopApp.Model
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
         }
         #endregion
+        public SettingModel()
+        {
+            this.imageServiceClient = new ImageServiceClient();
+            this.imageServiceClient.Start();
+            this.InitializeSettingsParams();
+
+
+        }
+        private void InitializeSettingsParams()
+        {
+            CommandRecievedEventArgs commandRecievedEventArgs = new CommandRecievedEventArgs((int)CommandEnum.GetConfigCommand, null, "");
+            CommandRecievedEventArgs result = this.imageServiceClient.SendCommand(commandRecievedEventArgs);
+            this.OutputDirectory = result.Args[0];
+            this.SourceName = result.Args[1];
+            this.LogName = result.Args[2];
+            this.TumbnailSize = result.Args[3];
+            Handlers = new ObservableCollection<string>();
+            string[] handlers = result.Args[4].Split(';');
+            foreach (string handler in handlers)
+            {
+                this.Handlers.Add(handler);
+            }
+        }
+        private ImageServiceClient imageServiceClient;
         private string m_outputDirectory;
         public string OutputDirectory
         {

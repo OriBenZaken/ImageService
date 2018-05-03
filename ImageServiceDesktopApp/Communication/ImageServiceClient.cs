@@ -30,8 +30,9 @@ namespace ImageServiceDesktopApp
                 Console.WriteLine(ex.ToString());
             }
         }
-        public CommandRecievedEventArgs SendCommand(string jsonCommand)
+        public CommandRecievedEventArgs SendCommand(CommandRecievedEventArgs commandRecievedEventArgs)
         {
+            string jsonCommand = JsonConvert.SerializeObject(commandRecievedEventArgs);
             using (NetworkStream stream = client.GetStream())
             using (BinaryReader reader = new BinaryReader(stream))
             using (BinaryWriter writer = new BinaryWriter(stream))
