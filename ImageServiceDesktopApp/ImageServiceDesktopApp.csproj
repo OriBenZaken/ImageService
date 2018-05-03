@@ -84,6 +84,7 @@
     </Compile>
     <Compile Include="VM\ILogVM.cs" />
     <Compile Include="VM\ISettingsVM.cs" />
+    <Compile Include="VM\LogTypeToBackgroundConverter.cs" />
     <Compile Include="VM\LogVM.cs" />
     <Compile Include="VM\SettingsVM.cs" />
     <Page Include="LogUC.xaml">

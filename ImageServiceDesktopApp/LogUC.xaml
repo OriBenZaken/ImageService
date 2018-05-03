@@ -4,40 +4,26 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ImageServiceDesktopApp.VM"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              d:DesignHeight="254.901" d:DesignWidth="300">
+    <UserControl.Resources>
+        <local:LogTypeToBackgroundConverter x:Key="LogTypeToBackgroundConverter"/>
+    </UserControl.Resources>
+    
     <StackPanel>
         <Label Content="Logs" FontSize="25" HorizontalAlignment="Center" FontWeight="Bold" Foreground="Blue" RenderTransformOrigin="2.634,0.921"/>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="40"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-            </Grid.RowDefinitions>
+        <DataGrid ItemsSource="{Binding VM_LogMessages}" AutoGenerateColumns="False" CanUserAddRows="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Type" Width="Auto" IsReadOnly="True" Binding="{Binding Path=Type}" >
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Background" Value="{Binding Path=Type, Converter={StaticResource LogTypeToBackgroundConverter}}"></Setter>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Message" Width="*" IsReadOnly="True" Binding="{Binding Message}" />
+            </DataGrid.Columns>
 
-            <TextBox FontWeight="Bold" HorizontalContentAlignment="Center">Type</TextBox>
-            <TextBox Grid.Column="1" FontWeight="Bold">Message</TextBox>
-
-            <ListBox x:Name="lbLogs" Grid.Row="1" Grid.ColumnSpan="2" HorizontalContentAlignment="Stretch" ItemsSource="{Binding VM_LogMessages}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="40"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition />
-                            </Grid.RowDefinitions>
-                            <TextBox Text="{Binding Type}"/>
-                            <TextBox Grid.Column="1" Text="{Binding Message}" />
-                        </Grid>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </Grid>
+        </DataGrid>
     </StackPanel>
 </UserControl>
