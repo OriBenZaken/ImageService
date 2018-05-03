@@ -15,17 +15,19 @@ namespace ImageService.Commands
         {
             try
             {
-                result = true;
-                TcpStringArgs tcpStringArgs = new TcpStringArgs();
-                tcpStringArgs.args = new string[5];
+                //result = true;
+                //TcpStringArgs tcpStringArgs = new TcpStringArgs();
+                //tcpStringArgs.args = new string[5];
 
-                tcpStringArgs.args[0] = ConfigurationManager.AppSettings.Get("OutputDir");
-                tcpStringArgs.args[1] = ConfigurationManager.AppSettings.Get("SourceName");
-                tcpStringArgs.args[2] = ConfigurationManager.AppSettings.Get("LogName");
-                tcpStringArgs.args[3] = ConfigurationManager.AppSettings.Get("ThumbnailSize");
-                tcpStringArgs.args[4] = ConfigurationManager.AppSettings.Get("Handler");
+                //tcpStringArgs.args[0] = ConfigurationManager.AppSettings.Get("OutputDir");
+                //tcpStringArgs.args[1] = ConfigurationManager.AppSettings.Get("SourceName");
+                //tcpStringArgs.args[2] = ConfigurationManager.AppSettings.Get("LogName");
+                //tcpStringArgs.args[3] = ConfigurationManager.AppSettings.Get("ThumbnailSize");
+                //tcpStringArgs.args[4] = ConfigurationManager.AppSettings.Get("Handler");
 
-                return JsonConvert.SerializeObject(tcpStringArgs);
+                //return JsonConvert.SerializeObject(tcpStringArgs);
+                result = false;
+                return string.Empty;
 
 
 

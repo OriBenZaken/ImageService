@@ -22,6 +22,7 @@ namespace ImageService.Server
         #region Properties
         public event EventHandler<CommandRecievedEventArgs> CommandRecieved;          // The event that notifies about a new Command being recieved
         public event EventHandler<DirectoryCloseEventArgs> CloseServer;
+        public List<IDirectoryHandler> Handlers { get; set; }
         #endregion
         /// <summary>
         /// ImageServer ctr.
@@ -32,6 +33,7 @@ namespace ImageService.Server
         {
             this.m_controller = controller;
             this.m_logging = logging;
+            this.Handlers = new List<IDirectoryHandler>();
             string[] directories = (ConfigurationManager.AppSettings.Get("Handler").Split(';'));
 
             foreach (string path in directories)
@@ -53,6 +55,7 @@ namespace ImageService.Server
         private void CreateHandler(string path)
         {
             IDirectoryHandler handler = new DirectoyHandler(m_logging, m_controller, path);
+            Handlers.Add(handler);
             CommandRecieved += handler.OnCommandRecieved;
             this.CloseServer += handler.OnCloseHandler;
             handler.StartHandleDirectory(path);

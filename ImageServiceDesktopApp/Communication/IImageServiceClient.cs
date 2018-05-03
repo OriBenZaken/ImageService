@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ImageService.Modal;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,7 @@ namespace ImageServiceDesktopApp
     interface IImageServiceClient
     {
         void Start();
-        void SendCommand();
+        CommandRecievedEventArgs SendCommand(string jsonCommand);
         void CloseClient();
     }
 }

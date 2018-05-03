@@ -8,6 +8,8 @@ using System.Net.Sockets;
 using System.IO;
 using ImageService.Logging;
 using ImageService.Logging.Modal;
+using ImageService.Modal;
+using Newtonsoft.Json;
 
 namespace ImageServiceDesktopApp
 {
@@ -28,18 +30,20 @@ namespace ImageServiceDesktopApp
                 Console.WriteLine(ex.ToString());
             }
         }
-        public void SendCommand()
+        public CommandRecievedEventArgs SendCommand(string jsonCommand)
         {
             using (NetworkStream stream = client.GetStream())
-            using (BinaryReader reader = new BinaryReader(stream))
-            using (BinaryWriter writer = new BinaryWriter(stream))
+            using (StreamReader reader = new StreamReader(stream))
+            using (StreamWriter writer = new StreamWriter(stream))
             {
                 // Send data to server
-                int command = int.Parse(Console.ReadLine());
-                Console.WriteLine($"Send {command} to Server");
+                Console.WriteLine($"Send {jsonCommand} to Server");
+                writer.AutoFlush = true;
+                writer.Write(jsonCommand);
                 // Get result from server
-                int result = reader.ReadInt32();
+                string result = reader.ReadToEnd();
                 Console.WriteLine($"Recieve {result} from Server");
+                return JsonConvert.DeserializeObject<CommandRecievedEventArgs>(result);
             }
         }
         public void CloseClient()

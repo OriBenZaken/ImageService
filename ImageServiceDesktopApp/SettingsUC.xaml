@@ -6,6 +6,8 @@
              xmlns:local="clr-namespace:ImageServiceDesktopApp"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    <StackPanel>
+        <Label Content="Settings" FontSize="25" HorizontalAlignment="Center" FontWeight="Bold" Foreground="Blue" RenderTransformOrigin="2.634,0.921"/>
     <Grid TextBlock.FontSize="14">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -31,5 +33,6 @@
         <Button x:Name="btnRemove" Grid.Row="4"  HorizontalContentAlignment="Center"  Command="{Binding RemoveCommand}"  AutomationProperties.AutomationId="btnRemove" Grid.ColumnSpan="2">Remove</Button>
         <ListBox x:Name="lsbHandlers" Grid.Row="5" Grid.ColumnSpan="2" HorizontalContentAlignment="Stretch"  SelectedItem="{Binding SelectedItem}" ItemsSource="{Binding VM_Handlers}"/>
     </Grid>
+    </StackPanel>
 
 </UserControl>

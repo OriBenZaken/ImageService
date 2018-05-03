@@ -20,6 +20,8 @@ namespace ImageServiceDesktopApp.VM
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private ISettingModel model;
+        public IImageServiceClient ImageServiceClient { get; set; }
+
         public SettingsVM()
         {
             this.model = new SettingModel();
@@ -32,6 +34,14 @@ namespace ImageServiceDesktopApp.VM
             vm_handlers = new ObservableCollection<string>();
             this.RemoveCommand = new DelegateCommand<object>(this.OnRemove, this.CanRemove);
             model.PropertyChanged += PropertyChanged1;
+            this.ImageServiceClient = new ImageServiceClient();
+            this.ImageServiceClient.Start();
+            CommandRecievedEventArgs commandRecievedEventArgs = new CommandRecievedEventArgs((int)CommandEnum.GetConfigCommand,null,"");
+            CommandRecievedEventArgs result = ImageServiceClient.SendCommand(JsonConvert.SerializeObject(commandRecievedEventArgs));
+            this.model.OutputDirectory = result.Args[0];
+            this.model.SourceName = result.Args[1];
+            this.model.LogName = result.Args[2];
+            this.model.TumbnailSize = result.Args[3];
         }
         private void PropertyChanged1(object sender, PropertyChangedEventArgs e)
         {
@@ -41,6 +51,7 @@ namespace ImageServiceDesktopApp.VM
 
         private void NotifyPropertyChanged(string propName)
         {
+
             throw new NotImplementedException();
         }
         private ObservableCollection<string> vm_handlers;
@@ -88,8 +99,8 @@ namespace ImageServiceDesktopApp.VM
             CommandRecievedEventArgs eventArgs = new CommandRecievedEventArgs((int)CommandEnum.CloseHandler, arr,"");
             string message = JsonConvert.SerializeObject(eventArgs);
             //todo: send the command via tcp
-
-
+            CommandRecievedEventArgs result = this.ImageServiceClient.SendCommand(message);
+            
 
             this.vm_handlers.Remove(selectedItem);
         }
