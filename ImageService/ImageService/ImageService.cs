@@ -85,7 +85,7 @@ namespace ImageService
                     ThumbnailSize = Int32.Parse(ConfigurationManager.AppSettings.Get("ThumbnailSize"))
 
                 };
-                this.controller = new ImageController(this.modal);
+                this.controller = new ImageController(this.modal, this.logging);
                 this.m_imageServer = new ImageServer(controller, logging);
                 this.controller.ImageServer = m_imageServer;
                 IClientHandler ch = new ClientHandler(controller);//, m_imageServer);
@@ -150,7 +150,7 @@ namespace ImageService
         public void OnTimer(object sender, System.Timers.ElapsedEventArgs args)
         {
             // TODO: Insert monitoring activities here.  
-            eventLog1.WriteEntry("Monitoring the System", EventLogEntryType.Information, eventId++);
+            //eventLog1.WriteEntry("Monitoring the System", EventLogEntryType.Information, eventId++);
         }
         /// <summary>
         /// WriteMessage function.

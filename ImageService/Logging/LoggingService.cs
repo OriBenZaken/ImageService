@@ -44,7 +44,7 @@ namespace ImageService.Logging
         public void Log(string message, MessageTypeEnum type)
         {
             MessageRecieved?.Invoke(this, new MessageRecievedEventArgs(type, message));
-            this.LogMessages.Add(new LogEntry { Type = Enum.GetName(typeof(MessageTypeEnum), type), Message = message });
+            this.LogMessages.Insert(0, new LogEntry { Type = Enum.GetName(typeof(MessageTypeEnum), type), Message = message });
         }
         private void GetAllLogEventMessages(EventLog eventLog)
         {
@@ -53,7 +53,7 @@ namespace ImageService.Logging
             eventLog.Entries.CopyTo(logs, 0);
             foreach (EventLogEntry entry in logs)
             {
-                this.LogMessages.Add(new LogEntry { Type = Enum.GetName(typeof(MessageTypeEnum), LoggingService.FromLogEventTypeToMessageTypeEnum(entry.EntryType)),
+                this.LogMessages.Insert(0, new LogEntry { Type = Enum.GetName(typeof(MessageTypeEnum), LoggingService.FromLogEventTypeToMessageTypeEnum(entry.EntryType)),
                     Message = entry.Message });
             }
         }

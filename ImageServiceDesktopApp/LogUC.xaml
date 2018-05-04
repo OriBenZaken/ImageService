@@ -5,30 +5,25 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ImageServiceDesktopApp.VM"
              mc:Ignorable="d"
-             d:DesignHeight="254.901" d:DesignWidth="300">
+             d:DesignHeight="260.901" d:DesignWidth="321">
     <UserControl.Resources>
         <local:LogTypeToBackgroundConverter x:Key="LogTypeToBackgroundConverter"/>
     </UserControl.Resources>
-    
-    <StackPanel>
-        <Label Content="Logs" FontSize="25" HorizontalAlignment="Center" FontWeight="Bold" Foreground="Blue" RenderTransformOrigin="2.634,0.921"/>
-        <DockPanel ScrollViewer.VerticalScrollBarVisibility="Auto" Width="Auto" ScrollViewer.HorizontalScrollBarVisibility="Hidden" Margin="0,10" >
+    <DockPanel ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Hidden" Margin="-1,0,0,10">
+        <Label Content="Logs" FontSize="25" HorizontalAlignment="Center" FontWeight="Bold" Foreground="Blue" RenderTransformOrigin="2.634,0.921" DockPanel.Dock="Top"/>
+        <DataGrid ItemsSource="{Binding VM_LogMessages}" AutoGenerateColumns="False" CanUserAddRows="False"  VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" Width="Auto" Height="Auto" Margin="0,0,0,10">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Type" Width="Auto" IsReadOnly="True" Binding="{Binding Path=Type}" >
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Background" Value="{Binding Path=Type, Converter={StaticResource LogTypeToBackgroundConverter}}"></Setter>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Message" Width="*" IsReadOnly="True" Binding="{Binding Message}" />
+            </DataGrid.Columns>
 
-            <DataGrid ItemsSource="{Binding VM_LogMessages}" AutoGenerateColumns="False" CanUserAddRows="False"  VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Type" Width="Auto" IsReadOnly="True" Binding="{Binding Path=Type}" >
-                        <DataGridTextColumn.ElementStyle>
-                            <Style TargetType="TextBlock">
-                                <Setter Property="Background" Value="{Binding Path=Type, Converter={StaticResource LogTypeToBackgroundConverter}}"></Setter>
-                            </Style>
-                        </DataGridTextColumn.ElementStyle>
-                    </DataGridTextColumn>
-                    <DataGridTextColumn Header="Message" Width="*" IsReadOnly="True" Binding="{Binding Message}" />
-                </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
 
-            </DataGrid>
-
-        </DockPanel>
-       
-    </StackPanel>
 </UserControl>
