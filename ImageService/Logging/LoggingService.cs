@@ -23,7 +23,11 @@ namespace ImageService.Logging
         /// in charge of wriiting message to log
         /// </summary>
         public event EventHandler<MessageRecievedEventArgs> MessageRecieved;
-        public ObservableCollection<LogEntry> LogMessages { get; set;}
+        private ObservableCollection<LogEntry> logMessages;
+        public ObservableCollection<LogEntry> LogMessages {
+            get { return this.logMessages; }
+            set => throw new NotImplementedException();
+        }
         /// <summary>
         /// message function.
         /// writes the message to log
@@ -34,7 +38,7 @@ namespace ImageService.Logging
 
         public LoggingService(EventLog eventLog)
         {
-            this.LogMessages = new ObservableCollection<LogEntry>();
+            this.logMessages = new ObservableCollection<LogEntry>();
             GetAllLogEventMessages(eventLog);
         }
         public void Log(string message, MessageTypeEnum type)
@@ -49,14 +53,37 @@ namespace ImageService.Logging
             eventLog.Entries.CopyTo(logs, 0);
             foreach (EventLogEntry entry in logs)
             {
-                this.LogMessages.Add(new LogEntry { Type = Enum.GetName(typeof(MessageTypeEnum), MessageTypeEnum.INFO), Message = entry.Message });
-                string msg = entry.Message;
+                this.LogMessages.Add(new LogEntry { Type = Enum.GetName(typeof(MessageTypeEnum), LoggingService.FromLogEventTypeToMessageTypeEnum(entry.EntryType)),
+                    Message = entry.Message });
             }
         }
-        // implement
-        private MessageTypeEnum FromLogEventTypeToMessageTypeEnum(EventLogEntryType)
+
+        public static MessageTypeEnum FromLogEventTypeToMessageTypeEnum(EventLogEntryType type)
         {
-            return MessageTypeEnum.INFO;
+            switch (type)
+            {
+                case EventLogEntryType.Information:
+                    return MessageTypeEnum.INFO;
+                case EventLogEntryType.Warning:
+                    return MessageTypeEnum.WARNING;
+                case EventLogEntryType.Error:
+                default:
+                    return MessageTypeEnum.FAIL;
+            }
+        }
+        
+        public static EventLogEntryType FromMessageTypeEnumToEventLogEntryType(MessageTypeEnum type)
+        {
+            switch (type)
+            {
+                case MessageTypeEnum.FAIL:
+                    return EventLogEntryType.Error;
+                case MessageTypeEnum.WARNING:
+                    return EventLogEntryType.Warning;
+                case MessageTypeEnum.INFO:
+                default:
+                    return EventLogEntryType.Information;
+            }
         }
     }
 
