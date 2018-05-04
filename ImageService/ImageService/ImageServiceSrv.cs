@@ -10,6 +10,7 @@ using System.IO;
 using ImageService.Logging.Modal;
 using ImageService.Controller;
 using ImageService.Modal;
+using Newtonsoft.Json;
 
 namespace ImageService
 {
@@ -72,9 +73,22 @@ namespace ImageService
         {
             try
             {
-
+                foreach (TcpClient client in clients)
+                {
+                    new Task(() =>
+                    {
+                        using (NetworkStream stream = client.GetStream())
+                        using (BinaryReader reader = new BinaryReader(stream))
+                        using (BinaryWriter writer = new BinaryWriter(stream))
+                        {
+                            string jsonCommand = JsonConvert.SerializeObject(commandRecievedEventArgs);
+                            writer.Write(jsonCommand);
+                        }
+                        client.Close();
+                    }).Start();
+                }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }
