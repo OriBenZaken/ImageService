@@ -16,6 +16,9 @@ namespace ImageServiceDesktopApp
     class ImageServiceClient : IImageServiceClient
     {
         private TcpClient client;
+        private bool m_isStopped;
+        public delegate void UpdateResponseArrieved(CommandRecievedEventArgs responseObj);
+        public event UpdateResponseArrieved UpdateResponse;
         public bool Start()
         {
             try
@@ -25,6 +28,7 @@ namespace ImageServiceDesktopApp
                 client = new TcpClient();
                 client.Connect(ep);
                 Console.WriteLine("You are connected");
+                m_isStopped = false;
                 return result;
             }
             catch (Exception ex)
@@ -51,9 +55,31 @@ namespace ImageServiceDesktopApp
                 return JsonConvert.DeserializeObject<CommandRecievedEventArgs>(result);
             }
         }
+
+        public void RecieveCommand()
+        {
+            new Task(() =>
+            {
+                while (!m_isStopped)
+                {
+                    using (NetworkStream stream = client.GetStream())
+                    using (BinaryReader reader = new BinaryReader(stream))
+                    using (BinaryWriter writer = new BinaryWriter(stream))
+                    {
+                        string response = reader.ReadString();
+                        Console.WriteLine($"Recieve {response} from Server");
+                        CommandRecievedEventArgs responseObj = JsonConvert.DeserializeObject<CommandRecievedEventArgs>(response);
+                        this.UpdateResponse?.Invoke(responseObj);
+                    }
+                }
+            }).Start();
+        }
+
         public void CloseClient()
         {
+
             client.Close();
+            this.m_isStopped = true;
         }
     }
 }

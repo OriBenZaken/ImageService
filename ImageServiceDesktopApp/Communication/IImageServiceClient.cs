@@ -12,5 +12,6 @@ namespace ImageServiceDesktopApp
         bool Start();
         CommandRecievedEventArgs SendCommand(CommandRecievedEventArgs commandRecievedEventArgs);
         void CloseClient();
+        void RecieveCommand();
     }
 }
