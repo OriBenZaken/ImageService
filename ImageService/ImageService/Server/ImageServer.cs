@@ -21,6 +21,8 @@ namespace ImageService.Server
         #endregion
 
         #region Properties
+        public delegate void NotifyAllClients(CommandRecievedEventArgs commandRecievedEventArgs);
+        public event NotifyAllClients NotifyAllHandlerRemoved;
         public event EventHandler<CommandRecievedEventArgs> CommandRecieved;          // The event that notifies about a new Command being recieved
         public event EventHandler<DirectoryCloseEventArgs> CloseServer;
         public IImageController Controller
