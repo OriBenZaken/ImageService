@@ -35,6 +35,8 @@ namespace ImageServiceDesktopApp.Model
             set => throw new NotImplementedException();
         }
 
+        public bool IsConected { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         //for testing
