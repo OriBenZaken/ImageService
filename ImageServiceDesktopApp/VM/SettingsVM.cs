@@ -99,6 +99,7 @@ namespace ImageServiceDesktopApp.VM
             set
             {
                 selectedItem = value;
+                //CanRemove(null);
                 var command = this.RemoveCommand as DelegateCommand<object>;
                 command.RaiseCanExecuteChanged();
             }
