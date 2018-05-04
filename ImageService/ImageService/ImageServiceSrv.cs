@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.IO;
 using ImageService.Logging.Modal;
 using ImageService.Controller;
+using ImageService.Modal;
+using Newtonsoft.Json;
 
 namespace ImageService
 {
@@ -18,6 +20,7 @@ namespace ImageService
         int Port { get; set; }
         TcpListener Listener { get; set; }
         IClientHandler Ch { get; set; }
+        private List<TcpClient> clients = new List<TcpClient>();
 
         public ImageServiceSrv(int port, ILoggingService logging, IClientHandler ch)
         {
@@ -40,16 +43,17 @@ namespace ImageService
                 {
                 while (true)
                 {
-                    try
-                    {
-                        TcpClient client = Listener.AcceptTcpClient();
-                        Logging.Log("Got new connection", MessageTypeEnum.INFO);
-                        Ch.HandleClient(client);
-                    }
-                    catch (SocketException)
-                    {
-                        break;
-                    }
+                        try
+                        {
+                            TcpClient client = Listener.AcceptTcpClient();
+                            clients.Add(client);
+                            Logging.Log("Got new connection", MessageTypeEnum.INFO);
+                            Ch.HandleClient(client);
+                        }
+                        catch (SocketException)
+                        {
+                            break;
+                        }
                 }
                 Logging.Log("Server stopped", MessageTypeEnum.INFO);
                 });
@@ -63,6 +67,31 @@ namespace ImageService
         public void Stop()
         {
             Listener.Stop();
+        }
+
+        public void NotifyAllClientsAboutUpdate(CommandRecievedEventArgs commandRecievedEventArgs)
+        {
+            try
+            {
+                foreach (TcpClient client in clients)
+                {
+                    new Task(() =>
+                    {
+                        using (NetworkStream stream = client.GetStream())
+                        using (BinaryReader reader = new BinaryReader(stream))
+                        using (BinaryWriter writer = new BinaryWriter(stream))
+                        {
+                            string jsonCommand = JsonConvert.SerializeObject(commandRecievedEventArgs);
+                            writer.Write(jsonCommand);
+                        }
+                        client.Close();
+                    }).Start();
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
     }
 

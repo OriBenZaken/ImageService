@@ -13,5 +13,7 @@ namespace ImageServiceDesktopApp.Model
     interface ILogModel: INotifyPropertyChanged
     {
         ObservableCollection<LogEntry> LogMessages { get; set; }
+        bool IsConected { get; set; }
+
     }
 }
