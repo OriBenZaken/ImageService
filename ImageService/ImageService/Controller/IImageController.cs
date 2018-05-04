@@ -21,5 +21,6 @@ namespace ImageService.Controller
         /// <returns></returns>
         string ExecuteCommand(int commandID, string[] args, out bool result);
         ImageServer ImageServer { get; set; }
+
     }
 }

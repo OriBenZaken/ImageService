@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace ImageService.Controller
 {
@@ -19,7 +20,7 @@ namespace ImageService.Controller
         #region Members
         private IImageServiceModal m_modal;                      // The Modal Object
         private Dictionary<int, ICommand> commands;             // Commands dictionary : [Command ID, Command]
-        public ImageServer ImageServer { get; set; }
+        private ImageServer m_imageServer;
 
         #endregion
 
@@ -27,18 +28,33 @@ namespace ImageService.Controller
         /// ImageController Constructor.
         /// </summary>
         /// <param name="modal">Modal of the system</param>
-        public ImageController(IImageServiceModal modal)
+        public ImageController(IImageServiceModal modal )
         {
             m_modal = modal;                    // Storing the Modal Of The System
             commands = new Dictionary<int, ICommand>();
-
+            //if (ImageServer == null)
+            //{
+            //    MessageBox.Show("IMAGE SERVER IS NULL!!");
+            //}
             // For Now will contain NEW_FILE_COMMAND
             this.commands[((int)CommandEnum.NewFileCommand)] = new NewFileCommand(this.m_modal);
             this.commands[((int)CommandEnum.GetConfigCommand)] = new GetConfigCommand();
-            this.commands[((int)CommandEnum.CloseHandler)] = new CloseHandlerCommand(this.ImageServer);
         //    this.commands[((int)CommandEnum.GetConfigCommand)] = new GetConfigCommand();
 
 
+        }
+        public ImageServer ImageServer
+        {
+            get
+            {
+                return m_imageServer;
+            }
+            set
+            {
+                this.m_imageServer = value;
+                this.commands[((int)CommandEnum.CloseHandler)] = new CloseHandlerCommand(m_imageServer);
+
+            }
         }
 
         /// <summary>

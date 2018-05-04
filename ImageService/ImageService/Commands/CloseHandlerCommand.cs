@@ -16,6 +16,7 @@ namespace ImageService.Commands
         public CloseHandlerCommand(ImageServer imageServer)
         {
             this.m_imageServer = imageServer;
+           
         }
 
 
@@ -40,9 +41,19 @@ namespace ImageService.Commands
                 }
                 string newHandlers = (sbNewHandlers.ToString()).TrimEnd(';');
                 Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                // Add an Application Setting.
+                config.AppSettings.Settings.Remove("Handler");
+                config.AppSettings.Settings.Add("Handler", newHandlers);
+                 // Save the configuration file.
+    config.Save(ConfigurationSaveMode.Modified);
+                 // Force a reload of a changed section.
+    ConfigurationManager.RefreshSection("appSettings");
 
-                config.AppSettings.Settings["Handler"].Value = newHandlers;
-                config.Save(ConfigurationSaveMode.Modified);
+
+
+
+                //config.AppSettings.Settings["Handler"].Value = newHandlers;
+                //config.Save(ConfigurationSaveMode.Modified);
                 //todo: stop listen to this dir!!
                 this.m_imageServer.CloseSpecipicHandler(toBeDeletedHandler);
                 //todo: update other customers!!!!!!
