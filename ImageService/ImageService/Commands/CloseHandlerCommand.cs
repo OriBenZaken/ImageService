@@ -1,4 +1,5 @@
 ﻿using ImageService.Commands;
+using ImageService.Server;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -8,8 +9,16 @@ using System.Threading.Tasks;
 
 namespace ImageService.Commands
 {
-    class CloseHandler : ICommand
+    class CloseHandlerCommand : ICommand
     {
+        private ImageServer m_imageServer;
+
+        public CloseHandlerCommand(ImageServer imageServer)
+        {
+            this.m_imageServer = imageServer;
+        }
+
+
         public string Execute(string[] args, out bool result)
         {
             try
@@ -35,6 +44,7 @@ namespace ImageService.Commands
                 config.AppSettings.Settings["Handler"].Value = newHandlers;
                 config.Save(ConfigurationSaveMode.Modified);
                 //todo: stop listen to this dir!!
+                this.m_imageServer.CloseSpecipicHandler(toBeDeletedHandler);
                 //todo: update other customers!!!!!!
                 return string.Empty;
             }

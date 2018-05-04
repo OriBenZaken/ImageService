@@ -10,7 +10,7 @@ namespace ImageServiceDesktopApp
     interface IImageServiceClient
     {
         void Start();
-        CommandRecievedEventArgs SendCommand(string jsonCommand);
+        CommandRecievedEventArgs SendCommand(CommandRecievedEventArgs commandRecievedEventArgs);
         void CloseClient();
     }
 }

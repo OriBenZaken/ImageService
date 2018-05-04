@@ -18,11 +18,11 @@ namespace ImageService
     class ClientHandler : IClientHandler
     {
         IImageController ImageController { get; set; }
-        ImageServer ImageServer { get; set; }
-        public ClientHandler(IImageController imageController, ImageServer imageServer)
+       // ImageServer ImageServer { get; set; }
+        public ClientHandler(IImageController imageController)//, ImageServer imageServer)
         {
             this.ImageController = imageController;
-            this.ImageServer = imageServer;
+           // this.ImageServer = imageServer;
 
         }
         public void HandleClient(TcpClient client)
@@ -37,10 +37,10 @@ namespace ImageService
                     CommandRecievedEventArgs commandRecievedEventArgs = JsonConvert.DeserializeObject<CommandRecievedEventArgs>(commandLine);
 
                     Console.WriteLine("Got command: {0}", commandLine);
-                    //bool r;
-                    //string result = this.ImageController.ExecuteCommand((int)commandRecievedEventArgs.CommandID,
-                    //    commandRecievedEventArgs.Args, out r);
-                    string result = handleCommand(commandRecievedEventArgs);
+                    bool r;
+                    string result = this.ImageController.ExecuteCommand((int)commandRecievedEventArgs.CommandID,
+                        commandRecievedEventArgs.Args, out r);
+                   // string result = handleCommand(commandRecievedEventArgs);
                     writer.Write(result);
                 }
                 client.Close();
@@ -58,7 +58,6 @@ namespace ImageService
 
                     break;
                 case (int)CommandEnum.GetConfigCommand:
-                    Console.WriteLine("ליז המלכה");
                     string[] args = new string[5];
 
                     args[0] = ConfigurationManager.AppSettings.Get("OutputDir");

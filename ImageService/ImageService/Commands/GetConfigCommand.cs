@@ -1,4 +1,6 @@
 ﻿using ImageService.Commands;
+using ImageService.Infrastructure.Enums;
+using ImageService.Modal;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -15,22 +17,15 @@ namespace ImageService.Commands
         {
             try
             {
-                //result = true;
-                //TcpStringArgs tcpStringArgs = new TcpStringArgs();
-                //tcpStringArgs.args = new string[5];
-
-                //tcpStringArgs.args[0] = ConfigurationManager.AppSettings.Get("OutputDir");
-                //tcpStringArgs.args[1] = ConfigurationManager.AppSettings.Get("SourceName");
-                //tcpStringArgs.args[2] = ConfigurationManager.AppSettings.Get("LogName");
-                //tcpStringArgs.args[3] = ConfigurationManager.AppSettings.Get("ThumbnailSize");
-                //tcpStringArgs.args[4] = ConfigurationManager.AppSettings.Get("Handler");
-
-                //return JsonConvert.SerializeObject(tcpStringArgs);
-                result = false;
-                return string.Empty;
-
-
-
+                result = true;
+                string[] arr = new string[5];
+                arr[0] = ConfigurationManager.AppSettings.Get("OutputDir");
+                arr[1] = ConfigurationManager.AppSettings.Get("SourceName");
+                arr[2] = ConfigurationManager.AppSettings.Get("LogName");
+                arr[3] = ConfigurationManager.AppSettings.Get("ThumbnailSize");
+                arr[4] = ConfigurationManager.AppSettings.Get("Handler");
+                CommandRecievedEventArgs commandSendArgs = new CommandRecievedEventArgs((int)CommandEnum.GetConfigCommand, arr, "");
+                return JsonConvert.SerializeObject(commandSendArgs);
             }
             catch (Exception ex)
             {
