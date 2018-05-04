@@ -1,6 +1,7 @@
 ﻿using ImageService.Logging.Modal;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,5 +26,6 @@ namespace ImageService.Logging
         /// <param name="message"> the message</param>
         /// <param name="type">type of message</param>
         void Log(string message, MessageTypeEnum type);           // Logging the Message
+        ObservableCollection<LogEntry> LogMessages { get; set; }   //log entries list
     }
 }
