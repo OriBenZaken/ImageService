@@ -13,6 +13,8 @@ namespace ImageServiceDesktopApp.Model
     class LogModel : ILogModel
     {
         private ObservableCollection<LogEntry> logMessages;
+        public bool IsConected { get; set; }
+
         public LogModel()
         {
             this.logMessages = new ObservableCollection<LogEntry>();

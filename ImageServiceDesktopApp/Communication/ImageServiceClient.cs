@@ -16,18 +16,22 @@ namespace ImageServiceDesktopApp
     class ImageServiceClient : IImageServiceClient
     {
         private TcpClient client;
-        public void Start()
+        public bool Start()
         {
             try
             {
+                bool result = true;
                 IPEndPoint ep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 8000);
                 client = new TcpClient();
                 client.Connect(ep);
-                Console.WriteLine("You are connected");              
+                Console.WriteLine("You are connected");
+                return result;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
+                return false;
+
             }
         }
         public CommandRecievedEventArgs SendCommand(CommandRecievedEventArgs commandRecievedEventArgs)

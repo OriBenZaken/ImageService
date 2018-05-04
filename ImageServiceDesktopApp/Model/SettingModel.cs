@@ -24,7 +24,11 @@ namespace ImageServiceDesktopApp.Model
         public SettingModel()
         {
             this.imageServiceClient = new ImageServiceClient();
-            this.imageServiceClient.Start();
+            bool rc = this.imageServiceClient.Start();
+            if (!rc)
+            {
+                this.IsConected = false;
+            }
             this.InitializeSettingsParams();
 
 
@@ -85,8 +89,16 @@ namespace ImageServiceDesktopApp.Model
                 OnPropertyChanged("TumbnailSize");
             }
         }
-        //todo:
         public ObservableCollection<string> Handlers { get; set; }
-
+        private bool m_isConected;
+        public bool IsConected
+        {
+            get { return m_isConected; }
+            set
+            {
+                m_isConected = value;
+                OnPropertyChanged("IsConected");
+            }
+        }
     }
 }

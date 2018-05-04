@@ -15,6 +15,7 @@ namespace ImageServiceDesktopApp.Model
         string LogName { get; set; }
         string TumbnailSize { get; set; }
         ObservableCollection<string> Handlers { get; set; }
+        bool IsConected { get; set; }
 
     }
 }
