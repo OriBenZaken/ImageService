@@ -109,7 +109,5 @@ namespace ImageServiceDesktopApp.VM
                 command.RaiseCanExecuteChanged();
             }
         }
-
-
     }
 }
