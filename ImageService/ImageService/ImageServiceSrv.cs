@@ -75,15 +75,15 @@ namespace ImageService
             {
                 foreach (TcpClient client in clients)
                 {
-                    //new Task(() =>
-                    //{
+                    new Task(() =>
+                    {
                         NetworkStream stream = client.GetStream();
                         BinaryWriter writer = new BinaryWriter(stream);
                         string jsonCommand = JsonConvert.SerializeObject(commandRecievedEventArgs);
                         writer.Write(jsonCommand);
 
                         // client.Close();
-                  //  }).Start();
+                    }).Start();
                 }
             }
             catch (Exception ex)
