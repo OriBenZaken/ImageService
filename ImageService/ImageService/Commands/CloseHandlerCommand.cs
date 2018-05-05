@@ -1,4 +1,6 @@
 ﻿using ImageService.Commands;
+using ImageService.Infrastructure.Enums;
+using ImageService.Modal;
 using ImageService.Server;
 using System;
 using System.Collections.Generic;
@@ -19,6 +21,7 @@ namespace ImageService.Commands
            
         }
 
+        //public object ImageServer { get; private set; }
 
         public string Execute(string[] args, out bool result)
         {
@@ -57,6 +60,10 @@ namespace ImageService.Commands
                 //todo: stop listen to this dir!!
                 this.m_imageServer.CloseSpecipicHandler(toBeDeletedHandler);
                 //todo: update other customers!!!!!!
+                string[] array = new string[1];
+                array[0] = toBeDeletedHandler;
+                CommandRecievedEventArgs notifyParams = new CommandRecievedEventArgs((int)CommandEnum.CloseHandler, array, "");
+                ImageServer.PerformSomeEvent(notifyParams);
                 return string.Empty;
             }
             catch (Exception ex)

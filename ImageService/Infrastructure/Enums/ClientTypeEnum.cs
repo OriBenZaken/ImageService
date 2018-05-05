@@ -8,11 +8,8 @@ namespace ImageService.Infrastructure.Enums
 {
     public enum ClientType : int
     {
-        NewFileCommand = 1,
-        CloseCommand,
-        GetConfigCommand,
-        LogCommand,
-        CloseHandler
+        WriterAndReader,
+        Reader
 
     }
 }

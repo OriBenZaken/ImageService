@@ -46,8 +46,18 @@ namespace ImageService
                         try
                         {
                             TcpClient client = Listener.AcceptTcpClient();
-                            clients.Add(client);
                             Logging.Log("Got new connection", MessageTypeEnum.INFO);
+
+                            NetworkStream stream = client.GetStream();
+                            BinaryReader reader = new BinaryReader(stream);
+                            string commandLine = reader.ReadString();
+                            CommandRecievedEventArgs commandRecievedEventArgs = JsonConvert.DeserializeObject<CommandRecievedEventArgs>(commandLine);
+                            Console.WriteLine("Got command: {0}", commandLine);
+                            if (commandRecievedEventArgs.ClientType == Infrastructure.Enums.ClientType.Reader)
+                            {
+                                clients.Add(client);
+                                continue;
+                            }
                             Ch.HandleClient(client);
                         }
                         catch (SocketException)
@@ -77,14 +87,12 @@ namespace ImageService
                 {
                     new Task(() =>
                     {
-                        using (NetworkStream stream = client.GetStream())
-                        using (BinaryReader reader = new BinaryReader(stream))
-                        using (BinaryWriter writer = new BinaryWriter(stream))
-                        {
-                            string jsonCommand = JsonConvert.SerializeObject(commandRecievedEventArgs);
-                            writer.Write(jsonCommand);
-                        }
-                        client.Close();
+                        NetworkStream stream = client.GetStream();
+                        BinaryWriter writer = new BinaryWriter(stream);
+                        string jsonCommand = JsonConvert.SerializeObject(commandRecievedEventArgs);
+                        writer.Write(jsonCommand);
+
+                        // client.Close();
                     }).Start();
                 }
             }

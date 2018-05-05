@@ -7,7 +7,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -32,8 +34,9 @@ namespace ImageServiceDesktopApp.VM
 
  };
             this.RemoveCommand = new DelegateCommand<object>(this.OnRemove, this.CanRemove);
-            //model.PropertyChanged += PropertyChanged1;
            
+            //model.PropertyChanged += PropertyChanged1;
+
         }
         //private void PropertyChanged1(object sender, PropertyChangedEventArgs e)
         //{
@@ -67,7 +70,7 @@ namespace ImageServiceDesktopApp.VM
             get { return model.TumbnailSize; }
         }
 
-      
+       
 
         public ICommand RemoveCommand { get; set; }
 
@@ -78,6 +81,8 @@ namespace ImageServiceDesktopApp.VM
             //todo: send the command via tcp
             this.imageServiceClient = new ImageServiceClient();
             this.imageServiceClient.Start();
+            //////?????
+           
             CommandRecievedEventArgs result = this.imageServiceClient.SendCommand(eventArgs);
 
 

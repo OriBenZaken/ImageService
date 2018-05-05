@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
 
 namespace ImageServiceDesktopApp.Model
 {
@@ -23,32 +24,67 @@ namespace ImageServiceDesktopApp.Model
         #endregion
         public SettingModel()
         {
-            this.imageServiceClient = new ImageServiceClient();
-            bool rc = this.imageServiceClient.Start();
-            if (!rc)
-            {
-                this.IsConected = false;
-            }
+           
+
+            this.ImageServiceClientForRecieve = new ImageServiceClient();
+            this.ImageServiceClientForRecieve.Start2();
+            this.ImageServiceClientForRecieve.RecieveCommand();
+            this.ImageServiceClientForRecieve.UpdateResponse += UpdateResponse;
+
+
             this.InitializeSettingsParams();
 
 
         }
+        private void UpdateResponse(CommandRecievedEventArgs responseObj)
+        {
+            switch (responseObj.CommandID)
+            {
+                //case (int)CommandEnum.GetConfigCommand:
+                //    this.OutputDirectory = responseObj.Args[0];
+                //    this.SourceName = responseObj.Args[1];
+                //    this.LogName = responseObj.Args[2];
+                //    this.TumbnailSize = responseObj.Args[3];
+                //    Handlers = new ObservableCollection<string>();
+                //    string[] handlers = responseObj.Args[4].Split(';');
+                //    foreach (string handler in handlers)
+                //    {
+                //        this.Handlers.Add(handler);
+                //    }
+                //    break;
+                case (int)CommandEnum.CloseHandler:
+                    if (Handlers != null && Handlers.Count > 0 && responseObj != null && responseObj.Args != null
+                          && Handlers.Contains(responseObj.Args[0]))
+                    {
+                        this.Handlers.Remove(responseObj.Args[0]);
+                    }
+
+                    break;
+            }
+        }
         private void InitializeSettingsParams()
         {
-            CommandRecievedEventArgs commandRecievedEventArgs = new CommandRecievedEventArgs((int)CommandEnum.GetConfigCommand, null, "");
-            CommandRecievedEventArgs result = this.imageServiceClient.SendCommand(commandRecievedEventArgs);
-            this.OutputDirectory = result.Args[0];
-            this.SourceName = result.Args[1];
-            this.LogName = result.Args[2];
-            this.TumbnailSize = result.Args[3];
+            this.ImageServiceClient = new ImageServiceClient();
+            this.ImageServiceClient.Start();
+            CommandRecievedEventArgs request = new CommandRecievedEventArgs((int)CommandEnum.GetConfigCommand, null, "");
+            CommandRecievedEventArgs responseObj = this.ImageServiceClient.SendCommand(request);
+            this.OutputDirectory = responseObj.Args[0];
+            this.SourceName = responseObj.Args[1];
+            this.LogName = responseObj.Args[2];
+            this.TumbnailSize = responseObj.Args[3];
             Handlers = new ObservableCollection<string>();
-            string[] handlers = result.Args[4].Split(';');
+            Object thisLock = new Object();
+             BindingOperations.EnableCollectionSynchronization(Handlers,thisLock);
+            string[] handlers = responseObj.Args[4].Split(';');
             foreach (string handler in handlers)
             {
                 this.Handlers.Add(handler);
             }
+
         }
-        private ImageServiceClient imageServiceClient;
+        public ImageServiceClient ImageServiceClient { get; set; }
+        public ImageServiceClient ImageServiceClientForRecieve { get; set; }
+
         private string m_outputDirectory;
         public string OutputDirectory
         {
@@ -89,16 +125,8 @@ namespace ImageServiceDesktopApp.Model
                 OnPropertyChanged("TumbnailSize");
             }
         }
+        //todo:
         public ObservableCollection<string> Handlers { get; set; }
-        private bool m_isConected;
-        public bool IsConected
-        {
-            get { return m_isConected; }
-            set
-            {
-                m_isConected = value;
-                OnPropertyChanged("IsConected");
-            }
-        }
+        public bool IsConected { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     }
 }

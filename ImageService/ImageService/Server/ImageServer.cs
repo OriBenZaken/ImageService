@@ -22,7 +22,7 @@ namespace ImageService.Server
 
         #region Properties
         public delegate void NotifyAllClients(CommandRecievedEventArgs commandRecievedEventArgs);
-        public event NotifyAllClients NotifyAllHandlerRemoved;
+        public static event NotifyAllClients NotifyAllHandlerRemoved;
         public event EventHandler<CommandRecievedEventArgs> CommandRecieved;          // The event that notifies about a new Command being recieved
         public event EventHandler<DirectoryCloseEventArgs> CloseServer;
         public IImageController Controller
@@ -65,8 +65,12 @@ namespace ImageService.Server
                 }
             }
         }
-
-        internal void CloseSpecipicHandler(string toBeDeletedHandler)
+        public static void PerformSomeEvent(CommandRecievedEventArgs commandRecievedEventArgs)
+        {
+            NotifyAllHandlerRemoved.Invoke(commandRecievedEventArgs);
+        }
+        
+            internal void CloseSpecipicHandler(string toBeDeletedHandler)
         {
             if (Handlers.ContainsKey(toBeDeletedHandler))
             {

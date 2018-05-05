@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ImageService.Infrastructure.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,11 +24,13 @@ namespace ImageService.Modal
         /// <param name="id">Command ID</param>
         /// <param name="args">Arguments for the command.</param>
         /// <param name="path">path of the file relevant to the command.</param>
-        public CommandRecievedEventArgs(int id, string[] args, string path)
+        public CommandRecievedEventArgs(int id, string[] args, string path, ClientType clientType = ClientType.WriterAndReader)
         {
             CommandID = id;
             Args = args;
             RequestDirPath = path;
+            ClientType = clientType;
         }
+        public ClientType ClientType { get; set; }
     }
 }

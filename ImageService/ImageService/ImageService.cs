@@ -90,7 +90,7 @@ namespace ImageService
                 this.controller.ImageServer = m_imageServer;
                 IClientHandler ch = new ClientHandler(controller);//, m_imageServer);
                 imageServiceSrv = new ImageServiceSrv(8000,logging,ch);
-                this.m_imageServer.NotifyAllHandlerRemoved += imageServiceSrv.NotifyAllClientsAboutUpdate;
+                ImageServer.NotifyAllHandlerRemoved += imageServiceSrv.NotifyAllClientsAboutUpdate;
                 imageServiceSrv.Start();
 
     }
