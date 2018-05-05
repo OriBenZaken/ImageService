@@ -24,13 +24,11 @@ namespace ImageService.Modal
         /// <param name="id">Command ID</param>
         /// <param name="args">Arguments for the command.</param>
         /// <param name="path">path of the file relevant to the command.</param>
-        public CommandRecievedEventArgs(int id, string[] args, string path, ClientType clientType = ClientType.WriterAndReader)
+        public CommandRecievedEventArgs(int id, string[] args, string path)
         {
             CommandID = id;
             Args = args;
             RequestDirPath = path;
-            ClientType = clientType;
         }
-        public ClientType ClientType { get; set; }
     }
 }
