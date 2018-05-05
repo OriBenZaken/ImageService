@@ -54,10 +54,10 @@ namespace ImageServiceDesktopApp.Model
         private void intializeLogEntriesList()
         {
             CommandRecievedEventArgs commandRecievedEventArgs = new CommandRecievedEventArgs((int)CommandEnum.LogCommand, null, "");
-            CommandRecievedEventArgs result = this.imageServiceClient.SendCommand(commandRecievedEventArgs);
+            this.imageServiceClient.SendCommand(commandRecievedEventArgs);
             try
             {
-                this.logMessages = JsonConvert.DeserializeObject<ObservableCollection<LogEntry>>(result.Args[0]);
+               // this.logMessages = JsonConvert.DeserializeObject<ObservableCollection<LogEntry>>(result.Args[0]);
             } catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());

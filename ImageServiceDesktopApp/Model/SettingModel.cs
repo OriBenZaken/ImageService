@@ -24,66 +24,64 @@ namespace ImageServiceDesktopApp.Model
         #endregion
         public SettingModel()
         {
-           
-
-            this.ImageServiceClientForRecieve = new ImageServiceClient();
-            this.ImageServiceClientForRecieve.Start2();
-            this.ImageServiceClientForRecieve.RecieveCommand();
-            this.ImageServiceClientForRecieve.UpdateResponse += UpdateResponse;
-
-
+            this.ImageServiceClient = new ImageServiceClient();
+            this.ImageServiceClient.Start();
+            this.ImageServiceClient.RecieveCommand();
+            this.ImageServiceClient.UpdateResponse += UpdateResponse;
             this.InitializeSettingsParams();
 
 
         }
         private void UpdateResponse(CommandRecievedEventArgs responseObj)
         {
-            switch (responseObj.CommandID)
+            try
             {
-                //case (int)CommandEnum.GetConfigCommand:
-                //    this.OutputDirectory = responseObj.Args[0];
-                //    this.SourceName = responseObj.Args[1];
-                //    this.LogName = responseObj.Args[2];
-                //    this.TumbnailSize = responseObj.Args[3];
-                //    Handlers = new ObservableCollection<string>();
-                //    string[] handlers = responseObj.Args[4].Split(';');
-                //    foreach (string handler in handlers)
-                //    {
-                //        this.Handlers.Add(handler);
-                //    }
-                //    break;
-                case (int)CommandEnum.CloseHandler:
-                    if (Handlers != null && Handlers.Count > 0 && responseObj != null && responseObj.Args != null
-                          && Handlers.Contains(responseObj.Args[0]))
+                if (responseObj != null)
+                {
+                    switch (responseObj.CommandID)
                     {
-                        this.Handlers.Remove(responseObj.Args[0]);
-                    }
+                        case (int)CommandEnum.GetConfigCommand:
+                            this.OutputDirectory = responseObj.Args[0];
+                            this.SourceName = responseObj.Args[1];
+                            this.LogName = responseObj.Args[2];
+                            this.TumbnailSize = responseObj.Args[3];
+                            string[] handlers = responseObj.Args[4].Split(';');
+                            foreach (string handler in handlers)
+                            {
+                                this.Handlers.Add(handler);
+                            }
+                            break;
+                        case (int)CommandEnum.CloseHandler:
+                            if (Handlers != null && Handlers.Count > 0 && responseObj != null && responseObj.Args != null
+                                  && Handlers.Contains(responseObj.Args[0]))
+                            {
+                                this.Handlers.Remove(responseObj.Args[0]);
+                            }
 
-                    break;
+                            break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
             }
         }
         private void InitializeSettingsParams()
         {
-            this.ImageServiceClient = new ImageServiceClient();
-            this.ImageServiceClient.Start();
-            CommandRecievedEventArgs request = new CommandRecievedEventArgs((int)CommandEnum.GetConfigCommand, null, "");
-            CommandRecievedEventArgs responseObj = this.ImageServiceClient.SendCommand(request);
-            this.OutputDirectory = responseObj.Args[0];
-            this.SourceName = responseObj.Args[1];
-            this.LogName = responseObj.Args[2];
-            this.TumbnailSize = responseObj.Args[3];
+            this.OutputDirectory = string.Empty;
+            this.SourceName = string.Empty;
+            this.LogName = string.Empty;
+            this.TumbnailSize = string.Empty;
             Handlers = new ObservableCollection<string>();
             Object thisLock = new Object();
-             BindingOperations.EnableCollectionSynchronization(Handlers,thisLock);
-            string[] handlers = responseObj.Args[4].Split(';');
-            foreach (string handler in handlers)
-            {
-                this.Handlers.Add(handler);
-            }
+            BindingOperations.EnableCollectionSynchronization(Handlers, thisLock);
+            CommandRecievedEventArgs request = new CommandRecievedEventArgs((int)CommandEnum.GetConfigCommand, null, "");
+            this.ImageServiceClient.SendCommand(request);
+            
 
         }
         public ImageServiceClient ImageServiceClient { get; set; }
-        public ImageServiceClient ImageServiceClientForRecieve { get; set; }
 
         private string m_outputDirectory;
         public string OutputDirectory

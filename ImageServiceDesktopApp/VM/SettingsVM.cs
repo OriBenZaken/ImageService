@@ -79,14 +79,12 @@ namespace ImageServiceDesktopApp.VM
             string[] arr = { this.selectedItem };
             CommandRecievedEventArgs eventArgs = new CommandRecievedEventArgs((int)CommandEnum.CloseHandler, arr,"");
             //todo: send the command via tcp
-            this.imageServiceClient = new ImageServiceClient();
-            this.imageServiceClient.Start();
-            //////?????
+          
            
-            CommandRecievedEventArgs result = this.imageServiceClient.SendCommand(eventArgs);
+            this.model.ImageServiceClient.SendCommand(eventArgs);
 
 
-            this.model.Handlers.Remove(selectedItem);
+           // this.model.Handlers.Remove(selectedItem);
         }
 
         private bool CanRemove(object obj)

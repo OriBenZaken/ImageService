@@ -25,14 +25,18 @@ namespace ImageService
            // this.ImageServer = imageServer;
 
         }
+        private bool m_isStopped = false;
+
         public void HandleClient(TcpClient client)
         {
+            
             new Task(() =>
             {
-                using (NetworkStream stream = client.GetStream())
-                using (BinaryReader reader = new BinaryReader(stream))
-                using (BinaryWriter writer = new BinaryWriter(stream))
+                while (!m_isStopped)
                 {
+                    NetworkStream stream = client.GetStream();
+                    BinaryReader reader = new BinaryReader(stream);
+                    BinaryWriter writer = new BinaryWriter(stream);
                     string commandLine = reader.ReadString();
                     CommandRecievedEventArgs commandRecievedEventArgs = JsonConvert.DeserializeObject<CommandRecievedEventArgs>(commandLine);
 
@@ -40,10 +44,10 @@ namespace ImageService
                     bool r;
                     string result = this.ImageController.ExecuteCommand((int)commandRecievedEventArgs.CommandID,
                         commandRecievedEventArgs.Args, out r);
-                   // string result = handleCommand(commandRecievedEventArgs);
+                    // string result = handleCommand(commandRecievedEventArgs);
                     writer.Write(result);
+                    //client.Close();
                 }
-                client.Close();
             }).Start();
 
 

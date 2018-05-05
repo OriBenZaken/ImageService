@@ -41,30 +41,20 @@ namespace ImageService
                 Logging.Log("Waiting for client connections...", MessageTypeEnum.INFO);
                 Task task = new Task(() =>
                 {
-                while (true)
-                {
+                    while (true)
+                    {
                         try
                         {
                             TcpClient client = Listener.AcceptTcpClient();
                             Logging.Log("Got new connection", MessageTypeEnum.INFO);
-
-                            NetworkStream stream = client.GetStream();
-                            BinaryReader reader = new BinaryReader(stream);
-                            string commandLine = reader.ReadString();
-                            CommandRecievedEventArgs commandRecievedEventArgs = JsonConvert.DeserializeObject<CommandRecievedEventArgs>(commandLine);
-                            Console.WriteLine("Got command: {0}", commandLine);
-                            if (commandRecievedEventArgs.ClientType == Infrastructure.Enums.ClientType.Reader)
-                            {
-                                clients.Add(client);
-                                continue;
-                            }
+                            clients.Add(client);
                             Ch.HandleClient(client);
                         }
                         catch (SocketException)
                         {
                             break;
                         }
-                }
+                    }
                 Logging.Log("Server stopped", MessageTypeEnum.INFO);
                 });
                 task.Start();
@@ -85,15 +75,15 @@ namespace ImageService
             {
                 foreach (TcpClient client in clients)
                 {
-                    new Task(() =>
-                    {
+                    //new Task(() =>
+                    //{
                         NetworkStream stream = client.GetStream();
                         BinaryWriter writer = new BinaryWriter(stream);
                         string jsonCommand = JsonConvert.SerializeObject(commandRecievedEventArgs);
                         writer.Write(jsonCommand);
 
                         // client.Close();
-                    }).Start();
+                  //  }).Start();
                 }
             }
             catch (Exception ex)
