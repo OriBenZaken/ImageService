@@ -57,7 +57,7 @@
     <Compile Include="ImageService\ClientHandler.cs" />
     <Compile Include="ImageService\Commands\CloseHandlerCommand.cs" />
     <Compile Include="ImageService\Commands\GetConfigCommand.cs" />
-    <Compile Include="ImageService\Commands\LogCommnad.cs" />
+    <Compile Include="ImageService\Commands\LogCommand.cs" />
     <Compile Include="ImageService\IClientHandler.cs" />
     <Compile Include="ImageService\Commands\ICommand.cs" />
     <Compile Include="ImageService\Commands\NewFileCommand.cs" />
