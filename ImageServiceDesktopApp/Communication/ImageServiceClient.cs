@@ -18,7 +18,6 @@ namespace ImageServiceDesktopApp
     {
         private TcpClient client;
         private bool m_isStopped;
-        public delegate void UpdateResponseArrieved(CommandRecievedEventArgs responseObj);
         public event UpdateResponseArrieved UpdateResponse;
         public bool Start()
         {

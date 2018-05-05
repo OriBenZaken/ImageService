@@ -15,9 +15,9 @@ namespace ImageServiceDesktopApp.VM
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private ILogModel logModel = new LogModel();
-        public ObservableCollection<LogEntry> VM_LogMessages
+        public ObservableCollection<LogEntry> VM_LogEntries
         {
-            get { return this.logModel.LogMessages; }
+            get { return this.logModel.LogEntries; }
             set => throw new NotImplementedException();
         }
     }
