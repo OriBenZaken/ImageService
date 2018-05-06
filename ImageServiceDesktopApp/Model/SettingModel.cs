@@ -40,23 +40,10 @@ namespace ImageServiceDesktopApp.Model
                     switch (responseObj.CommandID)
                     {
                         case (int)CommandEnum.GetConfigCommand:
-                            this.OutputDirectory = responseObj.Args[0];
-                            this.SourceName = responseObj.Args[1];
-                            this.LogName = responseObj.Args[2];
-                            this.TumbnailSize = responseObj.Args[3];
-                            string[] handlers = responseObj.Args[4].Split(';');
-                            foreach (string handler in handlers)
-                            {
-                                this.Handlers.Add(handler);
-                            }
+                            UpdateConfigurations(responseObj);
                             break;
                         case (int)CommandEnum.CloseHandler:
-                            if (Handlers != null && Handlers.Count > 0 && responseObj != null && responseObj.Args != null
-                                  && Handlers.Contains(responseObj.Args[0]))
-                            {
-                                this.Handlers.Remove(responseObj.Args[0]);
-                            }
-
+                            CloseHandler(responseObj);
                             break;
                     }
                 }
@@ -64,6 +51,33 @@ namespace ImageServiceDesktopApp.Model
             catch (Exception ex)
             {
 
+            }
+        }
+        private void UpdateConfigurations(CommandRecievedEventArgs responseObj)
+        {
+            try
+            {
+                this.OutputDirectory = responseObj.Args[0];
+                this.SourceName = responseObj.Args[1];
+                this.LogName = responseObj.Args[2];
+                this.TumbnailSize = responseObj.Args[3];
+                string[] handlers = responseObj.Args[4].Split(';');
+                foreach (string handler in handlers)
+                {
+                    this.Handlers.Add(handler);
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+        private void CloseHandler(CommandRecievedEventArgs responseObj)
+        {
+            if (Handlers != null && Handlers.Count > 0 && responseObj != null && responseObj.Args != null
+                                 && Handlers.Contains(responseObj.Args[0]))
+            {
+                this.Handlers.Remove(responseObj.Args[0]);
             }
         }
         private void InitializeSettingsParams()
