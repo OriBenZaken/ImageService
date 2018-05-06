@@ -14,4 +14,5 @@ namespace ImageService
         void NotifyAllClientsAboutUpdate(CommandRecievedEventArgs commandRecievedEventArgs);
 
     }
+
 }

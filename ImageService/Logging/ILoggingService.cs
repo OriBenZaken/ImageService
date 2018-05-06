@@ -1,4 +1,5 @@
 ﻿using ImageService.Logging.Modal;
+using ImageService.Modal;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace ImageService.Logging
 {
+    public delegate void UpdateLogEntry(CommandRecievedEventArgs updateObj);
     /// <summary>
     /// ILoggingService interface.
     /// manages the logging writting
@@ -27,5 +29,7 @@ namespace ImageService.Logging
         /// <param name="type">type of message</param>
         void Log(string message, MessageTypeEnum type);           // Logging the Message
         ObservableCollection<LogEntry> LogMessages { get; set; }   //log entries list
+        event UpdateLogEntry UpdateLogEntries;
+
     }
 }
