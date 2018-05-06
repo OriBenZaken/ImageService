@@ -30,6 +30,7 @@ namespace ImageService.Logging
         void Log(string message, MessageTypeEnum type);           // Logging the Message
         ObservableCollection<LogEntry> LogMessages { get; set; }   //log entries list
         event UpdateLogEntry UpdateLogEntries;
+        void InvokeUpdateEvent(string message, MessageTypeEnum type);
 
     }
 }

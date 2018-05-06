@@ -22,34 +22,40 @@ namespace ImageService
         public ClientHandler(IImageController imageController)//, ImageServer imageServer)
         {
             this.ImageController = imageController;
-           // this.ImageServer = imageServer;
 
         }
         private bool m_isStopped = false;
 
         public void HandleClient(TcpClient client)
         {
-            
-            new Task(() =>
+            try
             {
-                while (!m_isStopped)
+
+                new Task(() =>
                 {
-                    NetworkStream stream = client.GetStream();
-                    BinaryReader reader = new BinaryReader(stream);
-                    BinaryWriter writer = new BinaryWriter(stream);
-                    string commandLine = reader.ReadString();
+                    while (!m_isStopped)
+                    {
+                        NetworkStream stream = client.GetStream();
+                        BinaryReader reader = new BinaryReader(stream);
+                        BinaryWriter writer = new BinaryWriter(stream);
+                        string commandLine = reader.ReadString();
 
-                    CommandRecievedEventArgs commandRecievedEventArgs = JsonConvert.DeserializeObject<CommandRecievedEventArgs>(commandLine);
+                        CommandRecievedEventArgs commandRecievedEventArgs = JsonConvert.DeserializeObject<CommandRecievedEventArgs>(commandLine);
 
-                    Console.WriteLine("Got command: {0}", commandLine);
-                    bool r;
-                    string result = this.ImageController.ExecuteCommand((int)commandRecievedEventArgs.CommandID,
-                        commandRecievedEventArgs.Args, out r);
+                        Console.WriteLine("Got command: {0}", commandLine);
+                        bool r;
+                        string result = this.ImageController.ExecuteCommand((int)commandRecievedEventArgs.CommandID,
+                            commandRecievedEventArgs.Args, out r);
                     // string result = handleCommand(commandRecievedEventArgs);
                     writer.Write(result);
                     //client.Close();
                 }
-            }).Start();
+                }).Start();
+            }
+            catch (Exception ex)
+            {
+               
+            }
 
 
         }

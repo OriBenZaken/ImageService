@@ -52,15 +52,19 @@ namespace ImageService.Logging
             LogEntry newLogEnrty = new LogEntry { Type = Enum.GetName(typeof(MessageTypeEnum), type), Message = message };
             this.LogMessages.Insert(0, newLogEnrty);
 
+            InvokeUpdateEvent(message, type);
+        }
+
+        public void InvokeUpdateEvent(string message, MessageTypeEnum type)
+        {
+            LogEntry newLogEnrty = new LogEntry { Type = Enum.GetName(typeof(MessageTypeEnum), type), Message = message };
             string[] args = new string[2];
             args[0] = newLogEnrty.Type;
             args[1] = newLogEnrty.Message;
             CommandRecievedEventArgs updateObj = new CommandRecievedEventArgs((int)CommandEnum.AddLogEntry, args, null);
-            try
+            if (this.UpdateLogEntries != null)
             {
-                this.UpdateLogEntries?.Invoke(updateObj);
-            } catch (Exception ex)
-            {
+                UpdateLogEntries?.Invoke(updateObj);
 
             }
         }

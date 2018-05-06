@@ -117,7 +117,7 @@ namespace ImageService.Controller.Handlers
                 this.m_dirWatcher.EnableRaisingEvents = false;
                 // remove OnCommandRecieved from the CommandRecived Event.
                 ((ImageServer)sender).CommandRecieved -= this.OnCommandRecieved;
-                this.m_logging.Log("Succsess on closing handler of path " + this.m_path, MessageTypeEnum.INFO);
+                this.m_logging.Log("Success on closing handler of path " + this.m_path, MessageTypeEnum.INFO);
             }
             catch (Exception ex)
             {

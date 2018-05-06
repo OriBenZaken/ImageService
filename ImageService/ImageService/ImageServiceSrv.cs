@@ -74,16 +74,25 @@ namespace ImageService
         {
             try
             {
-                foreach (TcpClient client in clients)
+                List<TcpClient> copyClients = new List<TcpClient>(clients);
+                foreach (TcpClient client in copyClients)
                 {
                     new Task(() =>
                     {
-                        NetworkStream stream = client.GetStream();
-                        BinaryWriter writer = new BinaryWriter(stream);
-                        string jsonCommand = JsonConvert.SerializeObject(commandRecievedEventArgs);
-                        writer.Write(jsonCommand);
+                        try
+                        {
+                            NetworkStream stream = client.GetStream();
+                            BinaryWriter writer = new BinaryWriter(stream);
+                            string jsonCommand = JsonConvert.SerializeObject(commandRecievedEventArgs);
+                            writer.Write(jsonCommand);
 
-                        // client.Close();
+                            // client.Close();
+                        }
+                        catch (Exception ex)
+                        {
+                            this.clients.Remove(client);
+                        }
+
                     }).Start();
                 }
             }

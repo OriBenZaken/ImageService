@@ -109,6 +109,10 @@ namespace ImageService
         protected override void OnStart(string[] args)
         {
             eventLog1.WriteEntry("In OnStart");
+            if (this.logging != null)
+            {
+                this.logging.InvokeUpdateEvent("In OnStart", MessageTypeEnum.INFO);
+            }
             // Update the service state to Start Pending.  
             ServiceStatus serviceStatus = new ServiceStatus();
             serviceStatus.dwCurrentState = ServiceState.SERVICE_START_PENDING;
@@ -123,6 +127,10 @@ namespace ImageService
             serviceStatus.dwCurrentState = ServiceState.SERVICE_RUNNING;
             SetServiceStatus(this.ServiceHandle, ref serviceStatus);
             eventLog1.WriteEntry("Leave OnStart");
+            if (this.logging != null)
+            {
+                this.logging.InvokeUpdateEvent("Leave OnStart", MessageTypeEnum.INFO);
+            }
 
         }
         /// <summary>
@@ -132,8 +140,16 @@ namespace ImageService
         protected override void OnStop()
         {
             eventLog1.WriteEntry("In onStop.");
+            if (this.logging != null)
+            {
+                this.logging.InvokeUpdateEvent("In onStop", MessageTypeEnum.INFO);
+            }
             this.m_imageServer.OnCloseServer();
             eventLog1.WriteEntry("Leave onStop.");
+            if (this.logging != null)
+            {
+                this.logging.InvokeUpdateEvent("Leave onStop", MessageTypeEnum.INFO);
+            }
         }
         /// <summary>
         /// OnContinue function.
@@ -142,6 +158,11 @@ namespace ImageService
         protected override void OnContinue()
         {
             eventLog1.WriteEntry("In OnContinue.");
+            if (this.logging != null)
+            {
+                this.logging.InvokeUpdateEvent("In OnContinue.", MessageTypeEnum.INFO);
+            }
+
         }
         /// <summary>
         /// OnTimer function.
