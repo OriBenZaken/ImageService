@@ -70,6 +70,9 @@ namespace ImageServiceDesktopApp.Model
                     case (int)CommandEnum.LogCommand:
                         IntializeLogEntriesList(responseObj);
                         break;
+                    case (int)CommandEnum.AddLogEntry:
+                        AddLogEntry(responseObj);
+                        break;
                     default: break;
                 }
             }
@@ -94,7 +97,7 @@ namespace ImageServiceDesktopApp.Model
         {
             try
             {
-                LogEntry newLogEntry = JsonConvert.DeserializeObject<LogEntry>(responseObj.Args[0]);
+                LogEntry newLogEntry = new LogEntry { Type = responseObj.Args[0], Message = responseObj.Args[1] };
                 this.LogEntries.Insert(0, newLogEntry);
             }
             catch (Exception ex)

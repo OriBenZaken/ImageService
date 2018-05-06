@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ImageServiceDesktopApp
 {
-    public delegate void UpdateResponseArrieved(CommandRecievedEventArgs responseObj);
+    public delegate void UpdateResponseArrived(CommandRecievedEventArgs responseObj);
 
     interface IImageServiceClient
     {
@@ -15,6 +15,6 @@ namespace ImageServiceDesktopApp
         void SendCommand(CommandRecievedEventArgs commandRecievedEventArgs);
         void CloseClient();
         void RecieveCommand();
-        event UpdateResponseArrieved UpdateResponse;
+        event UpdateResponseArrived UpdateResponse;
     }
 }

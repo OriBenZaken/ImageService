@@ -26,6 +26,7 @@ namespace ImageService
         {
             this.Port = port;
             this.Logging = logging;
+            this.Logging.UpdateLogEntries += NotifyAboutNewLogEntry;
             this.Ch = ch;
 
         }
@@ -90,6 +91,11 @@ namespace ImageService
             {
 
             }
+        }
+
+        private void NotifyAboutNewLogEntry(CommandRecievedEventArgs updateObj)
+        {
+            NotifyAllClientsAboutUpdate(updateObj);
         }
     }
 

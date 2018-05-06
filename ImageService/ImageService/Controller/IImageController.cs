@@ -1,4 +1,6 @@
-﻿using ImageService.Server;
+﻿using ImageService.Logging;
+using ImageService.Modal;
+using ImageService.Server;
 using System;
 using System.Collections.Generic;
 using System.Linq;

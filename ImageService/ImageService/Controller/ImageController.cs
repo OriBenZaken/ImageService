@@ -43,8 +43,6 @@ namespace ImageService.Controller
             this.commands[((int)CommandEnum.NewFileCommand)] = new NewFileCommand(this.m_modal);
             this.commands[((int)CommandEnum.GetConfigCommand)] = new GetConfigCommand();
             this.commands[((int)CommandEnum.LogCommand)] = new LogCommand(this.m_loggingService);
-        //    this.commands[((int)CommandEnum.GetConfigCommand)] = new GetConfigCommand();
-
 
         }
         public ImageServer ImageServer
@@ -60,7 +58,6 @@ namespace ImageService.Controller
 
             }
         }
-
         /// <summary>
         /// Executing the Command Requet
         /// </summary>
@@ -81,5 +78,6 @@ namespace ImageService.Controller
             resultSuccesful = result.Item2;
             return result.Item1;
         }
+
     }
 }

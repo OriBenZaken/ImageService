@@ -1,5 +1,8 @@
 ﻿
+using ImageService.Infrastructure.Enums;
 using ImageService.Logging.Modal;
+using ImageService.Modal;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -23,6 +26,8 @@ namespace ImageService.Logging
         /// in charge of wriiting message to log
         /// </summary>
         public event EventHandler<MessageRecievedEventArgs> MessageRecieved;
+        public event UpdateLogEntry UpdateLogEntries;
+
         private ObservableCollection<LogEntry> logMessages;
         public ObservableCollection<LogEntry> LogMessages {
             get { return this.logMessages; }
@@ -44,7 +49,20 @@ namespace ImageService.Logging
         public void Log(string message, MessageTypeEnum type)
         {
             MessageRecieved?.Invoke(this, new MessageRecievedEventArgs(type, message));
-            this.LogMessages.Insert(0, new LogEntry { Type = Enum.GetName(typeof(MessageTypeEnum), type), Message = message });
+            LogEntry newLogEnrty = new LogEntry { Type = Enum.GetName(typeof(MessageTypeEnum), type), Message = message };
+            this.LogMessages.Insert(0, newLogEnrty);
+
+            string[] args = new string[2];
+            args[0] = newLogEnrty.Type;
+            args[1] = newLogEnrty.Message;
+            CommandRecievedEventArgs updateObj = new CommandRecievedEventArgs((int)CommandEnum.AddLogEntry, args, null);
+            try
+            {
+                this.UpdateLogEntries?.Invoke(updateObj);
+            } catch (Exception ex)
+            {
+
+            }
         }
         private void GetAllLogEventMessages(EventLog eventLog)
         {
