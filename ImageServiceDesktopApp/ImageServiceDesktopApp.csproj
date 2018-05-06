@@ -75,16 +75,20 @@
       <DependentUpon>LogUC.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\ILogModel.cs" />
+    <Compile Include="Model\IMainWindowModel.cs" />
     <Compile Include="Model\ISettingModel.cs" />
     <Compile Include="Model\LogModel.cs" />
+    <Compile Include="Model\MainWindowModel.cs" />
     <Compile Include="Model\SettingModel.cs" />
     <Compile Include="SettingsUC.xaml.cs">
       <DependentUpon>SettingsUC.xaml</DependentUpon>
     </Compile>
     <Compile Include="VM\ILogVM.cs" />
+    <Compile Include="VM\IMainWindowVM.cs" />
     <Compile Include="VM\ISettingsVM.cs" />
     <Compile Include="VM\LogTypeToBackgroundConverter.cs" />
     <Compile Include="VM\LogVM.cs" />
+    <Compile Include="VM\MainWindowVM.cs" />
     <Compile Include="VM\SettingsVM.cs" />
     <Page Include="LogUC.xaml">
       <SubType>Designer</SubType>

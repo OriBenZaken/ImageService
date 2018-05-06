@@ -15,5 +15,6 @@ namespace ImageServiceDesktopApp
         void CloseClient();
         void RecieveCommand();
         event UpdateResponseArrived UpdateResponse;
+        bool IsConnected { get; set; }
     }
 }

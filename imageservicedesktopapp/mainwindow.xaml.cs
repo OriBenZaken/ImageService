@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ImageServiceDesktopApp.VM;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,12 +29,7 @@ namespace ImageServiceDesktopApp
         public MainWindow()
         {
             InitializeComponent();
-           // this.DataContext = vm_imageService;
-           // imageServiceClient = new ImageServiceClient();
-            //vm_imageService = new VM_ImageService()
-            //{
-            //    ImageServiceClient = imageServiceClient
-            //};
+            this.DataContext = new MainWindowVM();          
         }
     }
 }

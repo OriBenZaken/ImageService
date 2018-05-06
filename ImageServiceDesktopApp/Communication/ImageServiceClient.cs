@@ -18,16 +18,18 @@ namespace ImageServiceDesktopApp
     {
         private TcpClient client;
         private bool m_isStopped;
-        public delegate void UpdateResponseArrieved(CommandRecievedEventArgs responseObj);
+        public delegate void UpdateResponseArrived(CommandRecievedEventArgs responseObj);
 
-        public event UpdateResponseArrived UpdateResponse;
+        public event ImageServiceDesktopApp.UpdateResponseArrived UpdateResponse;
         private static ImageServiceClient m_instance;
         private ImageServiceClient()
         {
-            this.Start();
+            this.IsConnected = this.Start();
         }
 
-       
+
+        public bool IsConnected { get; set; }
+
 
         public static ImageServiceClient Instance
         {
@@ -40,6 +42,7 @@ namespace ImageServiceDesktopApp
                 return m_instance;
             }
         }
+
         private bool Start()
         {
             try

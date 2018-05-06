@@ -6,8 +6,8 @@
              xmlns:local="clr-namespace:ImageServiceDesktopApp"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <StackPanel>
-        <Label Content="Settings" FontSize="25" HorizontalAlignment="Center" FontWeight="Bold" Foreground="Blue" RenderTransformOrigin="2.634,0.921"/>
+    <DockPanel ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Hidden" Margin="-1,0,0,10">
+        <Label Content="Settings" FontSize="25" HorizontalAlignment="Center" FontWeight="Bold" Foreground="Blue" RenderTransformOrigin="2.634,0.921" DockPanel.Dock="Top"/>
     <Grid TextBlock.FontSize="14">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -32,9 +32,9 @@
         <TextBlock Grid.Row="3" Padding="3" Grid.Column="2" Text="{Binding VM_TumbnailSize}" Margin="3"></TextBlock>
         <Button x:Name="btnRemove" Grid.Row="4"  HorizontalContentAlignment="Center"  Command="{Binding RemoveCommand}"  AutomationProperties.AutomationId="btnRemove" Grid.ColumnSpan="2">Remove</Button>
             <ListBox x:Name="lsbHandlers" Grid.Row="5" Grid.ColumnSpan="2" HorizontalContentAlignment="Stretch"  SelectedItem="{Binding SelectedItem}" ItemsSource="{Binding VM_Handlers}"
-                 ScrollViewer.VerticalScrollBarVisibility="Auto">
+                 ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True">
             </ListBox>
         </Grid>
-    </StackPanel>
+    </DockPanel>
 
 </UserControl>
