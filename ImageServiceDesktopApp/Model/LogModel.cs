@@ -18,13 +18,11 @@ namespace ImageServiceDesktopApp.Model
     class LogModel : ILogModel
     {
         private ObservableCollection<LogEntry> logEntries;
-        public IImageServiceClient ImageServiceClient { get; set; }
+        public IImageServiceClient GuiClient { get; set; }
         public LogModel()
         {
-            this.ImageServiceClient = new ImageServiceClient();
-            this.ImageServiceClient.Start();
-            this.ImageServiceClient.RecieveCommand();
-            this.ImageServiceClient.UpdateResponse += UpdateResponse;
+            this.GuiClient = ImageServiceClient.Instance;
+            this.GuiClient.UpdateResponse += UpdateResponse;
             this.InitializeLogsParams();
         }
         public ObservableCollection<LogEntry> LogEntries
@@ -58,7 +56,7 @@ namespace ImageServiceDesktopApp.Model
             Object thisLock = new Object();
             BindingOperations.EnableCollectionSynchronization(LogEntries, thisLock);
             CommandRecievedEventArgs commandRecievedEventArgs = new CommandRecievedEventArgs((int)CommandEnum.LogCommand, null, "");
-            this.ImageServiceClient.SendCommand(commandRecievedEventArgs);
+            this.GuiClient.SendCommand(commandRecievedEventArgs);
         }
 
         private void UpdateResponse(CommandRecievedEventArgs responseObj)
@@ -73,7 +71,8 @@ namespace ImageServiceDesktopApp.Model
                     case (int)CommandEnum.AddLogEntry:
                         AddLogEntry(responseObj);
                         break;
-                    default: break;
+                    default:
+                        break;
                 }
             }
         }

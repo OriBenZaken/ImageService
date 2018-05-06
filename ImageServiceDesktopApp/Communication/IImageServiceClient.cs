@@ -11,7 +11,6 @@ namespace ImageServiceDesktopApp
 
     interface IImageServiceClient
     {
-        bool Start();
         void SendCommand(CommandRecievedEventArgs commandRecievedEventArgs);
         void CloseClient();
         void RecieveCommand();

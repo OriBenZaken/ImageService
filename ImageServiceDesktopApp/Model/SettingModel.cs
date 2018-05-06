@@ -24,9 +24,9 @@ namespace ImageServiceDesktopApp.Model
         #endregion
         public SettingModel()
         {
-            this.ImageServiceClient = ImageServiceClient.Instance;
-            this.ImageServiceClient.RecieveCommand();
-            this.ImageServiceClient.UpdateResponse += UpdateResponse;
+            this.GuiClient = ImageServiceClient.Instance;
+            this.GuiClient.RecieveCommand();
+            this.GuiClient.UpdateResponse += UpdateResponse;
             this.InitializeSettingsParams();
 
 
@@ -78,7 +78,7 @@ namespace ImageServiceDesktopApp.Model
                 Object thisLock = new Object();
                 BindingOperations.EnableCollectionSynchronization(Handlers, thisLock);
                 CommandRecievedEventArgs request = new CommandRecievedEventArgs((int)CommandEnum.GetConfigCommand, null, "");
-                this.ImageServiceClient.SendCommand(request);
+                this.GuiClient.SendCommand(request);
             }
             catch (Exception ex)
             {
@@ -87,7 +87,7 @@ namespace ImageServiceDesktopApp.Model
             
 
         }
-        public ImageServiceClient ImageServiceClient { get; set; }
+        public IImageServiceClient GuiClient { get; set; }
 
         private string m_outputDirectory;
         public string OutputDirectory

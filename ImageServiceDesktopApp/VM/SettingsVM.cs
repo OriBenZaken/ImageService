@@ -84,7 +84,7 @@ namespace ImageServiceDesktopApp.VM
             {
                 string[] arr = { this.selectedItem };
                 CommandRecievedEventArgs eventArgs = new CommandRecievedEventArgs((int)CommandEnum.CloseHandler, arr, "");
-                this.model.ImageServiceClient.SendCommand(eventArgs);
+                this.model.GuiClient.SendCommand(eventArgs);
             }
             catch (Exception ex)
             {
