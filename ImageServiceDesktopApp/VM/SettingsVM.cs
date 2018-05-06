@@ -20,10 +20,9 @@ namespace ImageServiceDesktopApp.VM
 {
     class SettingsVM : ISettingsVM
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-        private ISettingModel model;
-        private IImageServiceClient imageServiceClient;
-
+        /// <summary>
+        /// SettingsVM constructor.
+        /// </summary>
         public SettingsVM()
         {
             this.model = new SettingModel();
@@ -34,21 +33,23 @@ namespace ImageServiceDesktopApp.VM
 
  };
             this.RemoveCommand = new DelegateCommand<object>(this.OnRemove, this.CanRemove);
-           
-            //model.PropertyChanged += PropertyChanged1;
 
         }
-        //private void PropertyChanged1(object sender, PropertyChangedEventArgs e)
-        //{
-        //    var command = this.RemoveCommand as DelegateCommand<object>;
-        //    command.RaiseCanExecuteChanged();
-        //}
 
+        #region MVVMLogic
+        public event PropertyChangedEventHandler PropertyChanged;
+        private ISettingModel model;
+        /// <summary>
+        /// NotifyPropertyChanged function.
+        /// invokes PropertyChanged event about change of property.
+        /// </summary>
+        /// <param name="propName">the changed property</param>
         private void NotifyPropertyChanged(string propName)
         {
             PropertyChangedEventArgs propertyChangedEventArgs = new PropertyChangedEventArgs(propName);
             this.PropertyChanged?.Invoke(this, propertyChangedEventArgs);
         }
+        //getters and setters
         public ObservableCollection<string> VM_Handlers
         {
             get { return model.Handlers; }
@@ -69,27 +70,37 @@ namespace ImageServiceDesktopApp.VM
         {
             get { return model.TumbnailSize; }
         }
-
-       
-
+        #endregion
+        #region CommandsLogic
         public ICommand RemoveCommand { get; set; }
-
+        /// <summary>
+        /// OnRemove function.
+        /// tells what will happen when we press Remove button.
+        /// </summary>
+        /// <param name="obj"></param>
         private void OnRemove(object obj)
         {
-            string[] arr = { this.selectedItem };
-            CommandRecievedEventArgs eventArgs = new CommandRecievedEventArgs((int)CommandEnum.CloseHandler, arr,"");
-            //todo: send the command via tcp
-          
-           
-            this.model.ImageServiceClient.SendCommand(eventArgs);
+            try
+            {
+                string[] arr = { this.selectedItem };
+                CommandRecievedEventArgs eventArgs = new CommandRecievedEventArgs((int)CommandEnum.CloseHandler, arr, "");
+                this.model.ImageServiceClient.SendCommand(eventArgs);
+            }
+            catch (Exception ex)
+            {
 
+            }
 
-           // this.model.Handlers.Remove(selectedItem);
         }
-
+        /// <summary>
+        /// CanRemove function.
+        /// sets the enabeld of remove button.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         private bool CanRemove(object obj)
         {
-            bool result =  this.selectedItem != null ? true : false;
+            bool result = this.selectedItem != null ? true : false;
             return result;
         }
         private string selectedItem;
@@ -102,10 +113,10 @@ namespace ImageServiceDesktopApp.VM
             set
             {
                 selectedItem = value;
-                //CanRemove(null);
                 var command = this.RemoveCommand as DelegateCommand<object>;
                 command.RaiseCanExecuteChanged();
             }
         }
+        #endregion
     }
 }

@@ -20,7 +20,23 @@ namespace ImageServiceDesktopApp
         private bool m_isStopped;
         public delegate void UpdateResponseArrieved(CommandRecievedEventArgs responseObj);
         public event UpdateResponseArrieved UpdateResponse;
-        public bool Start()
+        private static ImageServiceClient m_instance;
+        private ImageServiceClient()
+        {
+            this.Start();
+        }
+        public static ImageServiceClient Instance
+        {
+            get
+            {
+                if (m_instance == null)
+                {
+                    m_instance = new ImageServiceClient();
+                }
+                return m_instance;
+            }
+        }
+        private bool Start()
         {
             try
             {
@@ -45,12 +61,19 @@ namespace ImageServiceDesktopApp
         {
             new Task(() =>
             {
-                string jsonCommand = JsonConvert.SerializeObject(commandRecievedEventArgs);
-                NetworkStream stream = client.GetStream();
-                BinaryWriter writer = new BinaryWriter(stream);
-                // Send data to server
-                Console.WriteLine($"Send {jsonCommand} to Server");
-                writer.Write(jsonCommand);
+                try
+                {
+                    string jsonCommand = JsonConvert.SerializeObject(commandRecievedEventArgs);
+                    NetworkStream stream = client.GetStream();
+                    BinaryWriter writer = new BinaryWriter(stream);
+                    // Send data to server
+                    Console.WriteLine($"Send {jsonCommand} to Server");
+                    writer.Write(jsonCommand);
+                }
+                catch (Exception ex)
+                {
+
+                }
             }).Start();
         }
 
@@ -58,14 +81,21 @@ namespace ImageServiceDesktopApp
         {
             new Task(() =>
             {
-                while (!m_isStopped)
+                try
                 {
-                    NetworkStream stream = client.GetStream();
-                    BinaryReader reader = new BinaryReader(stream);
-                    string response = reader.ReadString();
-                    Console.WriteLine($"Recieve {response} from Server");
-                    CommandRecievedEventArgs responseObj = JsonConvert.DeserializeObject<CommandRecievedEventArgs>(response);
-                    this.UpdateResponse?.Invoke(responseObj);
+                    while (!m_isStopped)
+                    {
+                        NetworkStream stream = client.GetStream();
+                        BinaryReader reader = new BinaryReader(stream);
+                        string response = reader.ReadString();
+                        Console.WriteLine($"Recieve {response} from Server");
+                        CommandRecievedEventArgs responseObj = JsonConvert.DeserializeObject<CommandRecievedEventArgs>(response);
+                        this.UpdateResponse?.Invoke(responseObj);
+                    }
+                }
+                catch (Exception ex)
+                {
+
                 }
             }).Start();
         }

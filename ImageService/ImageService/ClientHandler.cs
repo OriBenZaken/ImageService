@@ -38,6 +38,7 @@ namespace ImageService
                     BinaryReader reader = new BinaryReader(stream);
                     BinaryWriter writer = new BinaryWriter(stream);
                     string commandLine = reader.ReadString();
+
                     CommandRecievedEventArgs commandRecievedEventArgs = JsonConvert.DeserializeObject<CommandRecievedEventArgs>(commandLine);
 
                     Console.WriteLine("Got command: {0}", commandLine);

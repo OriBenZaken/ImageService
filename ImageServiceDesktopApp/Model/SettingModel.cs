@@ -24,8 +24,7 @@ namespace ImageServiceDesktopApp.Model
         #endregion
         public SettingModel()
         {
-            this.ImageServiceClient = new ImageServiceClient();
-            this.ImageServiceClient.Start();
+            this.ImageServiceClient = ImageServiceClient.Instance;
             this.ImageServiceClient.RecieveCommand();
             this.ImageServiceClient.UpdateResponse += UpdateResponse;
             this.InitializeSettingsParams();
@@ -69,15 +68,22 @@ namespace ImageServiceDesktopApp.Model
         }
         private void InitializeSettingsParams()
         {
-            this.OutputDirectory = string.Empty;
-            this.SourceName = string.Empty;
-            this.LogName = string.Empty;
-            this.TumbnailSize = string.Empty;
-            Handlers = new ObservableCollection<string>();
-            Object thisLock = new Object();
-            BindingOperations.EnableCollectionSynchronization(Handlers, thisLock);
-            CommandRecievedEventArgs request = new CommandRecievedEventArgs((int)CommandEnum.GetConfigCommand, null, "");
-            this.ImageServiceClient.SendCommand(request);
+            try
+            {
+                this.OutputDirectory = string.Empty;
+                this.SourceName = string.Empty;
+                this.LogName = string.Empty;
+                this.TumbnailSize = string.Empty;
+                Handlers = new ObservableCollection<string>();
+                Object thisLock = new Object();
+                BindingOperations.EnableCollectionSynchronization(Handlers, thisLock);
+                CommandRecievedEventArgs request = new CommandRecievedEventArgs((int)CommandEnum.GetConfigCommand, null, "");
+                this.ImageServiceClient.SendCommand(request);
+            }
+            catch (Exception ex)
+            {
+
+            }
             
 
         }
@@ -123,7 +129,6 @@ namespace ImageServiceDesktopApp.Model
                 OnPropertyChanged("TumbnailSize");
             }
         }
-        //todo:
         public ObservableCollection<string> Handlers { get; set; }
         public bool IsConected { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     }

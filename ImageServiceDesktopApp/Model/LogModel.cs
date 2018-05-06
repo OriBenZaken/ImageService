@@ -22,8 +22,7 @@ namespace ImageServiceDesktopApp.Model
         {
             this.logMessages = new ObservableCollection<LogEntry>();
             //this.CreateLogExamples(30);
-            this.imageServiceClient = new ImageServiceClient();
-            this.imageServiceClient.Start();
+            this.imageServiceClient = ImageServiceClient.Instance;
             this.intializeLogEntriesList();
         }
         public ObservableCollection<LogEntry> LogMessages
