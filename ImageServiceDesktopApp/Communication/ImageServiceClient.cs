@@ -21,20 +21,22 @@ namespace ImageServiceDesktopApp
         private TcpClient client;
         private bool m_isStopped;
         public delegate void UpdateResponseArrived(CommandRecievedEventArgs responseObj);
-
         public event ImageServiceDesktopApp.UpdateResponseArrived UpdateResponse;
         private static ImageServiceClient m_instance;
+        private static Mutex m_mutex = new Mutex();
+        public bool IsConnected { get; set; }
+
+        /// <summary>
+        /// ImageServiceClient private constructor.
+        /// </summary>
         private ImageServiceClient()
         {
             this.IsConnected = this.Start();
         }
-        private static Mutex m_mutex = new Mutex();
 
-
-
-        public bool IsConnected { get; set; }
-
-
+        /// <summary>
+        /// Instance - returns instance of the singleton class.
+        /// </summary>
         public static ImageServiceClient Instance
         {
             get
@@ -47,6 +49,11 @@ namespace ImageServiceDesktopApp
             }
         }
 
+        /// <summary>
+        /// Start function.
+        /// starts the tcp connection.
+        /// </summary>
+        /// <returns></returns>
         private bool Start()
         {
             try
@@ -63,11 +70,14 @@ namespace ImageServiceDesktopApp
             {
                 Console.WriteLine(ex.ToString());
                 return false;
-
             }
         }
 
-      
+        /// <summary>
+        /// SendCommand function.
+        /// sends command to srv.
+        /// </summary>
+        /// <param name="commandRecievedEventArgs">info to be sented to server</param>
         public void SendCommand(CommandRecievedEventArgs commandRecievedEventArgs)
         {
             new Task(() =>
@@ -90,6 +100,10 @@ namespace ImageServiceDesktopApp
             }).Start();
         }
 
+        /// <summary>
+        /// RecieveCommand function.
+        /// creates task and reads new messages.
+        /// </summary>
         public void RecieveCommand()
         {
             new Task(() =>
@@ -113,6 +127,10 @@ namespace ImageServiceDesktopApp
             }).Start();
         }
 
+        /// <summary>
+        /// CloseClient function.
+        /// closes the client.
+        /// </summary>
         public void CloseClient()
         {
             CommandRecievedEventArgs commandRecievedEventArgs = new CommandRecievedEventArgs((int)CommandEnum.CloseClient, null, "");

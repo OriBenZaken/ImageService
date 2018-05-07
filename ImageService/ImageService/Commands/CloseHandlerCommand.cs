@@ -21,8 +21,12 @@ namespace ImageService.Commands
            
         }
 
-        //public object ImageServer { get; private set; }
-
+        /// <summary>
+        /// That function will execute the task of the command.
+        /// </summary>
+        /// <param name="args">arguments</param>
+        /// <param name="result"> tells if the command succeded or not.</param>
+        /// <returns>command return a string describes the operartion of the command.</returns>
         public string Execute(string[] args, out bool result)
         {
             try
@@ -48,18 +52,10 @@ namespace ImageService.Commands
                 config.AppSettings.Settings.Remove("Handler");
                 config.AppSettings.Settings.Add("Handler", newHandlers);
                  // Save the configuration file.
-    config.Save(ConfigurationSaveMode.Modified);
+                config.Save(ConfigurationSaveMode.Modified);
                  // Force a reload of a changed section.
-    ConfigurationManager.RefreshSection("appSettings");
-
-
-
-
-                //config.AppSettings.Settings["Handler"].Value = newHandlers;
-                //config.Save(ConfigurationSaveMode.Modified);
-                //todo: stop listen to this dir!!
+                ConfigurationManager.RefreshSection("appSettings");
                 this.m_imageServer.CloseSpecipicHandler(toBeDeletedHandler);
-                //todo: update other customers!!!!!!
                 string[] array = new string[1];
                 array[0] = toBeDeletedHandler;
                 CommandRecievedEventArgs notifyParams = new CommandRecievedEventArgs((int)CommandEnum.CloseHandler, array, "");

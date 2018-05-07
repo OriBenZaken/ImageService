@@ -21,8 +21,12 @@ namespace ImageService
     class ClientHandler : IClientHandler
     {
         IImageController ImageController { get; set; }
-       // ImageServer ImageServer { get; set; }
         ILoggingService Logging { get; set; }
+        /// <summary>
+        /// ClientHandler constructor.
+        /// </summary>
+        /// <param name="imageController">IImageController obj</param>
+        /// <param name="logging">ILoggingService obj</param>
         public ClientHandler(IImageController imageController, ILoggingService logging)//, ImageServer imageServer)
         {
             this.ImageController = imageController;
@@ -31,7 +35,12 @@ namespace ImageService
         }
         private bool m_isStopped = false;
         public static Mutex Mutex { get; set; }
-
+        /// <summary>
+        /// HandleClient function.
+        /// handles the client-server communication.
+        /// </summary>
+        /// <param name="client">specified client</param>
+        /// <param name="clients">list of all current clients</param>
         public void HandleClient(TcpClient client, List<TcpClient> clients)
         {
             try
@@ -48,12 +57,11 @@ namespace ImageService
                             BinaryReader reader = new BinaryReader(stream);
                             BinaryWriter writer = new BinaryWriter(stream);
                             string commandLine = reader.ReadString();
-                            Logging.Log(commandLine, MessageTypeEnum.FAIL);
+                            Logging.Log("ClientHandler got command: " +commandLine, MessageTypeEnum.INFO);
 
                             CommandRecievedEventArgs commandRecievedEventArgs = JsonConvert.DeserializeObject<CommandRecievedEventArgs>(commandLine);
                             if (commandRecievedEventArgs.CommandID == (int)CommandEnum.CloseClient)
                             {
-                              // m_isStopped = true;
                                 clients.Remove(client);
                                 client.Close();
                                 break;
@@ -74,7 +82,6 @@ namespace ImageService
                     }
                     catch (Exception ex)
                     {
-                        //m_isStopped = true;
                         clients.Remove(client);
                         Logging.Log(ex.ToString(), MessageTypeEnum.FAIL);
                         client.Close();
@@ -91,32 +98,5 @@ namespace ImageService
 
         }
 
-        private string handleCommand(CommandRecievedEventArgs commandRecievedEventArgs)
-        {
-            string result = string.Empty;
-            switch (commandRecievedEventArgs.CommandID)
-            {
-                case (int)CommandEnum.CloseHandler:
-
-                    break;
-                case (int)CommandEnum.GetConfigCommand:
-                    string[] args = new string[5];
-
-                    args[0] = ConfigurationManager.AppSettings.Get("OutputDir");
-                    args[1] = ConfigurationManager.AppSettings.Get("SourceName");
-                    args[2] = ConfigurationManager.AppSettings.Get("LogName");
-                    args[3] = ConfigurationManager.AppSettings.Get("ThumbnailSize");
-                    args[4] = ConfigurationManager.AppSettings.Get("Handler");
-                    CommandRecievedEventArgs commandSendArgs = new CommandRecievedEventArgs((int)CommandEnum.GetConfigCommand,args,"");
-                    result =  JsonConvert.SerializeObject(commandSendArgs);
-
-                    break;
-                case (int)CommandEnum.LogCommand:
-
-                    break;
-            }
-            return result;
-
-        }
     }
 }

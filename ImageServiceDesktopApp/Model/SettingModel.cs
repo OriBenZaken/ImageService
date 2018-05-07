@@ -14,23 +14,24 @@ namespace ImageServiceDesktopApp.Model
 {
     class SettingModel : ISettingModel
     {
-        #region Notify Changed
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string name)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(name));
-        }
-        #endregion
+        public IImageServiceClient GuiClient { get; set; }
+
+        /// <summary>
+        /// SettingModel constructor.
+        /// </summary>
         public SettingModel()
         {
             this.GuiClient = ImageServiceClient.Instance;
             this.GuiClient.RecieveCommand();
             this.GuiClient.UpdateResponse += UpdateResponse;
             this.InitializeSettingsParams();
-
-
         }
+        
+        /// <summary>
+        /// UpdateResponse function.
+        /// updates the model when message recieved from srv.
+        /// </summary>
+        /// <param name="responseObj">the info came from srv</param>
         private void UpdateResponse(CommandRecievedEventArgs responseObj)
         {
             try
@@ -53,6 +54,11 @@ namespace ImageServiceDesktopApp.Model
 
             }
         }
+        /// <summary>
+        /// UpdateConfigurations function.
+        /// updates app config params.
+        /// </summary>
+        /// <param name="responseObj">the info came from srv</param>
         private void UpdateConfigurations(CommandRecievedEventArgs responseObj)
         {
             try
@@ -72,6 +78,10 @@ namespace ImageServiceDesktopApp.Model
 
             }
         }
+        /// <summary>
+        /// CloseHandler function.
+        /// </summary>
+        /// <param name="responseObj">the info came from srv</param>
         private void CloseHandler(CommandRecievedEventArgs responseObj)
         {
             if (Handlers != null && Handlers.Count > 0 && responseObj != null && responseObj.Args != null
@@ -80,6 +90,10 @@ namespace ImageServiceDesktopApp.Model
                 this.Handlers.Remove(responseObj.Args[0]);
             }
         }
+        /// <summary>
+        /// InitializeSettingsParams function.
+        /// initializes settings params.
+        /// </summary>
         private void InitializeSettingsParams()
         {
             try
@@ -99,11 +113,9 @@ namespace ImageServiceDesktopApp.Model
             {
 
             }
-            
-
         }
-        public IImageServiceClient GuiClient { get; set; }
 
+        #region MVVMLogic
         private string m_outputDirectory;
         public string OutputDirectory
         {
@@ -145,6 +157,20 @@ namespace ImageServiceDesktopApp.Model
             }
         }
         public ObservableCollection<string> Handlers { get; set; }
-        public bool IsConected { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        #region Notify Changed
+        public event PropertyChangedEventHandler PropertyChanged;
+        /// <summary>
+        /// OnPropertyChanged function.
+        /// defines what happens when property changed.
+        /// </summary>
+        /// <param name="name">prop name</param>
+        protected void OnPropertyChanged(string name)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(name));
+        }
+        #endregion
+        #endregion
+
     }
 }

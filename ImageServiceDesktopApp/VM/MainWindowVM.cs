@@ -24,7 +24,9 @@ namespace ImageServiceDesktopApp.VM
         public ICommand CloseCommand { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
+        /// <summary>
+        /// MainWindowVM constructor.
+        /// </summary>
         public MainWindowVM()
         {
             this.m_mainWindowModel = new MainWindowModel();
@@ -32,15 +34,25 @@ namespace ImageServiceDesktopApp.VM
             delegate (Object sender, PropertyChangedEventArgs e)
             {
                 NotifyPropertyChanged("VM_" + e.PropertyName);
-             };
+            };
 
             this.CloseCommand = new DelegateCommand<object>(this.OnClose, this.CanClose);
         }
-
+        /// <summary>
+        /// OnClose function. 
+        /// defines what happens before the window is closed.
+        /// </summary>
+        /// <param name="obj"></param>
         private void OnClose(object obj)
         {
             this.m_mainWindowModel.GuiClient.CloseClient();
         }
+        /// <summary>
+        /// CanClose function.
+        /// defines if user can close the window.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         private bool CanClose(object obj)
         {
             return true;

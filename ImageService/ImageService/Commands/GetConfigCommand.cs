@@ -13,6 +13,12 @@ namespace ImageService.Commands
 {
     class GetConfigCommand : ICommand
     {
+        /// <summary>
+        /// That function will execute the task of the command.
+        /// </summary>
+        /// <param name="args">arguments</param>
+        /// <param name="result"> tells if the command succeded or not.</param>
+        /// <returns>command return a string describes the operartion of the command.</returns>
         public string Execute(string[] args, out bool result)
         {
             try

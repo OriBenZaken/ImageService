@@ -69,16 +69,20 @@ namespace ImageService.Server
         {
             NotifyAllHandlerRemoved.Invoke(commandRecievedEventArgs);
         }
-        
-            internal void CloseSpecipicHandler(string toBeDeletedHandler)
+        /// <summary>
+        /// CloseSpecipicHandler function.
+        /// closes specipic handler.
+        /// </summary>
+        /// <param name="toBeDeletedHandler">path of to be deleted handler</param>
+        internal void CloseSpecipicHandler(string toBeDeletedHandler)
         {
             if (Handlers.ContainsKey(toBeDeletedHandler))
             {
                 IDirectoryHandler handler = Handlers[toBeDeletedHandler];
                 this.CloseServer -= handler.OnCloseHandler;
-                handler.OnCloseHandler(this,null);
+                handler.OnCloseHandler(this, null);
             }
-           
+
         }
 
         /// <summary>
