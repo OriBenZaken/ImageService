@@ -12,6 +12,9 @@ using ImageService.Server;
 using ImageService.Modal;
 using ImageService.Infrastructure.Enums;
 using System.Configuration;
+using ImageService.Logging;
+using ImageService.Logging.Modal;
+using System.Threading;
 
 namespace ImageService
 {
@@ -19,12 +22,15 @@ namespace ImageService
     {
         IImageController ImageController { get; set; }
        // ImageServer ImageServer { get; set; }
-        public ClientHandler(IImageController imageController)//, ImageServer imageServer)
+        ILoggingService Logging { get; set; }
+        public ClientHandler(IImageController imageController, ILoggingService logging)//, ImageServer imageServer)
         {
             this.ImageController = imageController;
+            this.Logging = logging;
 
         }
         private bool m_isStopped = false;
+        public static Mutex Mutex { get; set; }
 
         public void HandleClient(TcpClient client, List<TcpClient> clients)
         {
@@ -42,13 +48,14 @@ namespace ImageService
                             BinaryReader reader = new BinaryReader(stream);
                             BinaryWriter writer = new BinaryWriter(stream);
                             string commandLine = reader.ReadString();
+                            Logging.Log(commandLine, MessageTypeEnum.FAIL);
 
                             CommandRecievedEventArgs commandRecievedEventArgs = JsonConvert.DeserializeObject<CommandRecievedEventArgs>(commandLine);
                             if (commandRecievedEventArgs.CommandID == (int)CommandEnum.CloseClient)
                             {
                               // m_isStopped = true;
                                 clients.Remove(client);
-                                //client.Close();
+                                client.Close();
                                 break;
 
                             }
@@ -57,7 +64,11 @@ namespace ImageService
                             string result = this.ImageController.ExecuteCommand((int)commandRecievedEventArgs.CommandID,
                                 commandRecievedEventArgs.Args, out r);
                             // string result = handleCommand(commandRecievedEventArgs);
+                            Mutex.WaitOne();
+
                             writer.Write(result);
+                            Mutex.ReleaseMutex();
+                        
 
                         }
                     }
@@ -65,13 +76,15 @@ namespace ImageService
                     {
                         //m_isStopped = true;
                         clients.Remove(client);
-                        //client.Close();
+                        Logging.Log(ex.ToString(), MessageTypeEnum.FAIL);
+                        client.Close();
                     }
 
                 }).Start();
             }
             catch (Exception ex)
             {
+                Logging.Log(ex.ToString(), MessageTypeEnum.FAIL);
 
             }
 

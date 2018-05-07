@@ -88,7 +88,7 @@ namespace ImageService
                 this.controller = new ImageController(this.modal, this.logging);
                 this.m_imageServer = new ImageServer(controller, logging);
                 this.controller.ImageServer = m_imageServer;
-                IClientHandler ch = new ClientHandler(controller);//, m_imageServer);
+                IClientHandler ch = new ClientHandler(controller, logging);//, m_imageServer);
                 imageServiceSrv = new ImageServiceSrv(8000,logging,ch);
                 ImageServer.NotifyAllHandlerRemoved += imageServiceSrv.NotifyAllClientsAboutUpdate;
                 this.logging.UpdateLogEntries += imageServiceSrv.NotifyAllClientsAboutUpdate;

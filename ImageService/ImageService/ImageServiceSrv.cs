@@ -11,6 +11,7 @@ using ImageService.Logging.Modal;
 using ImageService.Controller;
 using ImageService.Modal;
 using Newtonsoft.Json;
+using System.Threading;
 
 namespace ImageService
 {
@@ -21,6 +22,8 @@ namespace ImageService
         TcpListener Listener { get; set; }
         IClientHandler Ch { get; set; }
         private List<TcpClient> clients = new List<TcpClient>();
+        private static Mutex m_mutex = new Mutex();
+
 
         public ImageServiceSrv(int port, ILoggingService logging, IClientHandler ch)
         {
@@ -28,6 +31,7 @@ namespace ImageService
             this.Logging = logging;
             //this.Logging.UpdateLogEntries += NotifyAboutNewLogEntry;
             this.Ch = ch;
+            ClientHandler.Mutex = m_mutex;
 
         }
         public void Start()
@@ -84,8 +88,9 @@ namespace ImageService
                             NetworkStream stream = client.GetStream();
                             BinaryWriter writer = new BinaryWriter(stream);
                             string jsonCommand = JsonConvert.SerializeObject(commandRecievedEventArgs);
+                            m_mutex.WaitOne();
                             writer.Write(jsonCommand);
-
+                            m_mutex.ReleaseMutex();
                             // client.Close();
                         }
                         catch (Exception ex)
@@ -98,7 +103,7 @@ namespace ImageService
             }
             catch (Exception ex)
             {
-
+                Logging.Log(ex.ToString(), MessageTypeEnum.FAIL);
             }
         }
 

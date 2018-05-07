@@ -12,6 +12,7 @@ using ImageService.Modal;
 using Newtonsoft.Json;
 using System.Windows.Threading;
 using ImageService.Infrastructure.Enums;
+using System.Threading;
 
 namespace ImageServiceDesktopApp
 {
@@ -27,6 +28,8 @@ namespace ImageServiceDesktopApp
         {
             this.IsConnected = this.Start();
         }
+        private static Mutex m_mutex = new Mutex();
+
 
 
         public bool IsConnected { get; set; }
@@ -76,7 +79,9 @@ namespace ImageServiceDesktopApp
                     BinaryWriter writer = new BinaryWriter(stream);
                     // Send data to server
                     Console.WriteLine($"Send {jsonCommand} to Server");
+                    m_mutex.WaitOne();
                     writer.Write(jsonCommand);
+                    m_mutex.ReleaseMutex();
                 }
                 catch (Exception ex)
                 {

@@ -91,7 +91,8 @@ namespace ImageServiceDesktopApp.Model
                 Handlers = new ObservableCollection<string>();
                 Object thisLock = new Object();
                 BindingOperations.EnableCollectionSynchronization(Handlers, thisLock);
-                CommandRecievedEventArgs request = new CommandRecievedEventArgs((int)CommandEnum.GetConfigCommand, null, "");
+                string[] arr = new string[5];
+                CommandRecievedEventArgs request = new CommandRecievedEventArgs((int)CommandEnum.GetConfigCommand, arr, "");
                 this.GuiClient.SendCommand(request);
             }
             catch (Exception ex)
