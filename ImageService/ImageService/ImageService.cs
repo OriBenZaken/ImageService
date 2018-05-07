@@ -91,6 +91,7 @@ namespace ImageService
                 IClientHandler ch = new ClientHandler(controller);//, m_imageServer);
                 imageServiceSrv = new ImageServiceSrv(8000,logging,ch);
                 ImageServer.NotifyAllHandlerRemoved += imageServiceSrv.NotifyAllClientsAboutUpdate;
+                this.logging.UpdateLogEntries += imageServiceSrv.NotifyAllClientsAboutUpdate;
                 imageServiceSrv.Start();
 
     }

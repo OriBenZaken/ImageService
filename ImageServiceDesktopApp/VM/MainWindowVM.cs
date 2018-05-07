@@ -1,4 +1,5 @@
 ﻿using ImageServiceDesktopApp.Model;
+using Prism.Commands;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,7 +19,9 @@ namespace ImageServiceDesktopApp.VM
             {
                 return this.m_mainWindowModel.IsConnected;
             }
-        } 
+        }
+
+        public ICommand CloseCommand { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -30,6 +33,17 @@ namespace ImageServiceDesktopApp.VM
             {
                 NotifyPropertyChanged("VM_" + e.PropertyName);
              };
+
+            this.CloseCommand = new DelegateCommand<object>(this.OnClose, this.CanClose);
+        }
+
+        private void OnClose(object obj)
+        {
+            this.m_mainWindowModel.GuiClient.CloseClient();
+        }
+        private bool CanClose(object obj)
+        {
+            return true;
         }
 
         /// <summary>

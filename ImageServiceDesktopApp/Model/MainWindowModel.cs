@@ -20,10 +20,12 @@ namespace ImageServiceDesktopApp.Model
             }
         }
 
+        public IImageServiceClient GuiClient { get; set; }
+
         public MainWindowModel()
         {
-            IImageServiceClient guiClient = ImageServiceClient.Instance;
-            IsConnected = guiClient.IsConnected;
+            GuiClient = ImageServiceClient.Instance;
+            IsConnected = GuiClient.IsConnected;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

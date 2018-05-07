@@ -17,6 +17,7 @@ namespace ImageService.Infrastructure.Enums
         GetConfigCommand,
         LogCommand,
         CloseHandler,
-        AddLogEntry
+        AddLogEntry,
+        CloseClient
     }
 }

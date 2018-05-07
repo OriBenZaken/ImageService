@@ -11,6 +11,7 @@ using ImageService.Logging.Modal;
 using ImageService.Modal;
 using Newtonsoft.Json;
 using System.Windows.Threading;
+using ImageService.Infrastructure.Enums;
 
 namespace ImageServiceDesktopApp
 {
@@ -109,6 +110,8 @@ namespace ImageServiceDesktopApp
 
         public void CloseClient()
         {
+            //CommandRecievedEventArgs commandRecievedEventArgs = new CommandRecievedEventArgs((int)CommandEnum.CloseClient, null, "");
+            //this.SendCommand(commandRecievedEventArgs);
             client.Close();
             this.m_isStopped = true;
         }

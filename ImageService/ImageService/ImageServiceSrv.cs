@@ -26,7 +26,7 @@ namespace ImageService
         {
             this.Port = port;
             this.Logging = logging;
-            this.Logging.UpdateLogEntries += NotifyAboutNewLogEntry;
+            //this.Logging.UpdateLogEntries += NotifyAboutNewLogEntry;
             this.Ch = ch;
 
         }
@@ -49,7 +49,7 @@ namespace ImageService
                             TcpClient client = Listener.AcceptTcpClient();
                             Logging.Log("Got new connection", MessageTypeEnum.INFO);
                             clients.Add(client);
-                            Ch.HandleClient(client);
+                            Ch.HandleClient(client,clients);
                         }
                         catch (SocketException)
                         {

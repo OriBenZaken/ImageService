@@ -26,7 +26,7 @@ namespace ImageService
         }
         private bool m_isStopped = false;
 
-        public void HandleClient(TcpClient client)
+        public void HandleClient(TcpClient client, List<TcpClient> clients)
         {
             try
             {
