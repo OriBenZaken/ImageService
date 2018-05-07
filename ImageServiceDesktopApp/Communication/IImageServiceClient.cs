@@ -11,8 +11,21 @@ namespace ImageServiceDesktopApp
 
     interface IImageServiceClient
     {
+        /// <summary>
+        /// SendCommand function.
+        /// sends command to srv.
+        /// </summary>
+        /// <param name="commandRecievedEventArgs">info to be sented to server</param>
         void SendCommand(CommandRecievedEventArgs commandRecievedEventArgs);
+        /// <summary>
+        /// CloseClient function.
+        /// closes the client.
+        /// </summary>
         void CloseClient();
+        /// <summary>
+        /// RecieveCommand function.
+        /// creates task and reads new messages.
+        /// </summary>
         void RecieveCommand();
         event UpdateResponseArrived UpdateResponse;
         bool IsConnected { get; set; }

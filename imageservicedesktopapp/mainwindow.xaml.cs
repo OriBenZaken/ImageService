@@ -21,11 +21,6 @@ namespace ImageServiceDesktopApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        #region Members
-        private IImageServiceClient imageServiceClient;
-       // private IVM_ImageService vm_imageService;
-        #endregion
-
         public MainWindow()
         {
             InitializeComponent();

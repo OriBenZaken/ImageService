@@ -21,7 +21,9 @@ namespace ImageServiceDesktopApp.Model
         }
 
         public IImageServiceClient GuiClient { get; set; }
-
+        /// <summary>
+        /// MainWindowModel constructor.
+        /// </summary>
         public MainWindowModel()
         {
             GuiClient = ImageServiceClient.Instance;
@@ -29,7 +31,11 @@ namespace ImageServiceDesktopApp.Model
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
+        /// <summary>
+        /// OnPropertyChanged function.
+        /// defines what happens when property changed.
+        /// </summary>
+        /// <param name="name">prop name</param>
         protected void OnPropertyChanged(string name)
         {
             if (PropertyChanged != null)

@@ -24,16 +24,24 @@ namespace ImageService
         private List<TcpClient> clients = new List<TcpClient>();
         private static Mutex m_mutex = new Mutex();
 
-
+        /// <summary>
+        /// ImageServiceSrv constructor.
+        /// </summary>
+        /// <param name="port">port num</param>
+        /// <param name="logging">ILoggingService obj</param>
+        /// <param name="ch">IClientHandler obj</param>
         public ImageServiceSrv(int port, ILoggingService logging, IClientHandler ch)
         {
             this.Port = port;
             this.Logging = logging;
-            //this.Logging.UpdateLogEntries += NotifyAboutNewLogEntry;
             this.Ch = ch;
             ClientHandler.Mutex = m_mutex;
-
         }
+
+        /// <summary>
+        /// Start function.
+        /// lissten to new clients.
+        /// </summary>
         public void Start()
         {
             try
@@ -69,11 +77,21 @@ namespace ImageService
                 Logging.Log(ex.ToString(), MessageTypeEnum.FAIL);
             }
         }
+
+        /// <summary>
+        /// Stop func.
+        /// stop listen to new clients.
+        /// </summary>
         public void Stop()
         {
             Listener.Stop();
         }
 
+        /// <summary>
+        /// NotifyAllClientsAboutUpdate function.
+        /// notifies all clients about update (new log, handler deleted).
+        /// </summary>
+        /// <param name="commandRecievedEventArgs"></param>
         public void NotifyAllClientsAboutUpdate(CommandRecievedEventArgs commandRecievedEventArgs)
         {
             try
@@ -91,7 +109,6 @@ namespace ImageService
                             m_mutex.WaitOne();
                             writer.Write(jsonCommand);
                             m_mutex.ReleaseMutex();
-                            // client.Close();
                         }
                         catch (Exception ex)
                         {
@@ -107,6 +124,10 @@ namespace ImageService
             }
         }
 
+        /// <summary>
+        /// NotifyAboutNewLogEntry function.
+        /// </summary>
+        /// <param name="updateObj">CommandRecievedEventArgs obj</param>
         private void NotifyAboutNewLogEntry(CommandRecievedEventArgs updateObj)
         {
             NotifyAllClientsAboutUpdate(updateObj);

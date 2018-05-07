@@ -27,11 +27,11 @@ namespace ImageServiceDesktopApp.VM
         {
             this.model = new SettingModel();
             model.PropertyChanged +=
- delegate (Object sender, PropertyChangedEventArgs e)
- {
-     NotifyPropertyChanged("VM_" + e.PropertyName);
+            delegate (Object sender, PropertyChangedEventArgs e)
+            {
+                NotifyPropertyChanged("VM_" + e.PropertyName);
 
- };
+             };
             this.RemoveCommand = new DelegateCommand<object>(this.OnRemove, this.CanRemove);
 
         }
@@ -71,6 +71,7 @@ namespace ImageServiceDesktopApp.VM
             get { return model.TumbnailSize; }
         }
         #endregion
+
         #region CommandsLogic
         public ICommand RemoveCommand { get; set; }
         /// <summary>
