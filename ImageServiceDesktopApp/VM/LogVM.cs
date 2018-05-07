@@ -11,10 +11,14 @@ using System.Threading.Tasks;
 
 namespace ImageServiceDesktopApp.VM
 {
+    /// <summary>
+    /// Implementation of ILogVm interface.
+    /// </summary>
     class LogVM : ILogVM
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private ILogModel logModel = new LogModel();
+        // List of all the event log entries.
         public ObservableCollection<LogEntry> VM_LogEntries
         {
             get { return this.logModel.LogEntries; }

@@ -21,6 +21,9 @@ namespace ImageServiceDesktopApp
     /// </summary>
     public partial class LogUC : UserControl
     {
+        /// <summary>
+        /// Logs View.
+        /// </summary>
         public LogUC()
         {
             InitializeComponent();

@@ -3,6 +3,7 @@ using ImageService.Modal;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,8 +30,7 @@ namespace ImageService.Logging
         /// <param name="type">type of message</param>
         void Log(string message, MessageTypeEnum type);           // Logging the Message
         ObservableCollection<LogEntry> LogMessages { get; set; }   //log entries list
-        event UpdateLogEntry UpdateLogEntries;
-        void InvokeUpdateEvent(string message, MessageTypeEnum type);
-
+        event UpdateLogEntry UpdateLogEntries;  //Invoked everytime a new event log entry is written to the log
+        void InvokeUpdateEvent(string message, MessageTypeEnum type); // Invokes UpdateLogEntries event.
     }
 }

@@ -15,16 +15,15 @@ using Newtonsoft.Json;
 
 namespace ImageServiceDesktopApp.Model
 {
+    /// <summary>
+    /// Implementation of ILogModel interface.
+    /// </summary>
     class LogModel : ILogModel
     {
+        // List of all the event log entries.
         private ObservableCollection<LogEntry> logEntries;
         public IImageServiceClient GuiClient { get; set; }
-        public LogModel()
-        {
-            this.GuiClient = ImageServiceClient.Instance;
-            this.GuiClient.UpdateResponse += UpdateResponse;
-            this.InitializeLogsParams();
-        }
+        // Property - List of all the event log entries. 
         public ObservableCollection<LogEntry> LogEntries
         {
             get
@@ -34,22 +33,22 @@ namespace ImageServiceDesktopApp.Model
             set => throw new NotImplementedException();
         }
 
-        public bool IsConected { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
+        // boolean property, represents if the model is connected to the image service.
         public event PropertyChangedEventHandler PropertyChanged;
 
-        //for testing
-        private void CreateLogExamples(int numOfExamples)
+        /// <summary>
+        /// Log model constructor.
+        /// </summary>
+        public LogModel()
         {
-            string[] logTypes = { "INFO", "WARNING", "FAIL" };
-            Random rnd = new Random();
-            for (int i = 0; i < numOfExamples; i++)
-            {
-                int type = rnd.Next(3); // creates a number between 0 and 2
-                this.logEntries.Add(new LogEntry { Type = logTypes[type], Message = "Example " + i.ToString() });
-            }
+            this.GuiClient = ImageServiceClient.Instance;
+            this.GuiClient.UpdateResponse += UpdateResponse;
+            this.InitializeLogsParams();
         }
 
+        /// <summary>
+        /// retreive event log entries list from the image service.
+        /// </summary>
         private void InitializeLogsParams()
         {
             this.logEntries = new ObservableCollection<LogEntry>();
@@ -59,6 +58,11 @@ namespace ImageServiceDesktopApp.Model
             this.GuiClient.SendCommand(commandRecievedEventArgs);
         }
 
+        /// <summary>
+        /// get CommandRecievedEventArgs object which was sent from the image service.
+        /// reacts only if the commandID is relevant to the log model.
+        /// </summary>
+        /// <param name="responseObj"></param>
         private void UpdateResponse(CommandRecievedEventArgs responseObj)
         {
             if (responseObj != null)
@@ -77,6 +81,10 @@ namespace ImageServiceDesktopApp.Model
             }
         }
 
+        /// <summary>
+        /// Initialize log event entries list.
+        /// </summary>
+        /// <param name="responseObj">expected json string of ObservableCollection<LogEntry> in responseObj.Args[0]</param>
         private void IntializeLogEntriesList(CommandRecievedEventArgs responseObj)
         {
             try
@@ -92,6 +100,10 @@ namespace ImageServiceDesktopApp.Model
             }
         }
 
+        /// <summary>
+        /// adds new log entry to the event log entries list
+        /// </summary>
+        /// <param name="responseObj">expected responseObj.Args[0] = EntryType,  responseObj.Args[1] = Message </param>
         private void AddLogEntry(CommandRecievedEventArgs responseObj)
         {
             try

@@ -11,10 +11,19 @@ using System.Threading.Tasks;
 
 namespace ImageService.Commands
 {
-
+    /// <summary>
+    /// Log Command.
+    /// retrieve all the event log entries from the image service logging service and converts them to
+    /// json string.
+    /// </summary>
     class LogCommand : ICommand
     {
         private ILoggingService loggingService;
+
+        /// <summary>
+        /// LogCommand constructor.
+        /// </summary>
+        /// <param name="loggingService">Image service logger.</param>
         public LogCommand(ILoggingService loggingService)
         {
             this.loggingService = loggingService;
@@ -24,11 +33,13 @@ namespace ImageService.Commands
             try
             {
                 ObservableCollection<LogEntry> logMessages = this.loggingService.LogMessages;
+                // serialize the log entries list to json string.
                 string jsonLogMessages = JsonConvert.SerializeObject(logMessages);
                 string[] arr = new string[1];
                 arr[0] = jsonLogMessages;
                 CommandRecievedEventArgs commandSendArgs = new CommandRecievedEventArgs((int)CommandEnum.LogCommand, arr, "");
                 result = true;
+                // serialize the commandSendArgs to json string.
                 return JsonConvert.SerializeObject(commandSendArgs);
             } catch (Exception e)
             {
