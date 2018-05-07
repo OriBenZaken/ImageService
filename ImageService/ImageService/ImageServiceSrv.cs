@@ -51,7 +51,7 @@ namespace ImageService
                             clients.Add(client);
                             Ch.HandleClient(client,clients);
                         }
-                        catch (SocketException)
+                        catch (Exception ex)
                         {
                             break;
                         }

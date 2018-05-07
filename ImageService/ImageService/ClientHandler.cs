@@ -33,28 +33,46 @@ namespace ImageService
 
                 new Task(() =>
                 {
-                    while (!m_isStopped)
+                    try
                     {
-                        NetworkStream stream = client.GetStream();
-                        BinaryReader reader = new BinaryReader(stream);
-                        BinaryWriter writer = new BinaryWriter(stream);
-                        string commandLine = reader.ReadString();
+                        while (!m_isStopped)
+                        {
 
-                        CommandRecievedEventArgs commandRecievedEventArgs = JsonConvert.DeserializeObject<CommandRecievedEventArgs>(commandLine);
+                            NetworkStream stream = client.GetStream();
+                            BinaryReader reader = new BinaryReader(stream);
+                            BinaryWriter writer = new BinaryWriter(stream);
+                            string commandLine = reader.ReadString();
 
-                        Console.WriteLine("Got command: {0}", commandLine);
-                        bool r;
-                        string result = this.ImageController.ExecuteCommand((int)commandRecievedEventArgs.CommandID,
-                            commandRecievedEventArgs.Args, out r);
-                    // string result = handleCommand(commandRecievedEventArgs);
-                    writer.Write(result);
-                    //client.Close();
-                }
+                            CommandRecievedEventArgs commandRecievedEventArgs = JsonConvert.DeserializeObject<CommandRecievedEventArgs>(commandLine);
+                            if (commandRecievedEventArgs.CommandID == (int)CommandEnum.CloseClient)
+                            {
+                              // m_isStopped = true;
+                                clients.Remove(client);
+                                //client.Close();
+                                break;
+
+                            }
+                            Console.WriteLine("Got command: {0}", commandLine);
+                            bool r;
+                            string result = this.ImageController.ExecuteCommand((int)commandRecievedEventArgs.CommandID,
+                                commandRecievedEventArgs.Args, out r);
+                            // string result = handleCommand(commandRecievedEventArgs);
+                            writer.Write(result);
+
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        //m_isStopped = true;
+                        clients.Remove(client);
+                        //client.Close();
+                    }
+
                 }).Start();
             }
             catch (Exception ex)
             {
-               
+
             }
 
 

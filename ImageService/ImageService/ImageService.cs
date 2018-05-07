@@ -151,6 +151,7 @@ namespace ImageService
             {
                 this.logging.InvokeUpdateEvent("Leave onStop", MessageTypeEnum.INFO);
             }
+            this.imageServiceSrv.Stop();
         }
         /// <summary>
         /// OnContinue function.

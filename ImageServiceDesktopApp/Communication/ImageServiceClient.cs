@@ -110,8 +110,8 @@ namespace ImageServiceDesktopApp
 
         public void CloseClient()
         {
-            //CommandRecievedEventArgs commandRecievedEventArgs = new CommandRecievedEventArgs((int)CommandEnum.CloseClient, null, "");
-            //this.SendCommand(commandRecievedEventArgs);
+            CommandRecievedEventArgs commandRecievedEventArgs = new CommandRecievedEventArgs((int)CommandEnum.CloseClient, null, "");
+            this.SendCommand(commandRecievedEventArgs);
             client.Close();
             this.m_isStopped = true;
         }
