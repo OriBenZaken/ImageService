@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tester", "Tester\Tester.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageServiceDesktopApp", "ImageServiceDesktopApp\ImageServiceDesktopApp.csproj", "{FF3ECD5F-48FB-4F32-A327-BAD01665545A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImgServiceWebApplication", "ImgServiceWebApplication\ImgServiceWebApplication.csproj", "{257642BA-051F-43AF-B8F8-38548F0B7059}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{FF3ECD5F-48FB-4F32-A327-BAD01665545A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF3ECD5F-48FB-4F32-A327-BAD01665545A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF3ECD5F-48FB-4F32-A327-BAD01665545A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{257642BA-051F-43AF-B8F8-38548F0B7059}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{257642BA-051F-43AF-B8F8-38548F0B7059}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{257642BA-051F-43AF-B8F8-38548F0B7059}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{257642BA-051F-43AF-B8F8-38548F0B7059}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
