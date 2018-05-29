@@ -19,13 +19,13 @@ namespace ImgServiceWebApplication.Controllers
           new Employee   { FirstName = "Dor", LastName = "Nisim", Email = "Stam@stam", Salary = 700, Phone = "08-8888888" }
         };
         // GET: First
-        public ActionResult Index()
+        public ActionResult ImageWeb()
         {
             return View();
         }
 
         [HttpGet]
-        public ActionResult AjaxView()
+        public ActionResult Photos()
         {
             return View();
         }
@@ -57,13 +57,13 @@ namespace ImgServiceWebApplication.Controllers
         }
 
         // GET: First/Details
-        public ActionResult Details()
+        public ActionResult Logs()
         {
             return View(employees);
         }
 
         // GET: First/Create
-        public ActionResult Create()
+        public ActionResult Config()
         {
             return View();
         }
@@ -76,7 +76,7 @@ namespace ImgServiceWebApplication.Controllers
             {
                 employees.Add(emp);
 
-                return RedirectToAction("Details");
+                return RedirectToAction("Logs");
             }
             catch
             {
@@ -108,11 +108,11 @@ namespace ImgServiceWebApplication.Controllers
                     if (emp.ID.Equals(id))
                     {
                         emp.copy(empT);
-                        return RedirectToAction("Index");
+                        return RedirectToAction("ImageWeb");
                     }
                 }
 
-                return RedirectToAction("Index");
+                return RedirectToAction("ImageWeb");
             }
             catch
             {
@@ -129,7 +129,7 @@ namespace ImgServiceWebApplication.Controllers
                 if (emp.ID.Equals(id))
                 {
                     employees.RemoveAt(i);
-                    return RedirectToAction("Details");
+                    return RedirectToAction("Logs");
                 }
                 i++;
             }
