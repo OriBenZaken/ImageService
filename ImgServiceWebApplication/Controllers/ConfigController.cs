@@ -18,11 +18,8 @@ namespace ImgServiceWebApplication.Controllers
             ThumbnailSize = 2,
             Handlers = new ObservableCollection<string>() { "handler1", "handler2", "handler3" }
         };
-        // GET: Config
-        public ActionResult Config()
-        {
-            return View(config);
-        }
+        private static string m_toBeDeletedHandler;
+      
 
         // GET: Config/DeleteHandler/
         public ActionResult DeleteHandler(string toBeDeletedHandler)
@@ -30,6 +27,7 @@ namespace ImgServiceWebApplication.Controllers
             //config.Handlers.Remove(toBeDeletedHandler);
             //ask user if he is sure he wants to delete the handler
             //return View("Confirm");
+            m_toBeDeletedHandler = toBeDeletedHandler;
             return RedirectToAction("Confirm");
 
         }
@@ -38,11 +36,17 @@ namespace ImgServiceWebApplication.Controllers
         {
             return View(config);
         }
+        // GET: Config
+        public ActionResult Config()
+        {
+            return View(config);
+        }
         // GET: Config/DeleteOK/
-        public ActionResult DeleteOK(string toBeDeletedHandler)
+        //liz - u dont need this param anymore ...
+        public ActionResult DeleteOK()
         {
             //delete the handler
-            config.Handlers.Remove(toBeDeletedHandler);
+            config.Handlers.Remove(m_toBeDeletedHandler);
             //go back to config page
             return RedirectToAction("Config");
 

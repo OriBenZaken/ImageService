@@ -54,7 +54,7 @@
                         @Html.DisplayFor(modelItem => item)
                     </td>
                     <td>
-                        @Html.ActionLink(@item, "DeleteHandler", new { id = item} ) 
+                        @Html.ActionLink(@item, "DeleteHandler", new { toBeDeletedHandler = item} ) 
                         @Html.DisplayFor(modelItem => item)
                     </td>
                     <td>

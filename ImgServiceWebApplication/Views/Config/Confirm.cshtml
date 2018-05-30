@@ -2,28 +2,41 @@
 
 @{
     ViewBag.Title = "Confirm";
+    
 }
 
-<h2>האם אתה בטוח כי ברצונך למחוק את ההנדלר?</h2>
+<h2>Are you sure you want to delete the handler?</h2>
 
-<form method="post" id="signin" action="@Url.Action("DeleteOK", "Config")">
+<button type="button" id="btnOK" style="margin:10px">OK</button>
+<button type="button" id="btnCancel" style="margin:10px">Cancel</button>
 
-    <input type="button" value="אישור" />
 
-</form>
 
-<script type="text/javascript">
-    $(document).ready(function () {
-
-      $('#btnForgotPassword').click(function (e)
-      {
-          location.href = '@Url.Content("~/Config/DeleteOK/")';
-      });
-
-    });
-</script>
 
 
 //change below input tag
-<input id='btnForgotPassword' type="button" value="Forgot Password" />
 
+<script>
+    $("#btnOK").click(function () {
+        $.getJSON("@Url.Action("DeleteOK")", function (handler) {
+           
+        });
+    });
+      @*$("#btnStart").click(function () {
+        $.getJSON("@Url.Action("Config\DeleteOK")", function (empl) {
+            $("#prodId").text(empl.FirstName);
+            $("#prodName").text(empl.LastName);
+        });
+    });*@
+
+    $("#btnSearch").click(function () {
+        var input = {
+            name:$("#NameID").val(),
+            salary: $("#txtSalaryId").val()
+        };
+        $.post("@Url.Action("GetEmployee")", input, function (data) {
+            $("#lstProducts").append("<li>" + data.FirstName + " " + data.LastName + " : $" + data.Salary + "</li>");
+        }, "json");
+    });
+
+</script>
