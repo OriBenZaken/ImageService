@@ -1,6 +1,7 @@
 ﻿using ImgServiceWebApplication.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -15,7 +16,7 @@ namespace ImgServiceWebApplication.Controllers
             LogName = "mylogname",
             OutputDirectory = "myoutputdirectory",
             ThumbnailSize = 2,
-            Handlers = new List<string>() { "handler1", "handler2", "handler3" }
+            Handlers = new ObservableCollection<string>() { "handler1", "handler2", "handler3" }
         };
         // GET: Config
         public ActionResult Config()
@@ -23,17 +24,34 @@ namespace ImgServiceWebApplication.Controllers
             return View(config);
         }
 
-        // GET: First/Edit/5
-        public ActionResult Edit(int id)
+        // GET: Config/DeleteHandler/
+        public ActionResult DeleteHandler(string toBeDeletedHandler)
         {
-            //foreach (Employee emp in employees)
-            //{
-            //    if (emp.ID.Equals(id))
-            //    {
-            //        return View(emp);
-            //    }
-            //}
-            return View("Error");
+            //config.Handlers.Remove(toBeDeletedHandler);
+            //ask user if he is sure he wants to delete the handler
+            //return View("Confirm");
+            return RedirectToAction("Confirm");
+
+        }
+        // GET: Confirm
+        public ActionResult Confirm()
+        {
+            return View(config);
+        }
+        // GET: Config/DeleteOK/
+        public ActionResult DeleteOK(string toBeDeletedHandler)
+        {
+            //delete the handler
+            config.Handlers.Remove(toBeDeletedHandler);
+            //go back to config page
+            return RedirectToAction("Config");
+
+        }
+        // GET: Config/DeleteCancel/
+        public ActionResult DeleteCancel()
+        {
+            //go back to config page
+            return RedirectToAction("Config");
         }
     }
 }
