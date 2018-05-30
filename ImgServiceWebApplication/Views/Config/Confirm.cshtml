@@ -4,7 +4,26 @@
     ViewBag.Title = "Confirm";
 }
 
-<h2>Confirm</h2>
+<h2>האם אתה בטוח כי ברצונך למחוק את ההנדלר?</h2>
+
+<form method="post" id="signin" action="@Url.Action("DeleteOK", "Config")">
+
+    <input type="button" value="אישור" />
+
+</form>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+      $('#btnForgotPassword').click(function (e)
+      {
+          location.href = '@Url.Content("~/Config/DeleteOK/")';
+      });
+
+    });
+</script>
 
 
+//change below input tag
+<input id='btnForgotPassword' type="button" value="Forgot Password" />
 

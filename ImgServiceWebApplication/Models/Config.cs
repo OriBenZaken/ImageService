@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
@@ -31,7 +32,7 @@ namespace ImgServiceWebApplication.Models
         [Required]
         [DataType(DataType.PhoneNumber)]
         [Display(Name = "Handlers")]
-        public List<string> Handlers { get; set; }
+        public ObservableCollection<string> Handlers { get; set; }
 
     }
 }

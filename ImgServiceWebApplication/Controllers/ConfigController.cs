@@ -1,6 +1,7 @@
 ﻿using ImgServiceWebApplication.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -15,7 +16,7 @@ namespace ImgServiceWebApplication.Controllers
             LogName = "mylogname",
             OutputDirectory = "myoutputdirectory",
             ThumbnailSize = 2,
-            Handlers = new List<string>() { "handler1", "handler2", "handler3" }
+            Handlers = new ObservableCollection<string>() { "handler1", "handler2", "handler3" }
         };
         // GET: Config
         public ActionResult Config()
@@ -36,6 +37,21 @@ namespace ImgServiceWebApplication.Controllers
         public ActionResult Confirm()
         {
             return View(config);
+        }
+        // GET: Config/DeleteOK/
+        public ActionResult DeleteOK(string toBeDeletedHandler)
+        {
+            //delete the handler
+            config.Handlers.Remove(toBeDeletedHandler);
+            //go back to config page
+            return RedirectToAction("Config");
+
+        }
+        // GET: Config/DeleteCancel/
+        public ActionResult DeleteCancel()
+        {
+            //go back to config page
+            return RedirectToAction("Config");
         }
     }
 }
