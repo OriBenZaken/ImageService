@@ -38,7 +38,32 @@
                     @Html.DisplayNameFor(model => model.Handlers)
                 </th>
             </tr>
-
+            @foreach (var item in Model.Handlers)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item)
+                    </td>
+                    <td>
+                        @Html.ActionLink(@item, "Edit",new { id = 1} ) 
+                        @Html.DisplayFor(modelItem => item)
+                    </td>
+                    <td>
+                        @*@Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                    @Html.ActionLink("Logs", "Logs", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ID })*@
+                    </td>
+                </tr>
+            }
           
 
         </table>

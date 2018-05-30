@@ -22,5 +22,18 @@ namespace ImgServiceWebApplication.Controllers
         {
             return View(config);
         }
+
+        // GET: First/Edit/5
+        public ActionResult Edit(int id)
+        {
+            //foreach (Employee emp in employees)
+            //{
+            //    if (emp.ID.Equals(id))
+            //    {
+            //        return View(emp);
+            //    }
+            //}
+            return View("Error");
+        }
     }
 }
