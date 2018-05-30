@@ -23,17 +23,19 @@ namespace ImgServiceWebApplication.Controllers
             return View(config);
         }
 
-        // GET: First/Edit/5
-        public ActionResult Edit(int id)
+        // GET: Config/DeleteHandler/
+        public ActionResult DeleteHandler(string toBeDeletedHandler)
         {
-            //foreach (Employee emp in employees)
-            //{
-            //    if (emp.ID.Equals(id))
-            //    {
-            //        return View(emp);
-            //    }
-            //}
-            return View("Error");
+            //config.Handlers.Remove(toBeDeletedHandler);
+            //ask user if he is sure he wants to delete the handler
+            //return View("Confirm");
+            return RedirectToAction("Confirm");
+
+        }
+        // GET: Confirm
+        public ActionResult Confirm()
+        {
+            return View(config);
         }
     }
 }
