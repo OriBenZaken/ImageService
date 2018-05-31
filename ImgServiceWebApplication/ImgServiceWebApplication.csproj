@@ -147,6 +147,8 @@
     <Compile Include="ImageServiceDesktopApp\UpdateResponseArrived.cs" />
     <Compile Include="Models\Config.cs" />
     <Compile Include="Models\Employee.cs" />
+    <Compile Include="Controllers\ImageViewController.cs" />
+    <Compile Include="Models\ImageViewInfo.cs" />
     <Compile Include="Models\Log.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -169,6 +171,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\ImageView\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ImageService\ImageService.csproj">

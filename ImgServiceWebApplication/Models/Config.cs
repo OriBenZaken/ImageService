@@ -28,7 +28,6 @@ namespace ImgServiceWebApplication.Models
         public string LogName { get; set; }
 
         [Required]
-        [DataType(DataType.Currency)]
         [Display(Name = "Thumbnail Size")]
         public int ThumbnailSize { get; set; }
 
