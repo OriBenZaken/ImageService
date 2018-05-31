@@ -42,7 +42,6 @@ namespace ImgServiceWebApplication.Controllers
             return View(config);
         }
         // GET: Config/DeleteOK/
-        //liz - u dont need this param anymore ...
         public ActionResult DeleteOK()
         {
             //delete the handler
@@ -56,6 +55,7 @@ namespace ImgServiceWebApplication.Controllers
         {
             //go back to config page
             return RedirectToAction("Config");
+
         }
     }
 }

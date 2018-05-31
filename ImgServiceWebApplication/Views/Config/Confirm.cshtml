@@ -7,8 +7,20 @@
 
 <h2>Are you sure you want to delete the handler?</h2>
 
-<button type="button" id="btnOK" style="margin:10px">OK</button>
-<button type="button" id="btnCancel" style="margin:10px">Cancel</button>
+@*<button type="button" id="btnOK" style="margin:10px">OK</button>
+<button type="button" id="btnCancel" style="margin:10px">Cancel</button>*@
+
+@Html.ActionLink("OK", "DeleteOK","Config")
+
+
+@Html.ActionLink("Cancel", "DeleteCancel", "Config")
+
+
+
+
+
+
+
 
 
 
@@ -16,27 +28,21 @@
 
 //change below input tag
 
-<script>
-    $("#btnOK").click(function () {
-        $.getJSON("@Url.Action("DeleteOK")", function (handler) {
-           
-        });
-    });
-      @*$("#btnStart").click(function () {
-        $.getJSON("@Url.Action("Config\DeleteOK")", function (empl) {
-            $("#prodId").text(empl.FirstName);
-            $("#prodName").text(empl.LastName);
-        });
-    });*@
+@*<script>
 
-    $("#btnSearch").click(function () {
-        var input = {
-            name:$("#NameID").val(),
-            salary: $("#txtSalaryId").val()
-        };
-        $.post("@Url.Action("GetEmployee")", input, function (data) {
-            $("#lstProducts").append("<li>" + data.FirstName + " " + data.LastName + " : $" + data.Salary + "</li>");
-        }, "json");
-    });
+    $(document).ready(function () {
+        $('#btnOK').click(function (e) {
+            $.get('DeleteOK', function () {
+            });//end of post
+        });//end of click
+    });//en
 
-</script>
+    $(document).ready(function () {
+        $('#btnCancel').click(function (e) {
+            $.get('DeleteCancel', function () {
+            });//end of post
+        });//end of click
+    });//en
+  
+
+</script>*@

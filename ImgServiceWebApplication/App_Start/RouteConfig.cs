@@ -18,6 +18,7 @@ namespace ImgServiceWebApplication
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "First", action = "Photos", id = UrlParameter.Optional }
             );
+           
         }
     }
 }
