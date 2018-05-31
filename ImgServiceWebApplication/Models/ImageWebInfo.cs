@@ -6,16 +6,12 @@ using System.Web;
 
 namespace ImgServiceWebApplication.Models
 {
-    public class ImageViewInfo
+    public class ImageWebInfo
     {
-
-       
 
         [Required]
         [Display(Name = "Is Connected")]
         public bool IsConnected { get; set; }
-
-      
 
         [Required]
         [Display(Name = "Num of Pics")]
@@ -24,6 +20,22 @@ namespace ImgServiceWebApplication.Models
         [Required]
         [DataType(DataType.Text)]
         [Display(Name = "Students")]
-        public string Students { get; set; }
+        public List<Student> Students { get; set; }
+
+
+        public class Student
+        {
+            [Required]
+            [Display(Name = "First Name")]
+            public string FirstName { get; set; }
+
+            [Required]
+            [Display(Name = "Last Name")]
+            public string LastName { get; set; }
+
+            [Required]
+            [Display(Name = "ID")]
+            public string ID { get; set; }
+        }
     }
 }

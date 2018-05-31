@@ -98,6 +98,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\StudentsDetails.txt" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
@@ -128,7 +129,7 @@
     <Content Include="Views\Logs\Logs_old.cshtml" />
     <Content Include="Views\First\Edit.cshtml" />
     <Content Include="Views\First\Error.cshtml" />
-    <Content Include="Views\First\ImageWeb.cshtml" />
+    <Content Include="Views\First\ImageWeb_old.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Config\Config.cshtml" />
@@ -147,8 +148,8 @@
     <Compile Include="ImageServiceDesktopApp\UpdateResponseArrived.cs" />
     <Compile Include="Models\Config.cs" />
     <Compile Include="Models\Employee.cs" />
-    <Compile Include="Controllers\ImageViewController.cs" />
-    <Compile Include="Models\ImageViewInfo.cs" />
+    <Compile Include="Controllers\ImageWebController.cs" />
+    <Compile Include="Models\ImageWebInfo.cs" />
     <Compile Include="Models\Log.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -162,6 +163,7 @@
     <Content Include="scripts\jquery-3.0.0.min.map" />
     <Content Include="scripts\jquery-3.0.0.slim.min.map" />
     <Content Include="Views\Logs\Logs.cshtml" />
+    <Content Include="Views\ImageWeb\ImageWeb.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -169,10 +171,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-    <Folder Include="Views\ImageView\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\ImageService\ImageService.csproj">
       <Project>{3ba2801c-d344-4983-b2b4-df19e762c372}</Project>
