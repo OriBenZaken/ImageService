@@ -10,6 +10,9 @@ namespace ImgServiceWebApplication.Models
 {
     public class Config
     {
+        [Required]
+        [DataType(DataType.Text)]
+        public bool Enabled { get; set; }
 
         [Required]
         [Display(Name = "Output Directory")]

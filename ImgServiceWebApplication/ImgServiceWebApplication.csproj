@@ -136,12 +136,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Communication\IImageServiceClient.cs" />
+    <Compile Include="Communication\ImageServiceClient.cs" />
     <Compile Include="Controllers\ConfigController.cs" />
     <Compile Include="Controllers\FirstController.cs" />
     <Compile Include="Controllers\LogsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="ImageServiceDesktopApp\UpdateResponseArrived.cs" />
     <Compile Include="Models\Config.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\Log.cs" />
@@ -166,6 +169,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ImageService\ImageService.csproj">
+      <Project>{3ba2801c-d344-4983-b2b4-df19e762c372}</Project>
+      <Name>ImageService</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
