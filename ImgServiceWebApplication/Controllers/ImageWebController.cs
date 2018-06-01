@@ -14,6 +14,8 @@ namespace ImgServiceWebApplication.Models
         // GET: ImageView
         public ActionResult ImageWeb()
         {
+            ViewBag.NumofPics = ImageViewInfo.NumofPics;
+            ViewBag.IsConnected = ImageViewInfo.IsConnected;
             return View(ImageViewInfo);
         }
         static ImageWebInfo ImageViewInfo = new ImageWebInfo()
