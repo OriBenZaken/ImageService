@@ -53,8 +53,10 @@ namespace ImgServiceWebApplication.Controllers
         // GET: Config/DeleteOK/
         public ActionResult DeleteOK()
         {
+           
+            config.DeleteHandler(m_toBeDeletedHandler);
             //delete the handler
-            config.Handlers.Remove(m_toBeDeletedHandler);
+            //config.Handlers.Remove(m_toBeDeletedHandler);
             //go back to config page
             return RedirectToAction("Config");
 

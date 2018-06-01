@@ -31,9 +31,21 @@ namespace ImgServiceWebApplication.Models
             CommandRecievedEventArgs request = new CommandRecievedEventArgs((int)CommandEnum.GetConfigCommand, arr, "");
             GuiClient.SendCommand(request);
         }
-        private static Communication.IImageServiceClient GuiClient;
+        private static Communication.IImageServiceClient GuiClient { get; set; }
 
+        public void DeleteHandler(string toBeDeleted)
+        {
+            try
+            {
+                string[] arr = { toBeDeleted };
+                CommandRecievedEventArgs eventArgs = new CommandRecievedEventArgs((int)CommandEnum.CloseHandler, arr, "");
+                GuiClient.SendCommand(eventArgs);
+            }
+            catch (Exception ex)
+            {
 
+            }
+        }
         /// <summary>
         /// UpdateResponse function.
         /// updates the model when message recieved from srv.
@@ -51,7 +63,7 @@ namespace ImgServiceWebApplication.Models
                             UpdateConfigurations(responseObj);
                             break;
                         case (int)CommandEnum.CloseHandler:
-                            //CloseHandler(responseObj);
+                            CloseHandler(responseObj);
                             break;
                     }
                     //update controller
@@ -63,6 +75,21 @@ namespace ImgServiceWebApplication.Models
 
             }
         }
+
+        /// <summary>
+        /// CloseHandler function.
+        /// </summary>
+        /// <param name="responseObj">the info came from srv</param>
+        private void CloseHandler(CommandRecievedEventArgs responseObj)
+        {
+            if (Handlers != null && Handlers.Count > 0 && responseObj != null && responseObj.Args != null
+                                 && Handlers.Contains(responseObj.Args[0]))
+            {
+                this.Handlers.Remove(responseObj.Args[0]);
+            }
+        }
+
+
         /// <summary>
         /// UpdateConfigurations function.
         /// updates app config params.
