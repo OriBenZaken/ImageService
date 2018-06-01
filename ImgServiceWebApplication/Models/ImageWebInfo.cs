@@ -12,21 +12,24 @@ namespace ImgServiceWebApplication.Models
     {
         private static Communication.IImageServiceClient GuiClient { get; set; }
         public event NotifyAboutChange NotifyEvent;
-        private Config m_config;
+        private static Config m_config;
 
         public ImageWebInfo()
         {
             GuiClient = Communication.ImageServiceClient.Instance;
             IsConnected = GuiClient.IsConnected;
+            NumofPics = 0;
             m_config = new Config();
             m_config.Notify += Notify;
-            NumofPics = 0;
             Students = GetStudents();
         }
         void Notify()
         {
-            NumofPics = GetNumOfPics(m_config.OutputDirectory);
-            NotifyEvent?.Invoke();
+            if (m_config.OutputDirectory != "")
+            {
+                NumofPics = GetNumOfPics(m_config.OutputDirectory);
+                NotifyEvent?.Invoke();
+            }
         }
 
         public static int GetNumOfPics(string outputDir)
@@ -73,7 +76,6 @@ namespace ImgServiceWebApplication.Models
         [DataType(DataType.Text)]
         [Display(Name = "Students")]
         public List<Student> Students { get; set; }
-
 
         public class Student
         {
