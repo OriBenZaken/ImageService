@@ -12,7 +12,7 @@ namespace ImgServiceWebApplication.Controllers
         public static LogCollection log = new LogCollection();
         public LogsController()
         {
-            //log.Notify -= Notify;
+            log.Notify -= Notify;
             log.Notify += Notify;
         }
 
