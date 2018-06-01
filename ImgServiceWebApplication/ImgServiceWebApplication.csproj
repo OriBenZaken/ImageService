@@ -151,6 +151,7 @@
     <Compile Include="Controllers\ImageWebController.cs" />
     <Compile Include="Models\ImageWebInfo.cs" />
     <Compile Include="Models\Log.cs" />
+    <Compile Include="Models\LogCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

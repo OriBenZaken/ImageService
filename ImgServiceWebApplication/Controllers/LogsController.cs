@@ -9,16 +9,25 @@ namespace ImgServiceWebApplication.Controllers
 {
     public class LogsController : Controller
     {
-        static List<Log> logsEntries = new List<Log>()
+        public static LogCollection log = new LogCollection();
+        public LogsController()
         {
-          new Log  { EntryType = "Info", Message = "Hi" },
-          new Log  { EntryType = "Info", Message = "Bye" }
-        };
+            //log.Notify -= Notify;
+            log.Notify += Notify;
+        }
+
+
+
+        public void Notify()
+        {
+            RedirectToAction("Logs");
+        }
+
 
         // GET: Logs
         public ActionResult Logs()
         {
-            return View(logsEntries);
+            return View(log.LogEntries);
         }
     }
 }

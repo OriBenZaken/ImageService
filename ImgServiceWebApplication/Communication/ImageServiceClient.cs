@@ -21,6 +21,7 @@ namespace ImgServiceWebApplication.Communication
         public event UpdateResponseArrived UpdateResponse;
         private static ImageServiceClient m_instance;
         private static Mutex m_mutex = new Mutex();
+        private static Mutex m_readMutex = new Mutex();
         public bool IsConnected { get; set; }
 
         /// <summary>
@@ -111,7 +112,9 @@ namespace ImgServiceWebApplication.Communication
                     {
                         NetworkStream stream = client.GetStream();
                         BinaryReader reader = new BinaryReader(stream);
+                        m_readMutex.WaitOne();
                         string response = reader.ReadString();
+                        m_readMutex.ReleaseMutex();
                         Console.WriteLine($"Recieve {response} from Server");
                         CommandRecievedEventArgs responseObj = JsonConvert.DeserializeObject<CommandRecievedEventArgs>(response);
                         this.UpdateResponse?.Invoke(responseObj);
