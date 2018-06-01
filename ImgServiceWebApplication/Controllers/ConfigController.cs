@@ -13,63 +13,20 @@ namespace ImgServiceWebApplication.Controllers
 {
     public class ConfigController : Controller
     {
-        private IImageServiceClient GuiClient;
+        static Config config = new Config();
 
         public ConfigController()
         {
-            //GuiClient = ImageServiceClient.Instance;
-            //this.GuiClient.RecieveCommand();
-            //this.GuiClient.UpdateResponse += UpdateResponse;
-            //config = new Config()
-            //{
-            //    SourceName = "",
-            //    LogName = "",
-            //    OutputDirectory = "",
-            //    ThumbnailSize = 1,
-            //    Handlers = new ObservableCollection<string>() { "LALA", "LOLO"},
-            //    Enabled = false
-            //};
-            //string[] arr = new string[5];
-            //CommandRecievedEventArgs request = new CommandRecievedEventArgs((int)CommandEnum.GetConfigCommand, arr, "");
-            //this.GuiClient.SendCommand(request);
-
+            config.Notify -= Notify;
+            config.Notify += Notify;
         }
-        /// <summary>
-        /// UpdateResponse function.
-        /// updates the model when message recieved from srv.
-        /// </summary>
-        /// <param name="responseObj">the info came from srv</param>
-        private void UpdateResponse(CommandRecievedEventArgs responseObj)
-        {
-            try
-            {
-                if (responseObj != null)
-                {
-                    switch (responseObj.CommandID)
-                    {
-                        case (int)CommandEnum.GetConfigCommand:
-                            //UpdateConfigurations(responseObj);
-                            break;
-                        case (int)CommandEnum.CloseHandler:
-                            //CloseHandler(responseObj);
-                            break;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
 
-            }
-        }
-        static Config config = new Config()
+       
+
+        public void Notify()
         {
-            SourceName = "mysource",
-            LogName = "mylog",
-            OutputDirectory = "myoutputdir",
-            ThumbnailSize = 1,
-            Handlers = new ObservableCollection<string>() { "LALA", "LOLO" },
-            Enabled = false
-        };
+            RedirectToAction("Config");
+        }
         private static string m_toBeDeletedHandler;
       
 

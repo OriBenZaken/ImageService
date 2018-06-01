@@ -77,8 +77,8 @@ namespace ImgServiceWebApplication.Communication
         /// <param name="commandRecievedEventArgs">info to be sented to server</param>
         public void SendCommand(CommandRecievedEventArgs commandRecievedEventArgs)
         {
-            new Task(() =>
-            {
+            //new Task(() =>
+            //{
                 try
                 {
                     string jsonCommand = JsonConvert.SerializeObject(commandRecievedEventArgs);
@@ -94,7 +94,7 @@ namespace ImgServiceWebApplication.Communication
                 {
 
                 }
-            }).Start();
+            //}).Start();
         }
 
         /// <summary>

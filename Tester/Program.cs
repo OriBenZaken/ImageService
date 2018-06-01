@@ -11,14 +11,22 @@ namespace Tester
     {
         static void Main(string[] args)
         {
-            ImageServiceModal imageServiceModal = new ImageServiceModal()
-            {
-                OutputFolder = @"C:\Users\אורי\Desktop\",
-                ThumbnailSize = 120
-            };
-            bool result;
-            string error = imageServiceModal.AddFile(@"C:\Users\lizah\Desktop\sourceFiles\liz.jpeg", out result);
+            //ImageServiceModal imageServiceModal = new ImageServiceModal()
+            //{
+            //    OutputFolder = @"C:\Users\אורי\Desktop\",
+            //    ThumbnailSize = 120
+            //};
+            //bool result;
+            //string error = imageServiceModal.AddFile(@"C:\Users\lizah\Desktop\sourceFiles\liz.jpeg", out result);
+            lala();
+            lala();
+            int i = Console.Read();
 
+        }
+
+        static void lala()
+        {
+            Console.WriteLine("a");
         }
     }
 }
