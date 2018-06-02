@@ -20,7 +20,8 @@ namespace ImgServiceWebApplication.Controllers
 
         public void Notify()
         {
-            RedirectToAction("Logs");
+            Logs();
+            //RedirectToAction("Logs");
         }
 
 

@@ -28,10 +28,6 @@ namespace ImgServiceWebApplication.Models
         // GET: ImageView
         public ActionResult ImageWeb()
         {
-            if (ImageViewInfo.NumofPics!=0)
-            {
-                
-            }
             ViewBag.NumofPics = ImageViewInfo.NumofPics;
             ViewBag.IsConnected = ImageViewInfo.IsConnected;
             return View(ImageViewInfo);

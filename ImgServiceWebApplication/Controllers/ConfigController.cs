@@ -25,7 +25,8 @@ namespace ImgServiceWebApplication.Controllers
 
         public void Notify()
         {
-            RedirectToAction("Config");
+            Config();
+           // RedirectToAction("Config");
         }
         private static string m_toBeDeletedHandler;
       
