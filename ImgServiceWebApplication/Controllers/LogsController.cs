@@ -29,5 +29,25 @@ namespace ImgServiceWebApplication.Controllers
         {
             return View(log.LogEntries);
         }
+
+        [HttpPost]
+        public ActionResult Logs(FormCollection form)
+        { 
+            string type = form["typeFilter"].ToString();
+            if (type == "")
+            {
+                return View(log.LogEntries);
+            }
+            List<Log> filteredLogsList = new List<Log>();
+            foreach (Log log in log.LogEntries)
+            {
+                if (log.EntryType == type)
+                {
+                    filteredLogsList.Add(log);
+                }
+            }
+            return View(filteredLogsList);
+            
+        }
     }
 }

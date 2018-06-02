@@ -1,4 +1,6 @@
-﻿@model IEnumerable<ImgServiceWebApplication.Models.Log>
+﻿@using ImgServiceWebApplication.Models;
+
+@model IEnumerable<ImgServiceWebApplication.Models.Log>
 
 @{
     ViewBag.Title = "Logs";
@@ -6,6 +8,26 @@
 
 <h2>Logs</h2>
 
+<div>
+    @using (Html.BeginForm("Logs", "Logs", FormMethod.Post))
+    {
+
+    <div>
+        <br />
+        @Html.DropDownList("typeFilter",
+                         new SelectList(Enum.GetValues(typeof(EntryType))),
+                         "Log entry type",
+                         new { @class = "form-control" })
+        <br />
+        <input type="submit" id="submitId" value="Filter" class="btn-info" />
+
+    </div>
+
+    }
+
+</div>
+
+<br />
 <table class="table">
     <tr>
         <th>

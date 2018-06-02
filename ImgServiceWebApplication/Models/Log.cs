@@ -25,4 +25,12 @@ namespace ImgServiceWebApplication.Models
 
 
     }
+
+    public enum EntryType
+    {
+        INFO,
+        FAIL,
+        WARNING
+    }
+
 }
