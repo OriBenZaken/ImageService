@@ -124,7 +124,7 @@
     <Content Include="scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="scripts\modernizr-2.6.2.js" />
     <Content Include="Web.config" />
-    <Content Include="Views\First\Photos.cshtml" />
+    <Content Include="Views\First\Photos_old.cshtml" />
     <Content Include="Views\First\Config_old.cshtml" />
     <Content Include="Views\Logs\Logs_old.cshtml" />
     <Content Include="Views\First\Edit.cshtml" />
@@ -142,6 +142,7 @@
     <Compile Include="Controllers\ConfigController.cs" />
     <Compile Include="Controllers\FirstController.cs" />
     <Compile Include="Controllers\LogsController.cs" />
+    <Compile Include="Controllers\PhotosController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -152,6 +153,7 @@
     <Compile Include="Models\ImageWebInfo.cs" />
     <Compile Include="Models\Log.cs" />
     <Compile Include="Models\LogCollection.cs" />
+    <Compile Include="Models\Photos.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -165,6 +167,7 @@
     <Content Include="scripts\jquery-3.0.0.slim.min.map" />
     <Content Include="Views\Logs\Logs.cshtml" />
     <Content Include="Views\ImageWeb\ImageWeb.cshtml" />
+    <Content Include="Views\Photos\Photos.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
