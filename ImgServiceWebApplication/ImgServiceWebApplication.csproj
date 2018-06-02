@@ -153,7 +153,8 @@
     <Compile Include="Models\ImageWebInfo.cs" />
     <Compile Include="Models\Log.cs" />
     <Compile Include="Models\LogCollection.cs" />
-    <Compile Include="Models\Photos.cs" />
+    <Compile Include="Models\Photo.cs" />
+    <Compile Include="Models\PhotosCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -167,6 +168,7 @@
     <Content Include="scripts\jquery-3.0.0.slim.min.map" />
     <Content Include="Views\Logs\Logs.cshtml" />
     <Content Include="Views\ImageWeb\ImageWeb.cshtml" />
+    <Content Include="Views\Photos\Photos_old.cshtml" />
     <Content Include="Views\Photos\Photos.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
