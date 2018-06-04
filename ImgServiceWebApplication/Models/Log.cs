@@ -8,8 +8,6 @@ namespace ImgServiceWebApplication.Models
 {
     public class Log
     {
-       
-      
         //members
         [Required]
         [DataType(DataType.Text)]
@@ -20,8 +18,6 @@ namespace ImgServiceWebApplication.Models
         [DataType(DataType.Text)]
         [Display(Name = "Message")]
         public string Message { get; set; }
-
-       
 
 
     }

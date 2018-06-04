@@ -12,48 +12,62 @@ namespace ImgServiceWebApplication.Controllers
     {
         public static PhotosCollection photos = new PhotosCollection();
         private static Photo m_currentPhoto;
+
+        /// <summary>
+        /// constructor.
+        /// </summary>
         public PhotosController()
         {
             photos.NotifyEvent -= Notify;
             photos.NotifyEvent += Notify;
 
         }
+
+        /// <summary>
+        /// Notify function.
+        /// notify view about update.
+        /// </summary>
         void Notify()
         {
             Photos();
-            //RedirectToAction("ImageWeb");
-
         }
+
         // GET: Photos
         public ActionResult Photos()
         {
             photos.PhotosList.Clear();
             photos.GetPhotos();
-
             return View(photos.PhotosList);
         }
 
-
-        //public ActionResult PhotosViewer(string photoPath, string photoThumbnailPath)
-        //{
-        //    m_photoPath = photoPath;
-        //    m_photoThumbnailPath = photoThumbnailPath;
-        //    ViewBag.Photo = photoPath;
-        //    return View(new Photo(""));
-        //}
-
+        /// <summary>
+        /// PhotosViewer function.
+        /// </summary>
+        /// <param name="photoRelPath"> the pic to be presented</param>
+        /// <returns></returns>
         public ActionResult PhotosViewer(string photoRelPath)
         {
             UpdateCurrentPhotoFromRelPath(photoRelPath);
             return View(m_currentPhoto);
         }
 
+        /// <summary>
+        /// DeletePhoto function.
+        /// </summary>
+        /// <param name="photoRelPath"></param>
+        /// <returns></returns>
         public ActionResult DeletePhoto(string photoRelPath)
         {
             UpdateCurrentPhotoFromRelPath(photoRelPath);
             return View(m_currentPhoto);
         }
 
+        /// <summary>
+        /// DeleteYes function.
+        /// confirmation of the delete.
+        /// </summary>
+        /// <param name="photoRelPath"></param>
+        /// <returns></returns>
         public ActionResult DeleteYes(string photoRelPath)
         {
             try
@@ -69,6 +83,11 @@ namespace ImgServiceWebApplication.Controllers
             return RedirectToAction("Photos");
         }
 
+        /// <summary>
+        /// UpdateCurrentPhotoFromRelPath function.
+        /// updates the current photo.
+        /// </summary>
+        /// <param name="photoRelPath"></param>
         private void UpdateCurrentPhotoFromRelPath(string photoRelPath)
         {
             foreach (Photo photo in photos.PhotosList)

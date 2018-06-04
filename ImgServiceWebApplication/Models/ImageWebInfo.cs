@@ -14,15 +14,31 @@ namespace ImgServiceWebApplication.Models
         public event NotifyAboutChange NotifyEvent;
         private static Config m_config;
 
+        /// <summary>
+        /// ImageWebInfo constructor.
+        /// initialize new ImageWebInfo obj.
+        /// </summary>
         public ImageWebInfo()
         {
-            GuiClient = Communication.ImageServiceClient.Instance;
-            IsConnected = GuiClient.IsConnected;
-            NumofPics = 0;
-            m_config = new Config();
-            m_config.Notify += Notify;
-            Students = GetStudents();
+            try
+            {
+                GuiClient = Communication.ImageServiceClient.Instance;
+                IsConnected = GuiClient.IsConnected;
+                NumofPics = 0;
+                m_config = new Config();
+                m_config.Notify += Notify;
+                Students = GetStudents();
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
+
+        /// <summary>
+        /// Notify function.
+        /// notifies controller about change.
+        /// </summary>
         void Notify()
         {
             if (m_config.OutputDirectory != "")
@@ -32,38 +48,63 @@ namespace ImgServiceWebApplication.Models
             }
         }
 
+        /// <summary>
+        /// GetNumOfPics function.
+        /// </summary>
+        /// <param name="outputDir">the pics output dir</param>
+        /// <returns></returns>
         public static int GetNumOfPics(string outputDir)
         {
-            if (outputDir == null || outputDir == "")
+            try
+            {
+                if (outputDir == null || outputDir == "")
+                {
+                    return 0;
+                }
+                int counter = 0;
+                while (outputDir == null && (counter < 2)) { System.Threading.Thread.Sleep(1000); counter++; }
+                int sum = 0;
+                DirectoryInfo di = new DirectoryInfo(outputDir);
+                sum += di.GetFiles("*.PNG", SearchOption.AllDirectories).Length;
+                sum += di.GetFiles("*.BMP", SearchOption.AllDirectories).Length;
+                sum += di.GetFiles("*.JPG", SearchOption.AllDirectories).Length;
+                sum += di.GetFiles("*.GIF", SearchOption.AllDirectories).Length;
+                return sum / 2;
+            }
+            catch (Exception ex)
             {
                 return 0;
             }
-            int counter = 0;
-            while (outputDir == null && (counter < 2)) { System.Threading.Thread.Sleep(1000); counter++; }
-            int sum = 0;
-            DirectoryInfo di = new DirectoryInfo(outputDir);
-            sum += di.GetFiles("*.PNG", SearchOption.AllDirectories).Length;
-            sum += di.GetFiles("*.BMP", SearchOption.AllDirectories).Length;
-            sum += di.GetFiles("*.JPG", SearchOption.AllDirectories).Length;
-            sum += di.GetFiles("*.GIF", SearchOption.AllDirectories).Length;
-            return sum/2;
         }
 
+        /// <summary>
+        /// GetStudents function.
+        /// gets student details.
+        /// </summary>
+        /// <returns></returns>
         public static List<Student> GetStudents()
         {
             List<Student> students = new List<Student>();
-            StreamReader file = new StreamReader(System.Web.HttpContext.Current.Server.MapPath("~/App_Data/StudentsDetails.txt"));
-            string line;
-
-            while ((line = file.ReadLine()) != null)
+            try
             {
-                string[] param = line.Split(',');
-                students.Add(new Student() { FirstName = param[0], LastName = param[1], ID = param[2] });
+                StreamReader file = new StreamReader(System.Web.HttpContext.Current.Server.MapPath("~/App_Data/StudentsDetails.txt"));
+                string line;
+
+                while ((line = file.ReadLine()) != null)
+                {
+                    string[] param = line.Split(',');
+                    students.Add(new Student() { FirstName = param[0], LastName = param[1], ID = param[2] });
+                }
+                file.Close();
             }
-            file.Close();
+            catch (Exception ex)
+            {
+
+            }
             return students;
         }
 
+        //members
         [Required]
         [Display(Name = "Is Connected")]
         public bool IsConnected { get; set; }

@@ -140,15 +140,12 @@
     <Compile Include="Communication\IImageServiceClient.cs" />
     <Compile Include="Communication\ImageServiceClient.cs" />
     <Compile Include="Controllers\ConfigController.cs" />
-    <Compile Include="Controllers\FirstController.cs" />
     <Compile Include="Controllers\LogsController.cs" />
     <Compile Include="Controllers\PhotosController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="ImageServiceDesktopApp\UpdateResponseArrived.cs" />
     <Compile Include="Models\Config.cs" />
-    <Compile Include="Models\Employee.cs" />
     <Compile Include="Controllers\ImageWebController.cs" />
     <Compile Include="Models\ImageWebInfo.cs" />
     <Compile Include="Models\Log.cs" />

@@ -11,19 +11,23 @@ namespace ImgServiceWebApplication.Models
     public class ImageWebController : Controller
     {
         static ImageWebInfo ImageViewInfo = new ImageWebInfo();
+        /// <summary>
+        /// constructor.
+        /// </summary>
         public ImageWebController()
         {
             ImageViewInfo.NotifyEvent -= Notify;
             ImageViewInfo.NotifyEvent += Notify;
 
         }
+        /// <summary>
+        /// Notify function.
+        /// notify view about update.
+        /// </summary>
         void Notify()
         {
             ImageWeb();
-            //RedirectToAction("ImageWeb");
-
         }
-
 
         // GET: ImageView
         public ActionResult ImageWeb()

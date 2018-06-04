@@ -18,14 +18,26 @@ namespace ImgServiceWebApplication.Models
         public event NotifyAboutChange Notify;
         private static Communication.IImageServiceClient GuiClient;
 
+        /// <summary>
+        /// LogCollection constructor.
+        /// initialize new Log list.
+        /// </summary>
         public LogCollection()
         {
-            GuiClient = ImageServiceClient.Instance;
-            GuiClient.UpdateResponse += UpdateResponse;
-            GuiClient.RecieveCommand();
-            this.InitializeLogsParams();
+            try
+            {
+                GuiClient = ImageServiceClient.Instance;
+                GuiClient.UpdateResponse += UpdateResponse;
+                GuiClient.RecieveCommand();
+                this.InitializeLogsParams();
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
+        //members
         [Required]
         [DataType(DataType.Text)]
         [Display(Name = "Log Enteries")]
@@ -36,9 +48,16 @@ namespace ImgServiceWebApplication.Models
         /// </summary>
         private void InitializeLogsParams()
         {
-            LogEntries = new List<Log>();
-            CommandRecievedEventArgs commandRecievedEventArgs = new CommandRecievedEventArgs((int)CommandEnum.LogCommand, null, "");
-            GuiClient.SendCommand(commandRecievedEventArgs);
+            try
+            {
+                LogEntries = new List<Log>();
+                CommandRecievedEventArgs commandRecievedEventArgs = new CommandRecievedEventArgs((int)CommandEnum.LogCommand, null, "");
+                GuiClient.SendCommand(commandRecievedEventArgs);
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         /// <summary>
@@ -48,20 +67,27 @@ namespace ImgServiceWebApplication.Models
         /// <param name="responseObj"></param>
         private void UpdateResponse(CommandRecievedEventArgs responseObj)
         {
-            if (responseObj != null)
+            try
             {
-                switch (responseObj.CommandID)
+                if (responseObj != null)
                 {
-                    case (int)CommandEnum.LogCommand:
-                        IntializeLogEntriesList(responseObj);
-                        break;
-                    case (int)CommandEnum.AddLogEntry:
-                        AddLogEntry(responseObj);
-                        break;
-                    default:
-                        break;
+                    switch (responseObj.CommandID)
+                    {
+                        case (int)CommandEnum.LogCommand:
+                            IntializeLogEntriesList(responseObj);
+                            break;
+                        case (int)CommandEnum.AddLogEntry:
+                            AddLogEntry(responseObj);
+                            break;
+                        default:
+                            break;
+                    }
+                    Notify?.Invoke();
                 }
-                Notify?.Invoke();
+            }
+            catch (Exception ex)
+            {
+
             }
         }
 

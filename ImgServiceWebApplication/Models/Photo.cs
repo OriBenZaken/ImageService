@@ -10,11 +10,15 @@ namespace ImgServiceWebApplication.Models
 {
     public class Photo
     {
+        /// <summary>
+        /// constructor.
+        /// initialize new photo obj.
+        /// </summary>
+        /// <param name="imageUrl"></param>
         public Photo(string imageUrl)
         {
             try
             {
-
                 ImageUrl = imageUrl;
                 ImageFullUrl = imageUrl.Replace(@"Thumbnails\", string.Empty);
                 Name = Path.GetFileNameWithoutExtension(ImageUrl);
