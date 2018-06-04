@@ -14,25 +14,40 @@ namespace ImgServiceWebApplication.Models
     {
         public delegate void NotifyAboutChange();
         public event NotifyAboutChange Notify;
-
-        //ctr
-        public Config()
-        {
-            GuiClient = Communication.ImageServiceClient.Instance;
-            GuiClient.RecieveCommand();
-            GuiClient.UpdateResponse += UpdateResponse;
-            SourceName = "";
-            LogName = "";
-            OutputDirectory = "";
-            ThumbnailSize = 1;
-            Handlers = new ObservableCollection<string>();
-            Enabled = false;
-            string[] arr = new string[5];
-            CommandRecievedEventArgs request = new CommandRecievedEventArgs((int)CommandEnum.GetConfigCommand, arr, "");
-            GuiClient.SendCommand(request);
-        }
         private static Communication.IImageServiceClient GuiClient { get; set; }
 
+
+        /// <summary>
+        /// constructor.
+        /// initialize new config params.
+        /// </summary>
+        public Config()
+        {
+            try
+            {
+                GuiClient = Communication.ImageServiceClient.Instance;
+                GuiClient.RecieveCommand();
+                GuiClient.UpdateResponse += UpdateResponse;
+                SourceName = "";
+                LogName = "";
+                OutputDirectory = "";
+                ThumbnailSize = 1;
+                Handlers = new ObservableCollection<string>();
+                Enabled = false;
+                string[] arr = new string[5];
+                CommandRecievedEventArgs request = new CommandRecievedEventArgs((int)CommandEnum.GetConfigCommand, arr, "");
+                GuiClient.SendCommand(request);
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+        /// <summary>
+        /// DeleteHandler function.
+        /// deletes handler.
+        /// </summary>
+        /// <param name="toBeDeleted"></param>
         public void DeleteHandler(string toBeDeleted)
         {
             try
