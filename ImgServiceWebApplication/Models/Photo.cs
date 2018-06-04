@@ -16,6 +16,7 @@ namespace ImgServiceWebApplication.Models
             {
 
                 ImageUrl = imageUrl;
+                ImageFullUrl = imageUrl.Replace(@"Thumbnails\", string.Empty);
                 Name = Path.GetFileNameWithoutExtension(ImageUrl);
                 Month = Path.GetFileNameWithoutExtension(Path.GetDirectoryName(ImageUrl));
                 Year = Path.GetFileNameWithoutExtension(Path.GetDirectoryName((Path.GetDirectoryName(ImageUrl))));
@@ -68,6 +69,11 @@ namespace ImgServiceWebApplication.Models
         [DataType(DataType.ImageUrl)]
         [Display(Name = "ImageRelativePath")]
         public string ImageRelativePath { get; set; }
+
+        [Required]
+        [DataType(DataType.ImageUrl)]
+        [Display(Name = "ImageRelativePath")]
+        public string ImageFullUrl { get; set; }
 
     }
 }
