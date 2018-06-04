@@ -10,14 +10,14 @@ namespace ImgServiceWebApplication.Models
 {
     public class ImageWebController : Controller
     {
-        static ImageWebInfo ImageViewInfo = new ImageWebInfo();
+        static ImageWebInfo ImageViewInfoObj = new ImageWebInfo();
         /// <summary>
         /// constructor.
         /// </summary>
         public ImageWebController()
         {
-            ImageViewInfo.NotifyEvent -= Notify;
-            ImageViewInfo.NotifyEvent += Notify;
+            ImageViewInfoObj.NotifyEvent -= Notify;
+            ImageViewInfoObj.NotifyEvent += Notify;
 
         }
         /// <summary>
@@ -32,9 +32,9 @@ namespace ImgServiceWebApplication.Models
         // GET: ImageView
         public ActionResult ImageWeb()
         {
-            ViewBag.NumofPics = ImageViewInfo.NumofPics;
-            ViewBag.IsConnected = ImageViewInfo.IsConnected;
-            return View(ImageViewInfo);
+            ViewBag.NumofPics = ImageWebInfo.GetNumOfPics();
+            ViewBag.IsConnected = ImageViewInfoObj.IsConnected;
+            return View(ImageViewInfoObj);
         }
         
     }

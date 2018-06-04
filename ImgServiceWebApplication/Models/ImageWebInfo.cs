@@ -13,6 +13,7 @@ namespace ImgServiceWebApplication.Models
         private static Communication.IImageServiceClient GuiClient { get; set; }
         public event NotifyAboutChange NotifyEvent;
         private static Config m_config;
+        private static string m_outputDir;
 
         /// <summary>
         /// ImageWebInfo constructor.
@@ -43,7 +44,8 @@ namespace ImgServiceWebApplication.Models
         {
             if (m_config.OutputDirectory != "")
             {
-                NumofPics = GetNumOfPics(m_config.OutputDirectory);
+                m_outputDir = m_config.OutputDirectory;
+                NumofPics = GetNumOfPics();
                 NotifyEvent?.Invoke();
             }
         }
@@ -53,18 +55,18 @@ namespace ImgServiceWebApplication.Models
         /// </summary>
         /// <param name="outputDir">the pics output dir</param>
         /// <returns></returns>
-        public static int GetNumOfPics(string outputDir)
+        public static int GetNumOfPics()
         {
             try
             {
-                if (outputDir == null || outputDir == "")
+                if (m_outputDir == null || m_outputDir == "")
                 {
                     return 0;
                 }
                 int counter = 0;
-                while (outputDir == null && (counter < 2)) { System.Threading.Thread.Sleep(1000); counter++; }
+                while (m_outputDir == null && (counter < 2)) { System.Threading.Thread.Sleep(1000); counter++; }
                 int sum = 0;
-                DirectoryInfo di = new DirectoryInfo(outputDir);
+                DirectoryInfo di = new DirectoryInfo(m_outputDir);
                 sum += di.GetFiles("*.PNG", SearchOption.AllDirectories).Length;
                 sum += di.GetFiles("*.BMP", SearchOption.AllDirectories).Length;
                 sum += di.GetFiles("*.JPG", SearchOption.AllDirectories).Length;
