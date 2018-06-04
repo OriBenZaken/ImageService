@@ -108,7 +108,10 @@ namespace ImgServiceWebApplication.Models
                 string[] handlers = responseObj.Args[4].Split(';');
                 foreach (string handler in handlers)
                 {
-                    Handlers.Add(handler);
+                    if (!Handlers.Contains(handler))
+                    {
+                        Handlers.Add(handler);
+                    }
                 }
             }
             catch (Exception ex)
