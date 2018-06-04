@@ -43,15 +43,19 @@ namespace ImgServiceWebApplication.Models
             string[] validExtensions = { ".jpg", ".png", ".gif", ".bmp" };
             foreach (DirectoryInfo yearDirInfo in di.GetDirectories())
             {
-
+                if (!Path.GetDirectoryName(yearDirInfo.FullName).EndsWith("Thumbnails"))
+                {
+                    continue;
+                }
                 foreach (DirectoryInfo monthDirInfo in yearDirInfo.GetDirectories())
                 {
+                   
 
                     foreach (FileInfo fileInfo in monthDirInfo.GetFiles())
                     {
                         if (validExtensions.Contains(fileInfo.Extension.ToLower()))
                         {
-                            PhotosList.Add(new Photo() { Image = Image.FromFile(fileInfo.FullName) });
+                            PhotosList.Add(new Photo(fileInfo.FullName));
                         }
                     }
                 }

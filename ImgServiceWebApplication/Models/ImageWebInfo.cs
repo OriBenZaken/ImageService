@@ -46,7 +46,7 @@ namespace ImgServiceWebApplication.Models
             sum += di.GetFiles("*.BMP", SearchOption.AllDirectories).Length;
             sum += di.GetFiles("*.JPG", SearchOption.AllDirectories).Length;
             sum += di.GetFiles("*.GIF", SearchOption.AllDirectories).Length;
-            return sum;
+            return sum/2;
         }
 
         public static List<Student> GetStudents()

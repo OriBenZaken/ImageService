@@ -177,7 +177,9 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Images\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ImageService\ImageService.csproj">
       <Project>{3ba2801c-d344-4983-b2b4-df19e762c372}</Project>
