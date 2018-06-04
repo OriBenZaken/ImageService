@@ -31,8 +31,12 @@ namespace ImgServiceWebApplication.Models
             }
         }
 
-        private void GetPhotos()
+        public void GetPhotos()
         {
+            if (m_outputDir=="")
+            {
+                return;
+            }
             string thumbnailDir = m_outputDir + "\\Thumbnails";
             if (!Directory.Exists(thumbnailDir))
             {
@@ -55,7 +59,16 @@ namespace ImgServiceWebApplication.Models
                     {
                         if (validExtensions.Contains(fileInfo.Extension.ToLower()))
                         {
-                            PhotosList.Add(new Photo(fileInfo.FullName));
+                            Photo p = PhotosList.Find(x => (x.ImageUrl == fileInfo.FullName));
+                            if (p==null)
+                            {
+                                PhotosList.Add(new Photo(fileInfo.FullName));
+
+                            }
+                            else
+                            {
+                                int i = 5;
+                            }
                         }
                     }
                 }
