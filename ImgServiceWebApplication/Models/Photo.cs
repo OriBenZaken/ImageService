@@ -12,12 +12,29 @@ namespace ImgServiceWebApplication.Models
     {
         public Photo(string imageUrl)
         {
-            ImageUrl = imageUrl;
-            Name = Path.GetFileNameWithoutExtension(ImageUrl);
-            Month = Path.GetFileNameWithoutExtension(Path.GetDirectoryName(ImageUrl));
-            Year = Path.GetFileNameWithoutExtension(Path.GetDirectoryName((Path.GetDirectoryName(ImageUrl))));
-            ImageRelativePath = @"~\Images\Thumbnails\" + Year + @"\" + Month + @"\" + Path.GetFileName(ImageUrl);
+            try
+            {
 
+                ImageUrl = imageUrl;
+                Name = Path.GetFileNameWithoutExtension(ImageUrl);
+                Month = Path.GetFileNameWithoutExtension(Path.GetDirectoryName(ImageUrl));
+                Year = Path.GetFileNameWithoutExtension(Path.GetDirectoryName((Path.GetDirectoryName(ImageUrl))));
+                string strDirName;
+
+                int intLocation, intLength;
+
+                intLength = imageUrl.Length;
+                intLocation = imageUrl.IndexOf("Images");
+
+                strDirName = imageUrl.Substring(intLocation, intLength- intLocation);
+
+                ImageRelativePathThumbnail = @"~\" + strDirName;// Images\Thumbnails\" + Year + @"\" + Month + @"\" + Path.GetFileName(ImageUrl);
+                ImageRelativePath = ImageRelativePathThumbnail.Replace(@"Thumbnails\",string.Empty);
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
 
@@ -41,6 +58,11 @@ namespace ImgServiceWebApplication.Models
         [DataType(DataType.ImageUrl)]
         [Display(Name = "ImageUrl")]
         public string ImageUrl { get; set; }
+
+        [Required]
+        [DataType(DataType.ImageUrl)]
+        [Display(Name = "ImageRelativePath")]
+        public string ImageRelativePathThumbnail { get; set; }
 
         [Required]
         [DataType(DataType.ImageUrl)]

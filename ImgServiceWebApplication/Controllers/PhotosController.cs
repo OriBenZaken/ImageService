@@ -10,6 +10,9 @@ namespace ImgServiceWebApplication.Controllers
     public class PhotosController : Controller
     {
         public static PhotosCollection photos = new PhotosCollection();
+        Photo m_currentPhoto;
+        string m_photoPath;
+        string m_photoThumbnailPath;
         public PhotosController()
         {
             photos.NotifyEvent -= Notify;
@@ -26,6 +29,15 @@ namespace ImgServiceWebApplication.Controllers
         public ActionResult Photos()
         {
             return View(photos.PhotosList);
+        }
+      
+            
+        public ActionResult PhotosViewer(string photoPath, string photoThumbnailPath)
+        {
+            m_photoPath = photoPath;
+            m_photoThumbnailPath = photoThumbnailPath;
+            ViewBag.Photo = photoPath;
+            return View(new Photo(""));
         }
     }
 }
