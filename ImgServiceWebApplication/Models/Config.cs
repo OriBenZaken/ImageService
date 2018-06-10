@@ -101,6 +101,8 @@ namespace ImgServiceWebApplication.Models
                                  && Handlers.Contains(responseObj.Args[0]))
             {
                 this.Handlers.Remove(responseObj.Args[0]);
+                Notify?.Invoke();
+
             }
         }
 
