@@ -14,6 +14,7 @@ using ImageService.Server;
 using ImageService.Controller;
 using ImageService.Modal;
 using System.Configuration;
+using ImageService;
 
 namespace ImageService
 {
@@ -93,6 +94,9 @@ namespace ImageService
                 ImageServer.NotifyAllHandlerRemoved += imageServiceSrv.NotifyAllClientsAboutUpdate;
                 this.logging.UpdateLogEntries += imageServiceSrv.NotifyAllClientsAboutUpdate;
                 imageServiceSrv.Start();
+                ITcpClientHandler tcpClientHandler = new TcpClientHandler(controller,logging);
+                ITcpServer tcpServer = new ServerTcp(7999, logging, tcpClientHandler);
+                tcpServer.Start();
 
     }
             catch (Exception e)

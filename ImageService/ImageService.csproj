@@ -73,6 +73,8 @@
       <DependentUpon>ImageService.cs</DependentUpon>
     </Compile>
     <Compile Include="ImageService\ImageServiceSrv.cs" />
+    <Compile Include="ImageService\ITcpClientHandler.cs" />
+    <Compile Include="ImageService\ITcpServer.cs" />
     <Compile Include="ImageService\Modal\Event\CommandRecievedEventArgs.cs" />
     <Compile Include="ImageService\Modal\Event\DirectoryCloseEventArgs.cs" />
     <Compile Include="ImageService\Modal\IImageServiceModal.cs" />
@@ -84,6 +86,8 @@
     <Compile Include="ImageService\ProjectInstaller.Designer.cs">
       <DependentUpon>ProjectInstaller.cs</DependentUpon>
     </Compile>
+    <Compile Include="ImageService\ServerTcp.cs" />
+    <Compile Include="ImageService\TcpClientHandler.cs" />
     <Compile Include="Infrastructure\Enums\CommandEnum.cs" />
     <Compile Include="Logging\ILoggingService.cs" />
     <Compile Include="Logging\LogEntry.cs" />
