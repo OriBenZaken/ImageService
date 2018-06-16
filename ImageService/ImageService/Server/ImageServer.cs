@@ -39,6 +39,7 @@ namespace ImageService.Server
                 return this.m_logging;
             }
         }
+        public string[] Directories { get; set; }
         public Dictionary<string, IDirectoryHandler> Handlers { get; set; }
         #endregion
         /// <summary>
@@ -51,9 +52,9 @@ namespace ImageService.Server
             this.m_controller = controller;
             this.m_logging = logging;
             this.Handlers = new Dictionary<string, IDirectoryHandler>();
-            string[] directories = (ConfigurationManager.AppSettings.Get("Handler").Split(';'));
+            Directories = (ConfigurationManager.AppSettings.Get("Handler").Split(';'));
 
-            foreach (string path in directories)
+            foreach (string path in Directories)
             {
                 try
                 {

@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
@@ -48,40 +49,24 @@ namespace ImageService
                 {
                     try
                     {
-                        while (!m_isStopped)
-                        {
-
-                            NetworkStream stream = client.GetStream();
-                            Byte[] data = new Byte[2048];
-                            stream.Read(data, 0, data.Length);
-                            //BinaryReader reader = new BinaryReader(stream);
-                            //BinaryWriter writer = new BinaryWriter(stream);
-                            //string commandLine = reader.ReadString();
-                            //Logging.Log("ClientHandler got command: " + commandLine, MessageTypeEnum.INFO);
-
-
-                            
-                               // Image img = Image.FromStream(data);
-                        
-                       // CommandRecievedEventArgs commandRecievedEventArgs = JsonConvert.DeserializeObject<CommandRecievedEventArgs>(commandLine);
-                            //if (commandRecievedEventArgs.CommandID == (int)CommandEnum.CloseClient)
-                            //{
-                            //    clients.Remove(client);
-                            //    client.Close();
-                            //    break;
-
-                            //}
-                           // Console.WriteLine("Got command: {0}", commandLine);
-                            bool r;
-                            //string result = this.ImageController.ExecuteCommand((int)commandRecievedEventArgs.CommandID,
-                            //    commandRecievedEventArgs.Args, out r);
-                            Mutex.WaitOne();
-                           // writer.Write(result);
-                            Mutex.ReleaseMutex();
-
-
-                        }
+                    while (!m_isStopped)
+                    {
+                        Logging.Log("Start transfer photos!", MessageTypeEnum.INFO);
+                        NetworkStream stream = client.GetStream();
+                        //get the image name
+                        string finalNameString = GetFileName(stream);
+                        //tell the client we got the name 
+                        Byte[] confirmation = new byte[1];
+                        confirmation[0] = 1;
+                        stream.Write(confirmation, 0, 1);
+                        //read the image
+                        List<Byte> finalbytes = GetImageBytes(stream);
+                        //save the image
+                        File.WriteAllBytes(ImageController.ImageServer.Directories[0] + @"\" + finalNameString + ".jpg", finalbytes.ToArray());
+                        System.Threading.Thread.Sleep(500);
+                        //client.Close();
                     }
+                }
                     catch (Exception ex)
                     {
                         clients.Remove(client);
@@ -99,6 +84,43 @@ namespace ImageService
 
 
         }
+        private string  GetFileName(NetworkStream stream)
+        {
+            Byte[] temp = new Byte[1];
+            List<Byte> finalName = new List<byte>();
+            //read the file name
+            do
+            {
+                stream.Read(temp, 0, 1);
+                finalName.Add(temp[0]);
+            } while (stream.DataAvailable);
+
+            return Path.GetFileNameWithoutExtension(System.Text.Encoding.UTF8.GetString(finalName.ToArray()));
+
+        }
+
+        private List<Byte> GetImageBytes(NetworkStream stream)
+        {
+            List<Byte> finalbytes = new List<byte>();
+            Byte[] tempForReadBytes;
+            Byte[] data = new Byte[6790];
+            int i = 0;
+
+            do
+            {
+                i = stream.Read(data, 0, data.Length);
+                tempForReadBytes = new byte[i];
+                for (int n = 0; n < i; n++)
+                {
+                    tempForReadBytes[n] = data[n];
+                    finalbytes.Add(tempForReadBytes[n]);
+
+                }
+                System.Threading.Thread.Sleep(300);
+            } while (stream.DataAvailable || i == data.Length);
+            return finalbytes;
+        }
+
 
     }
 }
