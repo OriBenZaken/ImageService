@@ -8,6 +8,10 @@ namespace ImageService
 {
     interface ITcpServer
     {
+        /// <summary>
+        /// Start function.
+        /// lissten to new clients.
+        /// </summary>
         void Start();
     }
 }
